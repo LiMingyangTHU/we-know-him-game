@@ -1,5 +1,5 @@
-import { images, videos } from './media-manifest.js?v=11'
-import { fullNodes, earlyProgress } from './full-story.js?v=11'
+import { images, videos } from './media-manifest.js?v=12'
+import { fullNodes, earlyProgress } from './full-story.js?v=12'
 
 const evidence = {
   oldClip: { id: 'old-clip', title: '五月旧片', boundary: '能证明一期发过工资、沈舟本人参加过讲座；不能证明二期有岗位或科研检测获授权。' },
@@ -38,12 +38,12 @@ const nodes = {
     { side: 'received', name: '梁一舟', avatar: '梁', text: '室友说名额过点就没，可我越看越觉得哪里不对。' },
     { side: 'sent', name: '林知夏', avatar: '林', text: '先别付款。把页面从头到尾录下来发我。' }
   ] } }),
-  a03: card('a03', '旧片被用于二期招募', '报名群界面', '置顶消息把五月旧片改成了“二期学员实录”。片中的工资和讲座都是真的；它旁边的新收费页，却不在原片里。', 'fee', 'a04', { source: '屏幕证据', progress: 11, onEnter: { evidence: [evidence.signup] }, media: { type: 'chat', title: '2026新生互助群（87）', subtitle: '群聊', time: '09:36', system: '周衡修改了群公告', messages: [
+  a03: card('a03', '旧片被用于“二期”招募', '报名群界面', '置顶消息把五月旧片改成了“二期学员实录”。所谓“一期”，是春季开展过、有人真实到岗领薪的免费线下实习；“二期”则是6月以后新推出、先收2800元名额费的后续招募。群里把一期旧片放在二期付款页旁边，却没有说明两者是否仍属同一合作。', 'fee', 'a04', { source: '屏幕证据', progress: 11, onEnter: { evidence: [evidence.signup] }, media: { type: 'chat', title: '2026新生互助群（87）', subtitle: '群聊', time: '09:36', system: '周衡修改了群公告', messages: [
     { side: 'received', name: '周衡', avatar: '周', text: '二期早鸟批次今晚24:00锁定。还没登记的同学尽快。' },
     { side: 'received', name: '周衡', avatar: '周', attachment: { title: '二期学员实录', note: '视频｜五月旧片重新命名' } },
     { side: 'received', name: '梁一舟', avatar: '梁', text: '这就是林学姐五月拍的那条吗？' }
   ] } }),
-  a04: scene('a04', '梁一舟的求证', '梁一舟', '我不是信这张广告图，我是信你当时拍到的工资。群里还转了沈学长的宣讲视频——那次宣讲，也是他本人吧？', 'liang', 'a05', { progress: 12 }),
+  a04: scene('a04', '梁一舟的求证', '梁一舟', '我不是信这张广告图，我是信你当时拍到的工资。群里还转了沈舟学长的宣讲视频——就是五月论坛里回答技术问题的那位校友。那次出镜，也是他本人吧？', 'liang', 'a05', { progress: 12 }),
   a05: scene('a05', '暂缓付款', '林知夏（回复）', '片子是我拍的。先别付钱，把报名页从头到尾录下来，给我几个小时。', 'lin', 'a06', { source: '聊天记录', progress: 14 }),
   a06: card('a06', '证据边界｜一期不等于二期', '林知夏（内心）', '镜头里没有假工资，也没有假讲座。被偷换的是时间：一期发生过，不等于二期正在发生。', 'compare', 'q01', { source: '证据比对', progress: 17, onEnter: { evidence: [evidence.oldClip] } }),
   q01: {
@@ -61,7 +61,7 @@ const nodes = {
   b1b: card('b1b', '选择结果｜证据已保存，倒计时仍在走', '取证记录', '完整报名页、宣讲视频和收款户名已经保存。梁一舟暂时没付。录屏刚结束，宋岚老师来电，也问起片中的“沈舟”——这次牵涉的金额远不止两千八。', 'wait1', 'c01', { source: '处置反馈', progress: 28, nextLabel: '接听宋老师来电' }),
 
   c01: scene('c01', '第二幕｜十三万八的快捷通道', '宋岚（电话）', '知夏，你五月论坛的原片还留着吗？沈舟上台前后那几段，也一起带来实验室。我这里有两张付款回执，需要你帮我对一张脸。', 'transitionLab', 'c02', { chapter: 2, time: '9月23日下午', place: '前往材料实验室', source: '来电', progress: 32, orientation: { kicker: '转场｜四小时后', route: '校园媒体办公室 → 材料实验室', goal: '核对宋岚相信的“沈舟”，与新生群宣讲视频中的人是否来自同一套素材' }, nextLabel: '进入实验室' }),
-  c02: scene('c02', '一篇论文，三重期限', '宋岚', '返修二十五号就截止，月底职称材料也要封。我已经评了三次，这次真不想再拖。可审稿人偏偏要补那组关键数据。', 'song', 'c02b', { source: '当面陈述', progress: 35 }),
+  c02: scene('c02', '一篇论文，三重期限', '宋岚', '这篇论文已经过初审，现在要按审稿意见补一组关键检测数据，二十五号前必须交回；月底教授评审材料也要封。我已经申报过三次，这次真不想再拖。', 'song', 'c02b', { source: '当面陈述', progress: 35 }),
   c02b: card('c02b', '桌上的两张回执', '林知夏（现场记录）', '两张回执被推到我面前，空采样盒还在宋老师手边。她压低声音：“九万多已经出去了，好在样品还没交。”', 'songReceipts', 'c03', { source: '玩家所见', progress: 37 }),
   c03: scene('c03', '影像回放｜五月十八日校园讲座', '宋岚（看着原片）', '“就是这里。他没有回避误差控制，还把计算步骤写了出来。会后那张分析图，也确实帮我排除过一次实验偏差。”这段是五月留下的同期录像。', 'lecture', 'c04', { time: '5月18日', place: '校园讲座', source: '原始视频', progress: 39, presentation: { type: 'playback', icon: '▶', label: '原片回放', note: '五月十八日同期录像，可核对真实发生过的讲座', cue: true, cueTitle: '播放五月原片', cueSubtitle: '5月18日 · 校园讲座 · 同期录像' }, nextLabel: '听宋岚回忆后续联系' }),
   c04: scene('c04', '回忆重现｜九月上旬的承诺', '沈舟（宋岚回忆中的来电）', '宋老师，研究院对公流程要两周，赶不上返修。星桥的合作通道走加急——综合机时加数据处理，合同价十三万八，承诺九月二十五日前交付全套数据。', 'shencall', 'c05', { time: '9月上旬', place: '视频来电', source: '根据宋岚证言重现', progress: 42, presentation: { type: 'flashback', icon: '↶', label: '回忆重现', note: '根据宋岚证言重现，并非当时保存的同期录像', cue: true, cueTitle: '进入宋岚的回忆', cueSubtitle: '时间切换至9月上旬 · 以下为证言重现，并非同期录像' }, nextLabel: '回到现在核对付款回执' }),

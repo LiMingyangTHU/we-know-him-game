@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import * as engine from '../src/core/engine.js'
 import story from '../src/data/story.js'
+import { glossary, notesForNode } from '../src/data/glossary.js'
 
 assert.deepEqual(engine.validateStory(story), [])
 assert.equal(story.questionCount, 12)
@@ -21,6 +22,13 @@ assert.equal(story.nodes.c05.presentation.type, 'record')
 assert.match(story.nodes.c05.heading, /回到现在/)
 assert.equal(story.nodes.c07.presentation.type, 'playback')
 assert.match(story.nodes.c07.presentation.note, /退出回忆/)
+assert.equal(new Set(glossary.map(item => item.id)).size, glossary.length)
+assert.ok(glossary.length >= 30)
+glossary.forEach(item => assert.ok(story.nodes[item.unlock], `glossary ${item.id} has missing unlock node ${item.unlock}`))
+assert.deepEqual(notesForNode('a03').map(item => item.id), ['phase-one', 'phase-two', 'zhou-xingqiao'])
+for (const required of ['old-film', 'liang', 'shen', 'song', 'xu', 'jiang', 'lu', 'tang', 'digital-double', 'publication-consent']) {
+  assert.ok(glossary.some(item => item.id === required), `missing first-appearance explanation: ${required}`)
+}
 
 let undoState = engine.createState(story.startId, story)
 while (undoState.currentId !== 'q01') undoState = engine.advance(story, undoState)

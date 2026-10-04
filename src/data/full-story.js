@@ -1,4 +1,4 @@
-import { images, videos } from './media-manifest.js?v=11'
+import { images, videos } from './media-manifest.js?v=12'
 
 const evidence = {
   testimony: { id: 'testimony-board', title: '三份证言', boundary: '能证明三人分别接触过真实的工资、真人和技术建议；不能证明三条承诺来自同一权限身份。' },
@@ -41,11 +41,11 @@ function ending(id, title, text, education) {
 export const fullNodes = {
   intro01: card('intro01', '调查档案｜你的身份', '你是林知夏，校园媒体学生', '四个月前，你剪过一条校园论坛短片：工资到账、校友宣讲、现场采访都是真的。今天，它被换了标题，出现在一个新的收费项目里。接下来所有判断，都由你以林知夏的视角完成。', 'lin', 'intro02', { kind: 'intro', source: '无剧透背景', progress: 0, orientation: { kicker: '玩家视角', route: '你看到的 = 林知夏此刻能接触到的材料', goal: '通过原始文件、当事人证言和官方渠道，判断每条材料究竟能证明什么' }, nextLabel: '了解案件范围' }),
   intro02: card('intro02', '已知背景｜四条看似无关的线', '调查提示', '一名新生正准备交实习名额费；一位教师已经支付科研检测款；一名学生因恋爱关系转出借款；一段实时视频正在证明“本人在线”。你还不知道它们是否有关，只能从你亲手取得的材料开始。', 'castReference', 'intro03', { kind: 'intro', source: '无剧透背景', progress: 1, nextLabel: '查看调查工具' }),
-  intro03: card('intro03', '人物工具｜不必一次记住所有人', '调查提示', '你会陆续遇到新生梁一舟、教师宋岚、校友沈舟等人。人物首次登场后，底部“人物”会记录他的头像、公开身份和当前已知信息；遇到名字与线索对不上时，可以随时回来核对。', 'victimMeeting', 'intro04', { kind: 'intro', source: '无剧透背景', progress: 2 }),
+  intro03: card('intro03', '调查工具｜不必一次记住所有内容', '调查提示', '人物首次登场后，底部“人物”会记录头像、公开身份和当前已知信息；项目、机构、科研名词或数字线索首次出现时，会显示“无剧透说明”，并自动收进底部“词条”。遇到名字或概念对不上时，可以随时回来核对。', 'victimMeeting', 'intro04', { kind: 'intro', source: '无剧透背景', progress: 2, nextLabel: '了解证据规则' }),
   intro04: card('intro04', '游戏规则｜证据有边界', '调查提示', '每次选择都会改变止损时机、证据完整度和公开方式。选择后先看“结果”，再沿具体行动按钮进入下一幕；迷路时可查看底部人物、证据册和状态卡。', 'compare', 'a01', { kind: 'intro', source: '开始调查', progress: 3, orientation: { kicker: '开始前最后提示', route: '看材料 → 作判断 → 查看结果 → 进入下一处现场', goal: '区分“真实发生过”“现在仍获授权”和“能够公开指认”' }, nextLabel: '开始第一幕' }),
 
   q03intro: scene('q03intro', '第三幕｜三种证言', '林知夏（现场记录）', '我关掉摄像机，把授权清单放到桌上。许橙带来一期工资记录，姜宁只展示愿意公开的聊天片段，宋岚带来两张付款回执。她们都说自己认识沈舟。', 'roundtablePlayer', 'q03voices', { chapter: 3, time: '9月24日上午', place: '校园活动室', source: '现场', progress: 20, orientation: { kicker: '转场｜第二天上午', route: '单独求证 → 经同意的三人座谈', goal: '比较三个人各自认识的“沈舟”，找出真经历如何共同支撑了一个假结论' }, nextLabel: '听三人的开场陈述' }),
-  q03voices: card('q03voices', '同一张脸，三种认识', '座谈摘录', '许橙：“我拿到过工资，也被移出过群。”　姜宁：“我见过他本人，也听过他说漏嘴。”　宋岚：“他的分析帮过我，也可能骗了我。”', 'victimMeeting', 'q03', { source: '当事人证言', progress: 22, onEnter: { evidence: [evidence.testimony] } }),
+  q03voices: card('q03voices', '同一张脸，三种认识', '座谈摘录', '一期实习生许橙：“我拿到过工资，也被移出过群。”　宋岚的研究生姜宁：“我见过他本人，也听过他说漏嘴。”　教师宋岚：“他的分析帮过我，也可能骗了我。”', 'victimMeeting', 'q03', { source: '当事人证言', progress: 22, onEnter: { evidence: [evidence.testimony] } }),
   q03: question('q03', 'Q03', 'Q03｜你先听谁的？', '三位当事人各自讲出“我认识的沈舟”。第一段证言会影响你的初始印象，但其他两段不会消失。', 'victimMeeting', 23, [
     { letter: 'A', text: '先听许橙：真正领到工资的一期实习', next: 'q03a' },
     { letter: 'B', text: '先听姜宁：真正见过本人的交往经历', next: 'q03b' },
@@ -97,7 +97,7 @@ export const fullNodes = {
   q05b: card('q05b', 'Q05 B｜只留匿名时间线', '记录范围', '采访只保留时间矛盾和匿名证言。姜宁暴露更少，也意味着公开视频不会出现聊天对照；她仍可以独立报案。', 'preserve', 'q06intro', { source: '隐私优先', progress: 40 }),
 
   q06intro: scene('q06intro', '第六幕｜屏幕里那张脸', '取样确认回放', '聊天差异只能说明账号异常，不能说明技术如何实现。我们回到实验室重看门禁与视频：屏幕里的“沈舟”在回答问题，门外跑腿员却一边举着这张脸，一边操作另一台设备。', 'aiIdentityCheck', 'q06registry', { chapter: 6, time: '9月24日中午', place: '材料实验室', source: '游戏内演示', progress: 41, orientation: { kicker: '转场｜返回案发现场', route: '聊天文风异常 → 取样视频与门禁画面同步回放', goal: '不要只看“脸像不像”，而要核验订单、权限、设备和线下交接是否闭环' }, nextLabel: '核对公司与研究院记录' }),
-  q06registry: card('q06registry', '公司存在，权限不存在', '公开信息核对', '星桥注册仅半年，公示范围包含技术咨询和会议服务，没有对应检测资质公示；研究院官网也查不到这笔订单。', 'verifyOfficial', 'q06', { source: '官方渠道', progress: 43, onEnter: { evidence: [evidence.registry] } }),
+  q06registry: card('q06registry', '公司存在，不等于有权检测', '公开信息核对', '星桥确实完成了公司登记，但公开范围只有技术咨询和会议服务，没有对应检测资质公示；研究院官网也查不到这笔订单。主体真实、账户真实，仍不能证明它有权承接这项检测。', 'verifyOfficial', 'q06', { source: '官方渠道', progress: 43, onEnter: { evidence: [evidence.registry] } }),
   q06: question('q06', 'Q06', 'Q06｜继续交接还是继续核验', '视频里的脸对答如流，壳公司的合同却接不了检测。你如何继续？', 'aiIdentityCheck', 44, [
     { letter: 'A', text: '停止交接，核验订单账户与资质，封存样品和空盒，并向期刊申请延期', next: 'q06a', effects: { flags: { RESEARCH: 1 } } },
     { letter: 'B', text: '再接一次视频，把订单号、地址和取样授权逐项问清并录下承诺', next: 'q06b', effects: { flags: { RESEARCH: 0 } } }

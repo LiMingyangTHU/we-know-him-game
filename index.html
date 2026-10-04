@@ -7,7 +7,7 @@
   <meta name="description" content="《我们都认识他》校园反诈互动推理游戏">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icons/icon-192.png">
-  <link rel="stylesheet" href="./styles.css?v=11">
+  <link rel="stylesheet" href="./styles.css?v=12">
   <title>我们都认识他｜校园反诈互动推理</title>
 </head>
 <body>
@@ -24,8 +24,8 @@
       <p class="intro">你将以校园媒体记者林知夏的视角，核对旧片、合同、实时视频和当事人的证言。每次选择都会改变证据完整度、止损时机与最终结局。</p>
 
       <section class="build-card glass-card" aria-label="当前版本">
-        <div><span>叙事层级优化版 v0.7</span><strong>十二题 · 六结局</strong></div>
-        <p>现场、独白、回忆、回放、聊天和调查记录采用不同视觉提示；关键时间切换配有转场动画。</p>
+        <div><span>首次出现说明版 v0.8</span><strong>十二题 · 六结局</strong></div>
+        <p>人物、项目、机构、科研名词和数字线索首次出现时均有无剧透说明，并可在“词条”中随时回看。</p>
       </section>
 
       <div class="home-actions">
@@ -70,6 +70,10 @@
             <strong id="orientationRoute" class="orientation-route"></strong>
             <p id="orientationGoal" class="orientation-goal"></p>
           </section>
+          <section id="contextNotes" class="context-notes hidden" aria-label="首次出现说明">
+            <header><span>首次出现</span><strong>无剧透说明</strong></header>
+            <div id="contextNotesBody"></div>
+          </section>
           <p id="speaker" class="speaker"></p>
           <p id="dialogue" class="dialogue"></p>
         </article>
@@ -94,6 +98,7 @@
       <button id="evidenceButton"><span id="evidenceCount" class="count">0</span><span>证据册</span></button>
       <button id="charactersButton"><span id="charactersCount" class="count">0</span><span>人物</span></button>
       <button id="statusButton"><span id="statusCount" class="count">0</span><span>状态卡</span></button>
+      <button id="glossaryButton"><span id="glossaryCount" class="count">0</span><span>词条</span></button>
       <button id="restartButton"><span class="count">↺</span><span>重新开始</span></button>
     </nav>
   </main>
@@ -121,6 +126,6 @@
   </dialog>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script type="module" src="./src/app.js?v=11"></script>
+  <script type="module" src="./src/app.js?v=12"></script>
 </body>
 </html>

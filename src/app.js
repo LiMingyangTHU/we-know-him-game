@@ -1,8 +1,9 @@
-import story from './data/story.js?v=11'
-import * as engine from './core/engine.js?v=11'
-import * as storage from './core/storage.js?v=11'
-import { takes, enabledByDefault } from './data/audio-manifest.js?v=11'
-import { unlockedCharacters } from './data/characters.js?v=11'
+import story from './data/story.js?v=12'
+import * as engine from './core/engine.js?v=12'
+import * as storage from './core/storage.js?v=12'
+import { takes, enabledByDefault } from './data/audio-manifest.js?v=12'
+import { unlockedCharacters } from './data/characters.js?v=12'
+import { notesForNode, unlockedGlossary } from './data/glossary.js?v=12'
 
 const $ = id => document.getElementById(id)
 const ui = {
@@ -11,12 +12,13 @@ const ui = {
   video: $('sceneVideo'), image: $('sceneImage'), chat: $('chatScene'), badge: $('mediaBadge'), heading: $('heading'), speaker: $('speaker'), dialogue: $('dialogue'),
   orientation: $('orientationCard'), orientationKicker: $('orientationKicker'), orientationRoute: $('orientationRoute'), orientationGoal: $('orientationGoal'),
   modeStrip: $('modeStrip'), modeIcon: $('modeIcon'), modeLabel: $('modeLabel'), modeNote: $('modeNote'),
+  contextNotes: $('contextNotes'), contextNotesBody: $('contextNotesBody'),
   sceneTransition: $('sceneTransition'), transitionIcon: $('transitionIcon'), transitionTitle: $('transitionTitle'), transitionSubtitle: $('transitionSubtitle'),
   narrative: $('narrativePanel'),
   choices: $('choices'), next: $('nextButton'), stepBack: $('stepBackButton'), skipIntro: $('skipIntroButton'), chapterEnd: $('chapterEnd'), replay: $('replayButton'),
   endingCode: $('endingCode'), endingTitle: $('endingTitle'), endingText: $('endingText'), endingDetails: $('endingDetails'), endingEducation: $('endingEducation'),
-  evidenceButton: $('evidenceButton'), charactersButton: $('charactersButton'), statusButton: $('statusButton'), restartButton: $('restartButton'),
-  evidenceCount: $('evidenceCount'), charactersCount: $('charactersCount'), statusCount: $('statusCount'), drawer: $('drawer'), drawerMask: $('drawerMask'),
+  evidenceButton: $('evidenceButton'), charactersButton: $('charactersButton'), statusButton: $('statusButton'), glossaryButton: $('glossaryButton'), restartButton: $('restartButton'),
+  evidenceCount: $('evidenceCount'), charactersCount: $('charactersCount'), statusCount: $('statusCount'), glossaryCount: $('glossaryCount'), drawer: $('drawer'), drawerMask: $('drawerMask'),
   drawerTitle: $('drawerTitle'), drawerBody: $('drawerBody'), drawerClose: $('drawerClose'), audioButton: $('audioButton'),
   confirm: $('confirmDialog'), toast: $('toast')
 }
@@ -91,11 +93,13 @@ function render(node) {
   ui.heading.textContent = node.heading || ''
   renderPresentation(node, presentation)
   renderOrientation(node)
+  renderContextNotes(node)
   ui.speaker.textContent = node.speaker || ''
   ui.dialogue.textContent = node.text || ''
   ui.evidenceCount.textContent = state.evidence.length
   ui.charactersCount.textContent = unlockedCharacters(state.visited).length
   ui.statusCount.textContent = statusCards().length
+  ui.glossaryCount.textContent = unlockedGlossary(state.visited).length
   const canStepBack = Boolean(state.undoSnapshot) && !state.undoLocked
   ui.stepBack.disabled = !canStepBack
   ui.stepBack.title = canStepBack ? '退回前一个界面；退回后必须先继续推进' : '继续推进后可再次使用'
@@ -115,6 +119,23 @@ function render(node) {
   ui.audioButton.textContent = audioEnabled && take.src ? '声' : '静'
   if (audioEnabled && take.src) playAudio(take.src)
   window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+function renderContextNotes(node) {
+  const notes = notesForNode(node.id)
+  ui.contextNotes.classList.toggle('hidden', !notes.length)
+  ui.contextNotesBody.replaceChildren()
+  notes.forEach(note => {
+    const article = document.createElement('article')
+    const meta = document.createElement('span')
+    meta.textContent = note.category
+    const title = document.createElement('strong')
+    title.textContent = note.title
+    const text = document.createElement('p')
+    text.textContent = note.text
+    article.append(meta, title, text)
+    ui.contextNotesBody.append(article)
+  })
 }
 
 const presentationTypes = {
@@ -389,13 +410,14 @@ function askRestart() {
 
 function openDrawer(type) {
   const isCharacters = type === 'characters'
-  const items = type === 'evidence' ? state.evidence : (isCharacters ? unlockedCharacters(state.visited) : statusCards())
-  ui.drawerTitle.textContent = type === 'evidence' ? '证据册' : (isCharacters ? '人物档案' : '调查状态')
+  const isGlossary = type === 'glossary'
+  const items = type === 'evidence' ? state.evidence : (isCharacters ? unlockedCharacters(state.visited) : (isGlossary ? unlockedGlossary(state.visited) : statusCards()))
+  ui.drawerTitle.textContent = type === 'evidence' ? '证据册' : (isCharacters ? '人物档案' : (isGlossary ? '已解锁词条' : '调查状态'))
   ui.drawerBody.replaceChildren()
   if (!items.length) {
     const empty = document.createElement('p')
     empty.className = 'empty'
-    empty.textContent = type === 'evidence' ? '推进剧情后，证据会出现在这里。' : (isCharacters ? '人物会在首次登场后加入档案。' : '作出选择后，处置状态会在这里更新。')
+    empty.textContent = type === 'evidence' ? '推进剧情后，证据会出现在这里。' : (isCharacters ? '人物会在首次登场后加入档案。' : (isGlossary ? '新人物和名词首次出现后，会自动收录在这里。' : '作出选择后，处置状态会在这里更新。'))
     ui.drawerBody.append(empty)
   } else if (isCharacters) {
     const list = document.createElement('div')
@@ -422,6 +444,20 @@ function openDrawer(type) {
       list.append(section)
     })
     ui.drawerBody.append(list)
+  } else if (isGlossary) {
+    items.forEach(item => {
+      const section = document.createElement('section')
+      section.className = 'drawer-item glossary-item'
+      const category = document.createElement('span')
+      category.className = 'glossary-category'
+      category.textContent = item.category
+      const title = document.createElement('strong')
+      title.textContent = item.title
+      const text = document.createElement('p')
+      text.textContent = item.text
+      section.append(category, title, text)
+      ui.drawerBody.append(section)
+    })
   } else {
     items.forEach(item => {
       const section = document.createElement('section')
@@ -466,6 +502,7 @@ ui.restartButton.addEventListener('click', askRestart)
 ui.evidenceButton.addEventListener('click', () => openDrawer('evidence'))
 ui.charactersButton.addEventListener('click', () => openDrawer('characters'))
 ui.statusButton.addEventListener('click', () => openDrawer('status'))
+ui.glossaryButton.addEventListener('click', () => openDrawer('glossary'))
 ui.drawerClose.addEventListener('click', closeDrawer)
 ui.drawerMask.addEventListener('click', closeDrawer)
 ui.confirm.addEventListener('close', () => { if (ui.confirm.returnValue === 'confirm') restart() })
