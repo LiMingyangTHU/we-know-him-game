@@ -1,4 +1,4 @@
-import { images, videos } from './media-manifest.js?v=13'
+import { images, videos } from './media-manifest.js?v=14'
 
 const evidence = {
   testimony: { id: 'testimony-board', title: '三份证言', boundary: '真工资、真人见面、真技术建议——三个人各握着一块真的。可三块拼在一起，还缺“今天仍有授权”这一角。' },

@@ -1,9 +1,10 @@
-import story from './data/story.js?v=13'
-import * as engine from './core/engine.js?v=13'
-import * as storage from './core/storage.js?v=13'
-import { takes, enabledByDefault } from './data/audio-manifest.js?v=13'
-import { unlockedCharacters } from './data/characters.js?v=13'
-import { notesForNode, unlockedGlossary } from './data/glossary.js?v=13'
+import story from './data/story.js?v=14'
+import * as engine from './core/engine.js?v=14'
+import * as storage from './core/storage.js?v=14'
+import { takes, enabledByDefault } from './data/audio-manifest.js?v=14'
+import { unlockedCharacters } from './data/characters.js?v=14'
+import { notesForNode, unlockedGlossary } from './data/glossary.js?v=14'
+import { presentNode } from './data/player-copy.js?v=14'
 
 const $ = id => document.getElementById(id)
 const ui = {
@@ -31,16 +32,16 @@ let transitionTimer = null
 let lastPresentation = null
 
 const flagLabels = {
-  PREWARN: value => value ? '已提前提醒付款风险' : '先保存证据，预警较晚',
-  EARLY: value => value ? '已尽早核验并咨询止付' : '补材料后再核验，处置较晚',
-  JOB: value => value ? '已提前发现一期授权期限' : '等待企业书面回复，发现较晚',
-  TRUST: value => value ? '经授权保留打码文风样本' : '仅保留匿名时间线，隐私暴露更少',
-  RESEARCH: value => value ? '已停止交接并封存样品' : '增加通话证据，正规安排较晚',
-  HIDDEN: value => value ? '只标记连接线索，责任待核' : '曾过早指认，截图已经传播',
-  CLEAR: value => value ? '退款与报道分开，双账户留档' : '部分退款被用作项目背书',
-  FAKE: value => value ? '原片与伪片来源链完整' : '冒名警报更早，来源链后补',
-  VERIFY: value => value ? '三方答复齐后具名发布' : '中午先预警，傍晚补答复',
-  SAFE: value => value ? '按授权公开，证人继续合作' : '原件泄露，进入补救'
+  PREWARN: value => value ? '我先发出了付款风险提醒' : '我先留证，公开提醒晚了一步',
+  EARLY: value => value ? '我尽早核验并咨询了止付' : '我等过补充材料，处置晚了几小时',
+  JOB: value => value ? '我及时找到了一期授权期限' : '我等企业回信时，截图仍在传播',
+  TRUST: value => value ? '我只留下姜宁授权的打码片段' : '我只记匿名时间线，没有保留私聊',
+  RESEARCH: value => value ? '我和宋老师停下交接，封存样品' : '我多留了一段通话，正规安排晚了',
+  HIDDEN: value => value ? '我只标连接线索，把责任留待核查' : '我曾过早点名，删帖也收不回截图',
+  CLEAR: value => value ? '我把退款与报道分开处理' : '退款截图后来又成了项目背书',
+  FAKE: value => value ? '我保住了原片与伪片的来源链' : '我先发警报，来源记录随后补交',
+  VERIFY: value => value ? '我等三方答复齐后具名发布' : '我中午先预警，傍晚再补答复',
+  SAFE: value => value ? '我按授权公开，当事人继续合作' : '原件被公开后，我转入补救'
 }
 
 function statusCards() {
@@ -62,7 +63,7 @@ function showHome() {
   const valid = saved && story.nodes[saved.currentId]
   ui.continue.classList.toggle('hidden', !valid)
   if (valid) ui.continue.textContent = `继续调查 · ${saved.progress || 0}%`
-  ui.newGame.textContent = valid ? '重新开始完整调查' : '开始调查'
+  ui.newGame.textContent = valid ? '从头再查一次' : '开始调查'
   history.replaceState({ view: 'home' }, '', './')
 }
 
@@ -83,19 +84,20 @@ function commit(nextState) {
 }
 
 function render(node) {
+  const viewNode = presentNode(node)
   const presentation = resolvePresentation(node)
   const progress = state.progress || 0
-  ui.chapter.textContent = node.chapter ? `第${node.chapter}幕` : (node.kind === 'intro' ? '背景简报' : (node.kind === 'ending' ? '调查结束' : '调查中'))
+  ui.chapter.textContent = node.chapter ? `第${node.chapter}幕` : (node.kind === 'intro' ? '我手里的线索' : (node.kind === 'ending' ? '事后手记' : '正在核对'))
   ui.progressLabel.textContent = `${progress}%`
   ui.progressFill.style.width = `${progress}%`
   ui.progressFill.parentElement.setAttribute('aria-valuenow', String(progress))
-  ui.meta.textContent = [node.time, node.place, node.source].filter(Boolean).join(' · ')
-  ui.heading.textContent = node.heading || ''
+  ui.meta.textContent = [viewNode.time, viewNode.place, viewNode.source].filter(Boolean).join(' · ')
+  ui.heading.textContent = viewNode.heading || ''
   renderPresentation(node, presentation)
-  renderOrientation(node)
+  renderOrientation(viewNode)
   renderContextNotes(node)
-  ui.speaker.textContent = node.speaker || ''
-  ui.dialogue.textContent = node.text || ''
+  ui.speaker.textContent = viewNode.speaker || ''
+  ui.dialogue.textContent = viewNode.text || ''
   ui.evidenceCount.textContent = state.evidence.length
   ui.charactersCount.textContent = unlockedCharacters(state.visited).length
   ui.statusCount.textContent = statusCards().length
@@ -104,15 +106,15 @@ function render(node) {
   ui.stepBack.disabled = !canStepBack
   ui.stepBack.title = canStepBack ? '退回前一个界面；退回后必须先继续推进' : '继续推进后可再次使用'
 
-  renderMedia(node.media, node.id, presentation)
+  renderMedia(viewNode.media, node.id, presentation)
   renderChoices(node)
   const isEnd = node.kind === 'ending'
   ui.narrative.classList.toggle('hidden', isEnd)
   ui.chapterEnd.classList.toggle('hidden', !isEnd)
   ui.next.classList.toggle('hidden', isEnd || node.kind === 'choice')
-  ui.next.textContent = node.nextLabel || (node.kind === 'intro' ? '继续背景简报' : '继续调查')
+  ui.next.textContent = node.nextLabel || (node.kind === 'intro' ? '继续整理线索' : '继续核对')
   ui.skipIntro.classList.toggle('hidden', node.kind !== 'intro')
-  if (isEnd) renderEnding(node)
+  if (isEnd) renderEnding(viewNode)
 
   const take = takes[node.audioId] || {}
   ui.audioButton.classList.toggle('disabled', !take.src)
@@ -210,8 +212,8 @@ function renderOrientation(node) {
 }
 
 function renderEnding(node) {
-  ui.endingCode.textContent = node.endingId || ''
-  ui.endingTitle.textContent = node.heading || '本轮结局'
+  ui.endingCode.textContent = '结局手记'
+  ui.endingTitle.textContent = node.heading || '事情落在这里'
   ui.endingText.textContent = node.text || ''
   ui.endingEducation.textContent = node.education || ''
   ui.endingDetails.replaceChildren()
@@ -226,27 +228,27 @@ function endingNotes(endingId) {
   const c = state.choices
   const f = state.flags
   if (endingId === 'E1') return [
-    '梁一舟在付款前得到明确提醒。',
-    '宋岚较早启动止付、延期和样品保全。',
-    '跑腿员只被标记为连接线索，责任交由有权限机构核查。',
-    '退款与报道分开，具体风险没有被沉默交换覆盖。'
+    '我在梁一舟付款前给出了明确提醒。',
+    '我陪宋老师较早启动止付、延期和样品保全。',
+    '我只把跑腿员写成连接线索，没有越过证据给他定责。',
+    '我把退款与报道分开，没有用沉默交换损失。'
   ]
   if (endingId === 'E2') {
     const notes = []
-    if (!f.PREWARN) notes.push('早期没有公开预警：梁一舟在当晚批次交费，最终提醒后开始退款和报案登记。')
-    if (!f.JOB) notes.push('完整合作函未被及时拼回：盖章截图先传播，一名学生已经付款。')
-    if (!f.TRUST) notes.push('姜宁选择匿名时间线：隐私暴露更少，公开视频缺少文字对照。')
-    if (!f.RESEARCH) notes.push('宋岚多录了一段承诺：证据增加，正规检测和止损晚了数小时。')
-    if (!f.HIDDEN) notes.push('对唐遇的指认发出后删除：截图仍在传播，形成二次伤害。')
-    if (!f.CLEAR) notes.push('小额退款成为“正规项目”的新背书，部分观望者继续相信。')
-    if (!f.FAKE) notes.push('冒名警报发布更早，但缺少原片对照的版本仍在小群流转。')
-    if (!f.VERIFY) notes.push('中午预警更早但没有具名背书，傍晚补答复需要再次传播。')
-    return notes.length ? notes : ['最终预警已发布，处置结果仍需等待银行、平台和警方核查。']
+    if (!f.PREWARN) notes.push('我没有在最早时公开预警；梁一舟当晚交了费，看到最终提醒后才开始退款和报案登记。')
+    if (!f.JOB) notes.push('我没有及时拼回完整合作函；盖章截图先传开，又有一名学生付款。')
+    if (!f.TRUST) notes.push('我只留下姜宁的匿名时间线；她暴露得更少，公开视频也少了文字对照。')
+    if (!f.RESEARCH) notes.push('我陪宋老师多录了一段承诺；证据多了，正规检测和止损也晚了几个小时。')
+    if (!f.HIDDEN) notes.push('我发出过对唐遇的指认，后来虽然删除，截图仍在传播。')
+    if (!f.CLEAR) notes.push('我先接受了小额退款；周衡把截图变成“正规项目”的新背书。')
+    if (!f.FAKE) notes.push('我更早发出冒名警报，却没有及时补上原片对照，片段仍在小群流转。')
+    if (!f.VERIFY) notes.push('我中午先预警，傍晚才补三方答复；同一批人需要再看见一次。')
+    return notes.length ? notes : ['我已经发出最终预警，钱和账号的处置还要等银行、平台和警方。']
   }
-  if (endingId === 'E3') return [c.Q01 === 'A' ? '梁一舟此前已因临时提醒停付。' : '梁一舟在9月23日批次交费，正在办理退款和报案登记。', '宋岚的尾款在三方答复到齐当晚停付；延迟的是面向更多人的传播。']
-  if (endingId === 'E4') return [f.TRUST ? '即使此前取得过部分授权，未打码原件仍超出公开范围。' : '姜宁没有交出聊天截图，但可识别叙述仍把她推到公众面前。', '下架无法保证已经下载和转发的副本消失。']
-  if (endingId === 'E5') return [c.Q01 === 'A' ? '梁一舟本人被早期提醒保护。' : '梁一舟随当晚批次交费。', c.Q10 === 'A' ? '傍晚具名更正曾发布，但午夜模糊补充被单独截取。' : '中午具体提醒仍在，但午夜没有形成清晰的最终对照。']
-  if (endingId === 'E6') return ['部分退款换来了模糊口径。', '冒名警报缺少及时的原片对照。', '真实的脸和真实素材最终被重新包装成“官方背书”。']
+  if (endingId === 'E3') return [c.Q01 === 'A' ? '我此前的临时提醒让梁一舟停下了付款。' : '我没能在第一晚拦住梁一舟；他正在办理退款和报案登记。', '我让宋老师在三方答复到齐当晚停了尾款；真正迟到的是面向更多人的预警。']
+  if (endingId === 'E4') return [f.TRUST ? '即使我此前拿到过部分授权，未打码原件仍超出了约定。' : '姜宁没有交出聊天截图，我的可识别叙述仍把她推到了人前。', '我可以下架页面，却无法收回已经下载和转发的副本。']
+  if (endingId === 'E5') return [c.Q01 === 'A' ? '我最早的提醒保住了梁一舟本人。' : '我没有拦住梁一舟参加当晚批次。', c.Q10 === 'A' ? '我傍晚发过具名更正，午夜那句模糊补充却被单独截走。' : '我中午发过具体提醒，午夜仍没能留下清晰的最终对照。']
+  if (endingId === 'E6') return ['我用模糊口径换来了部分退款。', '我发出的冒名警报没及时带上原片对照。', '最后，别人用我的脸和真实素材拼出了一份新的“官方背书”。']
   return []
 }
 
@@ -392,9 +394,9 @@ function next() {
 }
 
 function stepBack() {
-  if (!state.undoSnapshot || state.undoLocked) return showToast('退回后必须先继续推进，不能连续退回')
+  if (!state.undoSnapshot || state.undoLocked) return showToast('我刚退过一步，先继续查，再回来。')
   commit(engine.back(story, state))
-  showToast('已退回一步；继续推进后可再次使用')
+  showToast('我退回了上一步；继续之后才能再退一次。')
 }
 
 function restart() {
@@ -405,7 +407,7 @@ function restart() {
 
 function askRestart() {
   if (typeof ui.confirm.showModal === 'function') ui.confirm.showModal()
-  else if (window.confirm('重新开始完整调查？当前进度会被清空。')) restart()
+  else if (window.confirm('从头再查一次？我现在记下的选择、证据和进度都会被清空。')) restart()
 }
 
 function openDrawer(type) {
@@ -483,7 +485,7 @@ function closeDrawer() {
 
 function playAudio(src) {
   audio.src = src
-  audio.play().catch(() => showToast('浏览器阻止了自动播放，请再点一次声音按钮'))
+  audio.play().catch(() => showToast('声音没有自动播放，再点一次“声”就好。'))
 }
 
 function stopAudio() {
@@ -508,7 +510,7 @@ ui.drawerMask.addEventListener('click', closeDrawer)
 ui.confirm.addEventListener('close', () => { if (ui.confirm.returnValue === 'confirm') restart() })
 ui.audioButton.addEventListener('click', () => {
   const take = takes[story.nodes[state.currentId]?.audioId] || {}
-  if (!take.src) return showToast('本段自然配音待导入，文字阅读不受影响')
+  if (!take.src) return showToast('这段记录还没有声音，先看文字。')
   audioEnabled = !audioEnabled
   ui.audioButton.textContent = audioEnabled ? '声' : '静'
   audioEnabled ? playAudio(take.src) : stopAudio()

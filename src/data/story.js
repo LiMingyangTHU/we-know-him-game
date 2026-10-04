@@ -1,5 +1,5 @@
-import { images, videos } from './media-manifest.js?v=13'
-import { fullNodes, earlyProgress } from './full-story.js?v=13'
+import { images, videos } from './media-manifest.js?v=14'
+import { fullNodes, earlyProgress } from './full-story.js?v=14'
 
 const evidence = {
   oldClip: { id: 'old-clip', title: '五月旧片', boundary: '片子能对上五月的一期工资和沈舟的讲座。镜头里没有二期岗位，也没有后来那笔检测委托。' },

@@ -2,6 +2,8 @@ import assert from 'node:assert/strict'
 import * as engine from '../src/core/engine.js'
 import story from '../src/data/story.js'
 import { glossary, notesForNode } from '../src/data/glossary.js'
+import { presentNode } from '../src/data/player-copy.js'
+import { characters } from '../src/data/characters.js'
 
 assert.deepEqual(engine.validateStory(story), [])
 assert.equal(story.questionCount, 12)
@@ -31,6 +33,39 @@ for (const required of ['old-film', 'liang', 'shen', 'song', 'xu', 'jiang', 'lu'
 }
 const outOfGamePhrases = /玩家当前|本幕需要|需要继续核对|不能单独证明|无剧透说明/
 glossary.forEach(item => assert.doesNotMatch(item.text, outOfGamePhrases, `out-of-game wording in ${item.id}`))
+
+const productionCodes = /(?:Q\d{2}|E\d+)/
+const productionWording = /玩家|本轮结局|游戏内演示|选择结果|待导入/
+const allowedVoice = /^(林知夏|梁一舟|宋岚|沈舟|许橙|姜宁|陆鸣|周衡|唐遇|视频里的沈舟)/
+for (const node of Object.values(story.nodes)) {
+  const view = presentNode(node)
+  for (const [field, value] of Object.entries({ heading: view.heading, speaker: view.speaker, source: view.source, text: view.text, education: view.education })) {
+    if (!value) continue
+    assert.doesNotMatch(value, productionCodes, `${node.id}.${field} leaks an internal route code`)
+    assert.doesNotMatch(value, productionWording, `${node.id}.${field} uses production-facing wording`)
+  }
+  for (const [field, value] of Object.entries({ orientationKicker: view.orientation?.kicker, orientationRoute: view.orientation?.route, orientationGoal: view.orientation?.goal, mediaAlt: view.media?.alt })) {
+    if (!value) continue
+    assert.doesNotMatch(value, productionCodes, `${node.id}.${field} leaks an internal route code`)
+    assert.doesNotMatch(value, productionWording, `${node.id}.${field} uses production-facing wording`)
+  }
+  assert.match(view.speaker || '', allowedVoice, `${node.id} has no in-world voice: ${view.speaker}`)
+  if (node.kind === 'choice') {
+    assert.doesNotMatch(view.heading, /你/, `${node.id} heading is not in Lin Zhixia's perspective`)
+    assert.doesNotMatch(view.text, /你/, `${node.id} question is not in Lin Zhixia's perspective`)
+  }
+  if (node.kind === 'ending') {
+    assert.match(view.text, /我/, `${node.id} ending is not Lin Zhixia's recollection`)
+    assert.match(view.education, /我/, `${node.id} ending reflection is not Lin Zhixia's voice`)
+  }
+}
+assert.equal(presentNode(story.nodes.q01).heading, '旧片的新名字')
+assert.equal(presentNode(story.nodes.b1a3).heading, '梁一舟暂停付款')
+assert.equal(presentNode(story.nodes.e1).heading, '看见隐形人')
+characters.forEach(person => {
+  assert.doesNotMatch(`${person.role}${person.known}`, productionWording, `${person.id} profile uses production-facing wording`)
+  assert.match(person.known, /我/, `${person.id} profile is not written from Lin Zhixia's perspective`)
+})
 
 let undoState = engine.createState(story.startId, story)
 while (undoState.currentId !== 'q01') undoState = engine.advance(story, undoState)
