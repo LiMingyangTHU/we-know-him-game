@@ -1,0 +1,119 @@
+[
+  {
+    "id": "a01",
+    "speaker": "林知夏",
+    "voice": "zh-CN-XiaoxiaoNeural",
+    "durationMs": 13056,
+    "lufs": -16.0,
+    "truePeakDb": -1.55,
+    "segments": 3
+  },
+  {
+    "id": "a01b",
+    "speaker": "林知夏",
+    "voice": "zh-CN-XiaoxiaoNeural",
+    "durationMs": 8832,
+    "lufs": -16.0,
+    "truePeakDb": -1.59,
+    "segments": 2
+  },
+  {
+    "id": "a02",
+    "speaker": "梁一舟",
+    "voice": "zh-CN-YunxiaNeural",
+    "durationMs": 9792,
+    "lufs": -16.06,
+    "truePeakDb": -1.52,
+    "segments": 2
+  },
+  {
+    "id": "a02b",
+    "speaker": "梁一舟",
+    "voice": "zh-CN-YunxiaNeural",
+    "durationMs": 8832,
+    "lufs": -16.02,
+    "truePeakDb": -1.55,
+    "segments": 2
+  },
+  {
+    "id": "a03",
+    "speaker": "林知夏",
+    "voice": "zh-CN-XiaoxiaoNeural",
+    "durationMs": 31560,
+    "lufs": -16.21,
+    "truePeakDb": -1.5,
+    "segments": 5
+  },
+  {
+    "id": "a04",
+    "speaker": "梁一舟",
+    "voice": "zh-CN-YunxiaNeural",
+    "durationMs": 16464,
+    "lufs": -16.07,
+    "truePeakDb": -1.5,
+    "segments": 3
+  },
+  {
+    "id": "a05",
+    "speaker": "林知夏",
+    "voice": "zh-CN-XiaoxiaoNeural",
+    "durationMs": 7968,
+    "lufs": -16.0,
+    "truePeakDb": -1.61,
+    "segments": 2
+  },
+  {
+    "id": "a06",
+    "speaker": "林知夏",
+    "voice": "zh-CN-XiaoxiaoNeural",
+    "durationMs": 17256,
+    "lufs": -16.05,
+    "truePeakDb": -1.5,
+    "segments": 3
+  },
+  {
+    "id": "q01",
+    "speaker": "林知夏",
+    "voice": "zh-CN-XiaoxiaoNeural",
+    "durationMs": 12576,
+    "lufs": -16.12,
+    "truePeakDb": -1.5,
+    "segments": 2
+  },
+  {
+    "id": "b1a",
+    "speaker": "林知夏",
+    "voice": "zh-CN-XiaoxiaoNeural",
+    "durationMs": 12912,
+    "lufs": -16.03,
+    "truePeakDb": -1.5,
+    "segments": 3
+  },
+  {
+    "id": "b1a2",
+    "speaker": "周衡",
+    "voice": "zh-CN-YunyangNeural",
+    "durationMs": 2376,
+    "lufs": -16.6,
+    "truePeakDb": -1.5,
+    "segments": 1
+  },
+  {
+    "id": "b1a3",
+    "speaker": "林知夏",
+    "voice": "zh-CN-XiaoxiaoNeural",
+    "durationMs": 14832,
+    "lufs": -16.02,
+    "truePeakDb": -1.5,
+    "segments": 3
+  },
+  {
+    "id": "b1b",
+    "speaker": "林知夏",
+    "voice": "zh-CN-XiaoxiaoNeural",
+    "durationMs": 16560,
+    "lufs": -16.0,
+    "truePeakDb": -1.5,
+    "segments": 3
+  }
+]

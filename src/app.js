@@ -1,7 +1,7 @@
 import story from './data/story.js?v=15'
 import * as engine from './core/engine.js?v=15'
 import * as storage from './core/storage.js?v=15'
-import { takes, musicTracks, musicKeyForNode, enabledByDefault } from './data/audio-manifest.js?v=17'
+import { takes, musicTracks, musicKeyForNode, enabledByDefault } from './data/audio-manifest.js?v=18'
 import { unlockedCharacters } from './data/characters.js?v=15'
 import { notesForNode, unlockedGlossary } from './data/glossary.js?v=15'
 import { presentNode } from './data/player-copy.js?v=15'
