@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#091522">
+  <meta name="description" content="《我们都认识他》校园反诈互动推理游戏">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icons/icon-192.png">
+  <link rel="stylesheet" href="./styles.css?v=8">
+  <title>我们都认识他｜校园反诈互动推理</title>
+</head>
+<body>
+  <noscript>本游戏需要启用 JavaScript。</noscript>
+
+  <main id="homeView" class="view home-view">
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+    <section class="home-shell">
+      <p class="eyebrow">校园反诈互动推理游戏</p>
+      <h1>我们都认识他</h1>
+      <p class="hook">三句真话，可能指向一个假结论。</p>
+      <div class="rule"></div>
+      <p class="intro">你将以校园媒体记者林知夏的视角，核对旧片、合同、实时视频和当事人的证言。每次选择都会改变证据完整度、止损时机与最终结局。</p>
+
+      <section class="build-card glass-card" aria-label="当前版本">
+        <div><span>完整流程测试版 v0.4</span><strong>十二题 · 六结局</strong></div>
+        <p>新增原生聊天界面、随剧情解锁的人物档案，并完成首轮口语化修订。</p>
+      </section>
+
+      <div class="home-actions">
+        <button id="continueButton" class="button primary hidden">继续调查</button>
+        <button id="newButton" class="button secondary">开始调查</button>
+      </div>
+
+      <aside class="tip"><strong>调查提示</strong><span>“认识一个人”与“核验他的权限”是两回事。</span></aside>
+    </section>
+  </main>
+
+  <main id="gameView" class="view game-view hidden">
+    <header class="topbar">
+      <button id="homeButton" class="icon-button" aria-label="返回首页">‹</button>
+      <div class="progress-wrap">
+        <div class="progress-meta"><span id="chapterLabel">调查中</span><span id="progressLabel">0%</span></div>
+        <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"><div id="progressFill"></div></div>
+      </div>
+      <button id="audioButton" class="icon-button audio-button" aria-label="开关配音">静</button>
+    </header>
+
+    <div class="game-layout">
+      <section class="visual-column">
+        <div id="meta" class="meta"></div>
+        <figure class="media-frame glass-card">
+          <video id="sceneVideo" class="scene-media hidden" muted loop autoplay playsinline></video>
+          <img id="sceneImage" class="scene-media motion-image" alt="">
+          <div id="chatScene" class="chat-scene hidden" aria-label="聊天记录"></div>
+          <figcaption id="mediaBadge" class="media-badge hidden">无声运镜</figcaption>
+        </figure>
+      </section>
+
+      <section class="story-column">
+        <article id="narrativePanel" class="narrative" aria-live="polite">
+          <p id="heading" class="scene-heading"></p>
+          <p id="speaker" class="speaker"></p>
+          <p id="dialogue" class="dialogue"></p>
+        </article>
+        <div id="choices" class="choices"></div>
+        <div id="chapterEnd" class="chapter-end glass-card hidden">
+          <span id="endingCode" class="ending-code"></span>
+          <strong id="endingTitle">本轮结局</strong>
+          <p id="endingText"></p>
+          <div id="endingDetails" class="ending-details"></div>
+          <p id="endingEducation" class="ending-education"></p>
+          <button id="replayButton" class="button secondary">重新调查其他路线</button>
+        </div>
+        <button id="nextButton" class="button next-button">继续调查</button>
+        <button id="skipIntroButton" class="text-button hidden">跳过背景简报，直接进入调查</button>
+      </section>
+    </div>
+
+    <nav class="toolbelt" aria-label="调查工具">
+      <button id="evidenceButton"><span id="evidenceCount" class="count">0</span><span>证据册</span></button>
+      <button id="charactersButton"><span id="charactersCount" class="count">0</span><span>人物</span></button>
+      <button id="statusButton"><span id="statusCount" class="count">0</span><span>状态卡</span></button>
+      <button id="restartButton"><span class="count">↺</span><span>重新开始</span></button>
+    </nav>
+  </main>
+
+  <div id="drawerMask" class="drawer-mask hidden"></div>
+  <aside id="drawer" class="drawer" aria-hidden="true">
+    <header><h2 id="drawerTitle">证据册</h2><button id="drawerClose" aria-label="关闭">×</button></header>
+    <div id="drawerBody" class="drawer-body"></div>
+  </aside>
+
+  <dialog id="confirmDialog">
+    <form method="dialog">
+      <h2>重新开始完整调查？</h2>
+      <p>当前选择、证据记录、结局和进度会被清空。</p>
+      <div class="dialog-actions"><button value="cancel" class="button secondary">取消</button><button value="confirm" class="button primary">重新开始</button></div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="./src/app.js?v=8"></script>
+</body>
+</html>

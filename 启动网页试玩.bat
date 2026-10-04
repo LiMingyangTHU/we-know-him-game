@@ -1,0 +1,5 @@
+@echo off
+chcp 65001 >nul
+cd /d "%~dp0"
+start "" "http://localhost:4173/"
+python -m http.server 4173
