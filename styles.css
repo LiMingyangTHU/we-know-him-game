@@ -102,6 +102,11 @@ h1 { margin: 24px 0 0; font-size: clamp(3rem, 9vw, 5.5rem); line-height: 1.05; l
 .story-column { padding-top: 44px; }
 .narrative { min-height: 300px; }
 .scene-heading { margin: 0; color: var(--blue); font-size: 1rem; font-weight: 700; }
+.orientation-card { position: relative; margin: 20px 0 24px; padding: 18px 20px 18px 22px; overflow: hidden; border: 1px solid rgba(127,197,175,.42); border-radius: 16px; background: linear-gradient(135deg, rgba(31,67,82,.9), rgba(18,44,60,.82)); box-shadow: inset 4px 0 0 var(--green); }
+.orientation-card::after { content: '→'; position: absolute; right: 17px; top: 11px; color: rgba(137,188,237,.18); font-size: 3.4rem; font-weight: 900; }
+.orientation-kicker { position: relative; z-index: 1; display: block; margin-bottom: 8px; color: var(--green); font-size: .75rem; font-weight: 800; letter-spacing: .12em; }
+.orientation-route { position: relative; z-index: 1; display: block; padding-right: 44px; color: #edf5f8; font-size: 1.02rem; line-height: 1.55; }
+.orientation-goal { position: relative; z-index: 1; margin: 8px 0 0; color: #aebfcc; font-size: .88rem; line-height: 1.65; }
 .speaker { margin: 26px 0 0; color: var(--green); font-size: 1.12rem; }
 .dialogue { margin: 15px 0 0; color: #f0f4f8; font-size: clamp(1.3rem, 2.3vw, 1.75rem); line-height: 1.8; }
 .choices { display: grid; gap: 16px; margin-top: 26px; }

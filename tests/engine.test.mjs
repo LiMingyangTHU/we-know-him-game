@@ -9,6 +9,12 @@ assert.equal(story.nodes.q05intro.media.type, 'chat')
 assert.ok(story.nodes.q05intro.media.messages.some(message => message.text?.includes('临时周转一下嘛～')))
 assert.ok(story.nodes.q05.media.messages.some(message => message.text?.includes('误差来源需要逐项排除。')))
 assert.ok(story.nodes.q05.media.messages.some(message => message.text?.includes('现在转一下嘛～')))
+assert.equal(story.nodes.c01.media.src, './assets/images/transition-lab-v6.webp')
+assert.equal(story.nodes.q03intro.media.src, './assets/images/roundtable-player-v6.webp')
+for (const id of ['a01', 'c01', 'q03intro', 'q04intro', 'q05intro', 'q06intro', 'q07intro', 'q08intro', 'q09intro', 'q10intro', 'm01', 'q11intro', 'q12intro']) {
+  assert.ok(story.nodes[id].orientation?.route, `${id} missing transition route`)
+  assert.ok(story.nodes[id].orientation?.goal, `${id} missing transition goal`)
+}
 
 let undoState = engine.createState(story.startId, story)
 while (undoState.currentId !== 'q01') undoState = engine.advance(story, undoState)

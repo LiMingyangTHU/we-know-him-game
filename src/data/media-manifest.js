@@ -41,6 +41,8 @@ const images = {
   ,consentInterview: './assets/images/consent-interview-v5.webp'
   ,endingClear: './assets/images/ending-clear-v5.webp'
   ,endingWitnessExit: './assets/images/ending-witness-exit-v5.webp'
+  ,transitionLab: './assets/images/transition-lab-v6.webp'
+  ,roundtablePlayer: './assets/images/roundtable-player-v6.webp'
 }
 
 const videos = {

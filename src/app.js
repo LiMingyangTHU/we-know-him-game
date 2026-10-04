@@ -1,14 +1,15 @@
-import story from './data/story.js?v=9'
-import * as engine from './core/engine.js?v=9'
-import * as storage from './core/storage.js?v=9'
-import { takes, enabledByDefault } from './data/audio-manifest.js?v=9'
-import { unlockedCharacters } from './data/characters.js?v=9'
+import story from './data/story.js?v=10'
+import * as engine from './core/engine.js?v=10'
+import * as storage from './core/storage.js?v=10'
+import { takes, enabledByDefault } from './data/audio-manifest.js?v=10'
+import { unlockedCharacters } from './data/characters.js?v=10'
 
 const $ = id => document.getElementById(id)
 const ui = {
   home: $('homeView'), game: $('gameView'), continue: $('continueButton'), newGame: $('newButton'), homeButton: $('homeButton'),
   chapter: $('chapterLabel'), progressLabel: $('progressLabel'), progressFill: $('progressFill'), meta: $('meta'),
   video: $('sceneVideo'), image: $('sceneImage'), chat: $('chatScene'), badge: $('mediaBadge'), heading: $('heading'), speaker: $('speaker'), dialogue: $('dialogue'),
+  orientation: $('orientationCard'), orientationKicker: $('orientationKicker'), orientationRoute: $('orientationRoute'), orientationGoal: $('orientationGoal'),
   narrative: $('narrativePanel'),
   choices: $('choices'), next: $('nextButton'), stepBack: $('stepBackButton'), skipIntro: $('skipIntroButton'), chapterEnd: $('chapterEnd'), replay: $('replayButton'),
   endingCode: $('endingCode'), endingTitle: $('endingTitle'), endingText: $('endingText'), endingDetails: $('endingDetails'), endingEducation: $('endingEducation'),
@@ -82,6 +83,7 @@ function render(node) {
   ui.progressFill.parentElement.setAttribute('aria-valuenow', String(progress))
   ui.meta.textContent = [node.time, node.place, node.source].filter(Boolean).join(' · ')
   ui.heading.textContent = node.heading || ''
+  renderOrientation(node)
   ui.speaker.textContent = node.speaker || ''
   ui.dialogue.textContent = node.text || ''
   ui.evidenceCount.textContent = state.evidence.length
@@ -97,6 +99,7 @@ function render(node) {
   ui.narrative.classList.toggle('hidden', isEnd)
   ui.chapterEnd.classList.toggle('hidden', !isEnd)
   ui.next.classList.toggle('hidden', isEnd || node.kind === 'choice')
+  ui.next.textContent = node.nextLabel || (node.kind === 'intro' ? '继续背景简报' : '继续调查')
   ui.skipIntro.classList.toggle('hidden', node.kind !== 'intro')
   if (isEnd) renderEnding(node)
 
@@ -105,6 +108,15 @@ function render(node) {
   ui.audioButton.textContent = audioEnabled && take.src ? '声' : '静'
   if (audioEnabled && take.src) playAudio(take.src)
   window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+function renderOrientation(node) {
+  const guide = node.orientation
+  ui.orientation.classList.toggle('hidden', !guide)
+  if (!guide) return
+  ui.orientationKicker.textContent = guide.kicker || '调查路标'
+  ui.orientationRoute.textContent = guide.route || ''
+  ui.orientationGoal.textContent = guide.goal ? `本段目标：${guide.goal}` : ''
 }
 
 function renderEnding(node) {

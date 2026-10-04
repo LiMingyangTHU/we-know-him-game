@@ -1,5 +1,5 @@
-import { images, videos } from './media-manifest.js?v=9'
-import { fullNodes, earlyProgress } from './full-story.js?v=9'
+import { images, videos } from './media-manifest.js?v=10'
+import { fullNodes, earlyProgress } from './full-story.js?v=10'
 
 const evidence = {
   oldClip: { id: 'old-clip', title: '五月旧片', boundary: '能证明一期发过工资、沈舟本人参加过讲座；不能证明二期有岗位或科研检测获授权。' },
@@ -26,7 +26,7 @@ function card(id, heading, speaker, text, mediaKey, next, extra) {
 }
 
 const nodes = {
-  a01: scene('a01', '第一幕｜旧片的新名字', '林知夏（内心）', '导出进度停在87%。我正要重启软件，手机在桌边亮了一下。', 'lin', 'a01b', { chapter: 1, time: '9月23日上午', place: '校园媒体办公室', source: '现场', progress: 3 }),
+  a01: scene('a01', '第一幕｜旧片的新名字', '林知夏（内心）', '导出进度停在87%。我正要重启软件，手机在桌边亮了一下。陌生新生发来的封面，正是我四个月前剪过的那条片子。', 'lin', 'a01b', { chapter: 1, time: '9月23日上午', place: '校园媒体办公室', source: '现场', progress: 3, orientation: { kicker: '案件起点｜9月23日上午', route: '你的旧片 → 新生正在打开的付款页', goal: '先确认旧片被怎样改名，再判断是否需要立即提醒停付' }, nextLabel: '查看陌生私信' }),
   a01b: card('a01b', '一条陌生私信', '林知夏（内心）', '头像没见过。对方发来的封面，我却一眼认出——那是我五月拍的片子，只是标题变了。', 'linPhoneNatural', 'a02', { source: '玩家所见', progress: 5 }),
   a02: scene('a02', '新生的私信', '梁一舟（私信）', '学姐，能帮我看看是真的吗？他们说今晚零点锁本批名额，校友推荐价两千八。', 'liang', 'a02b', { chapter: 1, time: '9月23日上午', place: '新生宿舍', source: '聊天记录', progress: 7, media: { type: 'chat', title: '梁一舟', subtitle: '对方正在输入…', time: '09:41', messages: [
     { side: 'received', name: '梁一舟', avatar: '梁', text: '学姐，能帮我看看是真的吗？' },
@@ -57,10 +57,10 @@ const nodes = {
   },
   b1a: card('b1a', 'Q01 A｜先预警，再核实', '操作记录', '临时提醒已发布；旧片已补“一期限定”；材料已报送校方。梁一舟回复了一张关闭付款页的截图。', 'warn', 'b1a2', { source: '处置反馈', progress: 23 }),
   b1a2: card('b1a2', '群内回应', '周衡', '媒体博眼球而已。', 'group', 'b1a3', { progress: 25 }),
-  b1a3: card('b1a3', 'PREWARN = 1', '林知夏（内心）', '暂缓付款，不等于提前给任何人定罪。但我的旧片，从此不能再当作一张无条件保票。', 'safe1', 'c01', { source: '选择结果', progress: 28 }),
-  b1b: card('b1b', 'Q01 B｜先保存原始证据', '取证记录', '完整报名页、宣讲视频和收款户名已经保存。梁一舟暂时没付；录屏结束时，倒计时还在继续。', 'wait1', 'c01', { source: '处置反馈', progress: 28 }),
+  b1a3: card('b1a3', '选择结果｜梁一舟暂停付款', '林知夏（内心）', '梁一舟暂时安全了，但收费页仍在群里传播。就在这时，宋岚老师来电，也问起片中的“沈舟”。同一条旧片，正把我带向另一笔更大的钱。', 'safe1', 'c01', { source: '选择结果', progress: 28, nextLabel: '接听宋老师来电' }),
+  b1b: card('b1b', '选择结果｜证据已保存，倒计时仍在走', '取证记录', '完整报名页、宣讲视频和收款户名已经保存。梁一舟暂时没付。录屏刚结束，宋岚老师来电，也问起片中的“沈舟”——这次牵涉的金额远不止两千八。', 'wait1', 'c01', { source: '处置反馈', progress: 28, nextLabel: '接听宋老师来电' }),
 
-  c01: scene('c01', '第二幕｜十三万八的快捷通道', '宋岚（电话）', '知夏，你五月论坛的原片还留着吗？沈舟上台前后那几段，也一起发我。', 'song', 'c02', { chapter: 2, time: '9月23日下午', place: '材料实验室', source: '来电', progress: 32 }),
+  c01: scene('c01', '第二幕｜十三万八的快捷通道', '宋岚（电话）', '知夏，你五月论坛的原片还留着吗？沈舟上台前后那几段，也一起带来实验室。我这里有两张付款回执，需要你帮我对一张脸。', 'transitionLab', 'c02', { chapter: 2, time: '9月23日下午', place: '前往材料实验室', source: '来电', progress: 32, orientation: { kicker: '转场｜四小时后', route: '校园媒体办公室 → 材料实验室', goal: '核对宋岚相信的“沈舟”，与新生群宣讲视频中的人是否来自同一套素材' }, nextLabel: '进入实验室' }),
   c02: scene('c02', '一篇论文，三重期限', '宋岚', '返修二十五号就截止，月底职称材料也要封。我已经评了三次，这次真不想再拖。可审稿人偏偏要补那组关键数据。', 'song', 'c02b', { source: '当面陈述', progress: 35 }),
   c02b: card('c02b', '桌上的两张回执', '林知夏（现场记录）', '两张回执被推到我面前，空采样盒还在宋老师手边。她压低声音：“九万多已经出去了，好在样品还没交。”', 'songReceipts', 'c03', { source: '玩家所见', progress: 37 }),
   c03: scene('c03', '回放｜五月十八日校园讲座', '宋岚（看着原片）', '“就是这里。他没有回避误差控制，还把计算步骤写了出来。会后那张分析图，也确实帮我排除过一次实验偏差。”', 'lecture', 'c04', { time: '5月18日', place: '校园讲座', source: '原始视频', progress: 39 }),
@@ -84,9 +84,9 @@ const nodes = {
   },
   b2a: card('b2a', 'Q02 A｜独立核验与止损', '操作记录', '视频与回执已保存。官网电话正在接通，银行和科研办的处置编号分别记入证据册；未交出的样品仍在实验室。', 'verifyOfficial', 'b2a2', { source: '处置反馈', progress: 76 }),
   b2a2: scene('b2a2', '主动说明，争取补救', '宋岚', '先把样品保住。我需要的是能追溯的检测结果，不是谁一句保证。押金怎么付的，我去科研办说明。', 'song', 'b2a3', { progress: 81 }),
-  b2a3: card('b2a3', 'EARLY = 1', '处置记录', '止付申请已提交；资金能否追回仍待银行核查。样品未离开实验室，外来数据也没有进入论文。', 'preserve', 'q03intro', { source: '选择结果', progress: 19 }),
+  b2a3: card('b2a3', '选择结果｜样品保住，资金等待核查', '处置记录', '止付申请已提交；资金能否追回仍待银行核查。宋岚留下样品和回执。第二天上午，我把她请到活动室，与另外两位见过“沈舟”的当事人分别核对记忆。', 'preserve', 'q03intro', { source: '选择结果', progress: 19, nextLabel: '前往三人座谈' }),
   b2b: card('b2b', 'Q02 B｜要求补全材料', '林知夏（现场记录）', '临时取样单发来了。我和宋老师同时看向编号栏——空白。她没再回复私聊，转而拨通官网电话。', 'wait2', 'b2b2', { source: '玩家所见', progress: 19 }),
-  b2b2: card('b2b2', 'EARLY = 0', '处置时间线', '独立核验比另一条路线晚了数小时。新增的是一份无院方编号的承诺；资金追回仍待银行和警方核查。', 'wait2', 'q03intro', { source: '选择结果', progress: 20 }),
+  b2b2: card('b2b2', '选择结果｜多了一份承诺，也多等了数小时', '处置时间线', '新取样单仍没有院方编号，宋岚终于改拨官网电话。第二天上午，我把她请到活动室，与另外两位见过“沈舟”的当事人分别核对记忆。', 'wait2', 'q03intro', { source: '选择结果', progress: 20, nextLabel: '前往三人座谈' }),
   ...fullNodes
 }
 
