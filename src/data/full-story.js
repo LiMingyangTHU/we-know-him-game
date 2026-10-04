@@ -1,4 +1,4 @@
-import { images, videos } from './media-manifest.js?v=10'
+import { images, videos } from './media-manifest.js?v=11'
 
 const evidence = {
   testimony: { id: 'testimony-board', title: '三份证言', boundary: '能证明三人分别接触过真实的工资、真人和技术建议；不能证明三条承诺来自同一权限身份。' },

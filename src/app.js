@@ -1,8 +1,8 @@
-import story from './data/story.js?v=10'
-import * as engine from './core/engine.js?v=10'
-import * as storage from './core/storage.js?v=10'
-import { takes, enabledByDefault } from './data/audio-manifest.js?v=10'
-import { unlockedCharacters } from './data/characters.js?v=10'
+import story from './data/story.js?v=11'
+import * as engine from './core/engine.js?v=11'
+import * as storage from './core/storage.js?v=11'
+import { takes, enabledByDefault } from './data/audio-manifest.js?v=11'
+import { unlockedCharacters } from './data/characters.js?v=11'
 
 const $ = id => document.getElementById(id)
 const ui = {
@@ -10,6 +10,8 @@ const ui = {
   chapter: $('chapterLabel'), progressLabel: $('progressLabel'), progressFill: $('progressFill'), meta: $('meta'),
   video: $('sceneVideo'), image: $('sceneImage'), chat: $('chatScene'), badge: $('mediaBadge'), heading: $('heading'), speaker: $('speaker'), dialogue: $('dialogue'),
   orientation: $('orientationCard'), orientationKicker: $('orientationKicker'), orientationRoute: $('orientationRoute'), orientationGoal: $('orientationGoal'),
+  modeStrip: $('modeStrip'), modeIcon: $('modeIcon'), modeLabel: $('modeLabel'), modeNote: $('modeNote'),
+  sceneTransition: $('sceneTransition'), transitionIcon: $('transitionIcon'), transitionTitle: $('transitionTitle'), transitionSubtitle: $('transitionSubtitle'),
   narrative: $('narrativePanel'),
   choices: $('choices'), next: $('nextButton'), stepBack: $('stepBackButton'), skipIntro: $('skipIntroButton'), chapterEnd: $('chapterEnd'), replay: $('replayButton'),
   endingCode: $('endingCode'), endingTitle: $('endingTitle'), endingText: $('endingText'), endingDetails: $('endingDetails'), endingEducation: $('endingEducation'),
@@ -23,6 +25,8 @@ let state = null
 let audioEnabled = enabledByDefault
 let audio = new Audio()
 let toastTimer = null
+let transitionTimer = null
+let lastPresentation = null
 
 const flagLabels = {
   PREWARN: value => value ? '已提前提醒付款风险' : '先保存证据，预警较晚',
@@ -62,6 +66,7 @@ function showHome() {
 
 function showGame(nextState) {
   state = nextState
+  lastPresentation = null
   ui.home.classList.add('hidden')
   ui.game.classList.remove('hidden')
   history.replaceState({ view: 'game' }, '', '#game')
@@ -76,6 +81,7 @@ function commit(nextState) {
 }
 
 function render(node) {
+  const presentation = resolvePresentation(node)
   const progress = state.progress || 0
   ui.chapter.textContent = node.chapter ? `第${node.chapter}幕` : (node.kind === 'intro' ? '背景简报' : (node.kind === 'ending' ? '调查结束' : '调查中'))
   ui.progressLabel.textContent = `${progress}%`
@@ -83,6 +89,7 @@ function render(node) {
   ui.progressFill.parentElement.setAttribute('aria-valuenow', String(progress))
   ui.meta.textContent = [node.time, node.place, node.source].filter(Boolean).join(' · ')
   ui.heading.textContent = node.heading || ''
+  renderPresentation(node, presentation)
   renderOrientation(node)
   ui.speaker.textContent = node.speaker || ''
   ui.dialogue.textContent = node.text || ''
@@ -93,7 +100,7 @@ function render(node) {
   ui.stepBack.disabled = !canStepBack
   ui.stepBack.title = canStepBack ? '退回前一个界面；退回后必须先继续推进' : '继续推进后可再次使用'
 
-  renderMedia(node.media, node.id)
+  renderMedia(node.media, node.id, presentation)
   renderChoices(node)
   const isEnd = node.kind === 'ending'
   ui.narrative.classList.toggle('hidden', isEnd)
@@ -108,6 +115,68 @@ function render(node) {
   ui.audioButton.textContent = audioEnabled && take.src ? '声' : '静'
   if (audioEnabled && take.src) playAudio(take.src)
   window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+const presentationTypes = {
+  intro: { icon: '◎', label: '背景简报', note: '进入案件前的已知信息' },
+  dialogue: { icon: '●', label: '现场对话', note: '角色正在当面或实时说话' },
+  thought: { icon: '◌', label: '内心独白', note: '林知夏此刻的观察与判断' },
+  narration: { icon: '◇', label: '场景叙述', note: '玩家当前能够观察到的情况' },
+  record: { icon: '▤', label: '调查记录', note: '已取得的材料、核对或处置结果' },
+  chat: { icon: '▣', label: '聊天记录', note: '正在查看经授权或已保存的屏幕材料' },
+  playback: { icon: '▶', label: '影像回放', note: '正在查看此前留下的视频或监控记录' },
+  flashback: { icon: '↶', label: '回忆重现', note: '根据角色证言重现，并非同期录像' },
+  decision: { icon: '?', label: '调查决策', note: '你的选择将改变止损、证据或公开方式' },
+  ending: { icon: '◆', label: '调查结局', note: '本轮选择共同形成的结果' }
+}
+
+function resolvePresentation(node) {
+  if (node.presentation) return { ...presentationTypes[node.presentation.type], ...node.presentation, type: node.presentation.type }
+  if (node.kind === 'intro') return { ...presentationTypes.intro, type: 'intro' }
+  if (node.kind === 'choice') return { ...presentationTypes.decision, type: 'decision' }
+  if (node.kind === 'ending') return { ...presentationTypes.ending, type: 'ending' }
+  if (node.media?.type === 'chat') return { ...presentationTypes.chat, type: 'chat' }
+  if (/回忆/.test(node.heading || '')) return { ...presentationTypes.flashback, type: 'flashback' }
+  if (/回放|原始视频|监控|冒名视频|游戏内演示/.test(`${node.heading || ''}${node.source || ''}`)) return { ...presentationTypes.playback, type: 'playback' }
+  if (/内心/.test(node.speaker || '')) return { ...presentationTypes.thought, type: 'thought' }
+  if (/记录|结果|回执|界面|清单|对照|答复|证言|摘录|调查板|页面/.test(node.speaker || '')) return { ...presentationTypes.record, type: 'record' }
+  if (/林知夏|梁一舟|宋岚|沈舟|许橙|姜宁|陆鸣|周衡|唐遇/.test(node.speaker || '')) return { ...presentationTypes.dialogue, type: 'dialogue' }
+  return { ...presentationTypes.narration, type: 'narration' }
+}
+
+function renderPresentation(node, presentation) {
+  document.body.dataset.presentation = presentation.type
+  ui.modeIcon.textContent = presentation.icon || '◇'
+  ui.modeLabel.textContent = presentation.label || '场景叙述'
+  ui.modeNote.textContent = presentation.note || ''
+  const shouldCue = Boolean(node.presentation?.cue || node.orientation || presentation.type === 'flashback' || (lastPresentation === 'flashback' && presentation.type !== 'flashback'))
+  if (shouldCue && lastPresentation !== null) playSceneTransition(node, presentation, lastPresentation)
+  lastPresentation = presentation.type
+}
+
+function playSceneTransition(node, presentation, previousType) {
+  clearTimeout(transitionTimer)
+  const returning = previousType === 'flashback' && presentation.type !== 'flashback'
+  const title = returning ? '回到现在' : (node.presentation?.cueTitle || (presentation.type === 'flashback' ? '进入回忆' : node.heading || presentation.label))
+  const subtitle = returning
+    ? [node.time, node.place].filter(Boolean).join(' · ') || '继续核对现实中的材料'
+    : (node.presentation?.cueSubtitle || [node.time, node.place, presentation.note].filter(Boolean).join(' · '))
+  ui.transitionIcon.textContent = returning ? '→' : (presentation.icon || '◇')
+  ui.transitionTitle.textContent = title
+  ui.transitionSubtitle.textContent = subtitle
+  ui.sceneTransition.dataset.mode = returning ? 'return' : presentation.type
+  ui.sceneTransition.classList.remove('hidden', 'leaving')
+  ui.sceneTransition.setAttribute('aria-hidden', 'false')
+  requestAnimationFrame(() => ui.sceneTransition.classList.add('active'))
+  transitionTimer = setTimeout(() => {
+    ui.sceneTransition.classList.add('leaving')
+    ui.sceneTransition.classList.remove('active')
+    setTimeout(() => {
+      ui.sceneTransition.classList.add('hidden')
+      ui.sceneTransition.classList.remove('leaving')
+      ui.sceneTransition.setAttribute('aria-hidden', 'true')
+    }, 360)
+  }, presentation.type === 'flashback' || returning ? 1250 : 850)
 }
 
 function renderOrientation(node) {
@@ -160,13 +229,14 @@ function endingNotes(endingId) {
   return []
 }
 
-function renderMedia(media = {}, nodeId = '') {
+function renderMedia(media = {}, nodeId = '', presentation = {}) {
   const isVideo = media.type === 'video'
   const isChat = media.type === 'chat'
   ui.video.classList.toggle('hidden', !isVideo)
   ui.image.classList.toggle('hidden', isVideo || isChat)
   ui.chat.classList.toggle('hidden', !isChat)
   ui.badge.classList.toggle('hidden', !isVideo)
+  document.querySelector('.media-frame').dataset.presentation = presentation.type || 'narration'
   if (isVideo) {
     ui.video.poster = media.poster || ''
     if (ui.video.getAttribute('src') !== media.src) ui.video.src = media.src || ''

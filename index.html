@@ -7,7 +7,7 @@
   <meta name="description" content="《我们都认识他》校园反诈互动推理游戏">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" href="./icons/icon-192.png">
-  <link rel="stylesheet" href="./styles.css?v=10">
+  <link rel="stylesheet" href="./styles.css?v=11">
   <title>我们都认识他｜校园反诈互动推理</title>
 </head>
 <body>
@@ -24,8 +24,8 @@
       <p class="intro">你将以校园媒体记者林知夏的视角，核对旧片、合同、实时视频和当事人的证言。每次选择都会改变证据完整度、止损时机与最终结局。</p>
 
       <section class="build-card glass-card" aria-label="当前版本">
-        <div><span>玩家引导优化版 v0.6</span><strong>十二题 · 六结局</strong></div>
-        <p>新增转场路标、逐幕调查目标和专用连接画面；每次推进都明确告诉你下一步要去哪里、查什么。</p>
+        <div><span>叙事层级优化版 v0.7</span><strong>十二题 · 六结局</strong></div>
+        <p>现场、独白、回忆、回放、聊天和调查记录采用不同视觉提示；关键时间切换配有转场动画。</p>
       </section>
 
       <div class="home-actions">
@@ -60,6 +60,10 @@
 
       <section class="story-column">
         <article id="narrativePanel" class="narrative" aria-live="polite">
+          <div id="modeStrip" class="mode-strip">
+            <span id="modeIcon" class="mode-icon"></span>
+            <div><strong id="modeLabel"></strong><small id="modeNote"></small></div>
+          </div>
           <p id="heading" class="scene-heading"></p>
           <section id="orientationCard" class="orientation-card hidden" aria-label="本段调查路标">
             <span id="orientationKicker" class="orientation-kicker"></span>
@@ -94,6 +98,14 @@
     </nav>
   </main>
 
+  <div id="sceneTransition" class="scene-transition hidden" aria-hidden="true">
+    <div class="scene-transition-panel">
+      <span id="transitionIcon" class="transition-icon"></span>
+      <strong id="transitionTitle"></strong>
+      <p id="transitionSubtitle"></p>
+    </div>
+  </div>
+
   <div id="drawerMask" class="drawer-mask hidden"></div>
   <aside id="drawer" class="drawer" aria-hidden="true">
     <header><h2 id="drawerTitle">证据册</h2><button id="drawerClose" aria-label="关闭">×</button></header>
@@ -109,6 +121,6 @@
   </dialog>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script type="module" src="./src/app.js?v=10"></script>
+  <script type="module" src="./src/app.js?v=11"></script>
 </body>
 </html>

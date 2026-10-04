@@ -15,6 +15,12 @@ for (const id of ['a01', 'c01', 'q03intro', 'q04intro', 'q05intro', 'q06intro', 
   assert.ok(story.nodes[id].orientation?.route, `${id} missing transition route`)
   assert.ok(story.nodes[id].orientation?.goal, `${id} missing transition goal`)
 }
+assert.equal(story.nodes.c04.presentation.type, 'flashback')
+assert.match(story.nodes.c04.presentation.note, /并非.*同期录像/)
+assert.equal(story.nodes.c05.presentation.type, 'record')
+assert.match(story.nodes.c05.heading, /回到现在/)
+assert.equal(story.nodes.c07.presentation.type, 'playback')
+assert.match(story.nodes.c07.presentation.note, /退出回忆/)
 
 let undoState = engine.createState(story.startId, story)
 while (undoState.currentId !== 'q01') undoState = engine.advance(story, undoState)
