@@ -1,15 +1,15 @@
-import { images, videos } from './media-manifest.js?v=12'
+import { images, videos } from './media-manifest.js?v=13'
 
 const evidence = {
-  testimony: { id: 'testimony-board', title: '三份证言', boundary: '能证明三人分别接触过真实的工资、真人和技术建议；不能证明三条承诺来自同一权限身份。' },
-  fullLetter: { id: 'full-letter', title: '完整一期合作函', boundary: '能证明合作期只到五月；不能单独证明二期收费由谁组织。' },
-  consentText: { id: 'consent-text', title: '打码文风样本', boundary: '能提示账号可能由多人使用；不能凭文风直接认定具体操作者。' },
-  registry: { id: 'company-registry', title: '公司公示与机构核验', boundary: '能说明公示范围、订单与授权均不匹配；不能替代警方对资金和人员责任的调查。' },
-  boxMatch: { id: 'box-match', title: '缺角反光条对照', boundary: '能提示同一跑腿链连接三处；不能单独证明姓名、账号操作者或法律责任。' },
-  refund: { id: 'refund-list', title: '退款清单与双账户', boundary: '能看出公司款与个人借款分属两条通道；不能据此确认全部资金终点。' },
-  fakeVideo: { id: 'fake-video', title: '原片与冒名视频', boundary: '能证明林知夏从未说过完整推荐语；内部机位只提示素材来源，不能直接点名制作者。' },
-  replies: { id: 'official-replies', title: '三方具名答复', boundary: '分别限定企业、研究院和学校的授权边界；不对个人罪责作结论。' },
-  consent: { id: 'consent-matrix', title: '公开授权清单', boundary: '明确哪些材料可公开、哪些仅可交银行、学校或警方。' }
+  testimony: { id: 'testimony-board', title: '三份证言', boundary: '真工资、真人见面、真技术建议——三个人各握着一块真的。可三块拼在一起，还缺“今天仍有授权”这一角。' },
+  fullLetter: { id: 'full-letter', title: '完整一期合作函', boundary: '被裁掉的页脚写着“合作期至五月”。它截住了二期借来的信用，还没告诉我是谁在收费。' },
+  consentText: { id: 'consent-text', title: '打码文风样本', boundary: '两种说话习惯已经并排放好。我可以记下“账号异常”，还不能把任何人的名字写在后面。' },
+  registry: { id: 'company-registry', title: '公司公示与机构核验', boundary: '公司找得到，检测资格和研究院订单却找不到。钱和人的最后去向，仍要交给能查后台的人。' },
+  boxMatch: { id: 'box-match', title: '缺角反光条对照', boundary: '同一只箱子把三处画面连上了。排班、账号和后台记录没对完以前，它只是连接线，不是姓名牌。' },
+  refund: { id: 'refund-list', title: '退款清单与双账户', boundary: '公司账上的两笔写进了退款清单，沈舟个人账户里的借款没有。至少有两条钱路，不能只跟着一张表走。' },
+  fakeVideo: { id: 'fake-video', title: '原片与冒名视频', boundary: '原片里我从没说过那句推荐。备用机位出现在伪片里，说明内部素材被碰过；是谁碰的，访问记录才有资格回答。' },
+  replies: { id: 'official-replies', title: '三方具名答复', boundary: '恒微、研究院、学校各自把一句话说清了。它们能拆掉“官方合作”，不能替我给某个人定罪。' },
+  consent: { id: 'consent-matrix', title: '公开授权清单', boundary: '每段截图、录音和回执旁边都有当事人的选择：可公开、只交机构，或者不要使用。' }
 }
 
 function media(key, type = 'image') {
@@ -39,10 +39,10 @@ function ending(id, title, text, education) {
 }
 
 export const fullNodes = {
-  intro01: card('intro01', '调查档案｜你的身份', '你是林知夏，校园媒体学生', '四个月前，你剪过一条校园论坛短片：工资到账、校友宣讲、现场采访都是真的。今天，它被换了标题，出现在一个新的收费项目里。接下来所有判断，都由你以林知夏的视角完成。', 'lin', 'intro02', { kind: 'intro', source: '无剧透背景', progress: 0, orientation: { kicker: '玩家视角', route: '你看到的 = 林知夏此刻能接触到的材料', goal: '通过原始文件、当事人证言和官方渠道，判断每条材料究竟能证明什么' }, nextLabel: '了解案件范围' }),
-  intro02: card('intro02', '已知背景｜四条看似无关的线', '调查提示', '一名新生正准备交实习名额费；一位教师已经支付科研检测款；一名学生因恋爱关系转出借款；一段实时视频正在证明“本人在线”。你还不知道它们是否有关，只能从你亲手取得的材料开始。', 'castReference', 'intro03', { kind: 'intro', source: '无剧透背景', progress: 1, nextLabel: '查看调查工具' }),
-  intro03: card('intro03', '调查工具｜不必一次记住所有内容', '调查提示', '人物首次登场后，底部“人物”会记录头像、公开身份和当前已知信息；项目、机构、科研名词或数字线索首次出现时，会显示“无剧透说明”，并自动收进底部“词条”。遇到名字或概念对不上时，可以随时回来核对。', 'victimMeeting', 'intro04', { kind: 'intro', source: '无剧透背景', progress: 2, nextLabel: '了解证据规则' }),
-  intro04: card('intro04', '游戏规则｜证据有边界', '调查提示', '每次选择都会改变止损时机、证据完整度和公开方式。选择后先看“结果”，再沿具体行动按钮进入下一幕；迷路时可查看底部人物、证据册和状态卡。', 'compare', 'a01', { kind: 'intro', source: '开始调查', progress: 3, orientation: { kicker: '开始前最后提示', route: '看材料 → 作判断 → 查看结果 → 进入下一处现场', goal: '区分“真实发生过”“现在仍获授权”和“能够公开指认”' }, nextLabel: '开始第一幕' }),
+  intro01: card('intro01', '开场｜我剪过的那条片子', '林知夏（内心）', '四个月前，我把工资到账、校友宣讲和现场采访剪进同一条短片。每个镜头都是真的。今天，它换了一个标题，出现在新的付款页旁边。先从我亲手留下的东西查起。', 'lin', 'intro02', { kind: 'intro', source: '知夏的记忆', progress: 0, orientation: { kicker: '我的位置', route: '从我剪过的旧片开始', goal: '这条片子今天又被谁拿来作了什么保证' }, nextLabel: '看看眼前有几条线' }),
+  intro02: card('intro02', '眼前｜四条看似无关的线', '林知夏（内心）', '一个新生停在实习名额费的付款页；一位老师已经付出科研检测款；一名学生借给恋人一万二；还有一张会动、会回答问题的脸。它们也许互不相干。现在还不能替它们连线。', 'castReference', 'intro03', { kind: 'intro', source: '知夏的案前梳理', progress: 1, nextLabel: '整理我的调查桌面' }),
+  intro03: card('intro03', '我的调查桌面', '林知夏（内心）', '人一多，名字就容易串。见过的人，我放进“人物”；一时说不清的项目、机构和行话，我随手记进“手记”。哪天觉得某句话不对，回来翻一眼，也许就能看出它换过意思。', 'victimMeeting', 'intro04', { kind: 'intro', source: '案前准备', progress: 2, nextLabel: '再看一眼证据规则' }),
+  intro04: card('intro04', '动手之前｜给自己三条规矩', '林知夏（内心）', '一，发生过的真事，不替今天的承诺作保。二，看见可疑之处，先记边界，再写名字。三，材料在我手里，也要问过当事人才能公开。每次决定都会留下后果，底部的人物、证据和状态会替我记着。', 'compare', 'a01', { kind: 'intro', source: '知夏的案前准备', progress: 3, orientation: { kicker: '最后看一眼', route: '看材料 → 作判断 → 看后果 → 继续追线', goal: '把“曾经发生”“现在有权”和“可以公开”分开' }, nextLabel: '开始第一幕' }),
 
   q03intro: scene('q03intro', '第三幕｜三种证言', '林知夏（现场记录）', '我关掉摄像机，把授权清单放到桌上。许橙带来一期工资记录，姜宁只展示愿意公开的聊天片段，宋岚带来两张付款回执。她们都说自己认识沈舟。', 'roundtablePlayer', 'q03voices', { chapter: 3, time: '9月24日上午', place: '校园活动室', source: '现场', progress: 20, orientation: { kicker: '转场｜第二天上午', route: '单独求证 → 经同意的三人座谈', goal: '比较三个人各自认识的“沈舟”，找出真经历如何共同支撑了一个假结论' }, nextLabel: '听三人的开场陈述' }),
   q03voices: card('q03voices', '同一张脸，三种认识', '座谈摘录', '一期实习生许橙：“我拿到过工资，也被移出过群。”　宋岚的研究生姜宁：“我见过他本人，也听过他说漏嘴。”　教师宋岚：“他的分析帮过我，也可能骗了我。”', 'victimMeeting', 'q03', { source: '当事人证言', progress: 22, onEnter: { evidence: [evidence.testimony] } }),

@@ -1,11 +1,11 @@
-import { images, videos } from './media-manifest.js?v=12'
-import { fullNodes, earlyProgress } from './full-story.js?v=12'
+import { images, videos } from './media-manifest.js?v=13'
+import { fullNodes, earlyProgress } from './full-story.js?v=13'
 
 const evidence = {
-  oldClip: { id: 'old-clip', title: '五月旧片', boundary: '能证明一期发过工资、沈舟本人参加过讲座；不能证明二期有岗位或科研检测获授权。' },
-  signup: { id: 'signup-page', title: '二期报名页', boundary: '能证明收费话术、金额和收款户名；不能证明岗位一定兑现。' },
-  contract: { id: 'research-contract', title: '外协合同与回执', boundary: '能证明星桥收款及学校付款流程；不能证明研究院存在订单或星桥有检测资质。' },
-  emptyBox: { id: 'empty-box', title: '未启封采样盒', boundary: '能证明有人试图推进取样流程；不能单独证明跑腿员身份和法律责任。' }
+  oldClip: { id: 'old-clip', title: '五月旧片', boundary: '片子能对上五月的一期工资和沈舟的讲座。镜头里没有二期岗位，也没有后来那笔检测委托。' },
+  signup: { id: 'signup-page', title: '二期报名页', boundary: '金额、倒计时和收款户名都留在页面上。至于岗位会不会出现，页面自己回答不了。' },
+  contract: { id: 'research-contract', title: '外协合同与回执', boundary: '学校确实走了付款流程，星桥也确实收了钱。可订单号那一栏仍是空的，研究院还没有开口。' },
+  emptyBox: { id: 'empty-box', title: '未启封采样盒', boundary: '盒子到了，样品还在宋老师手里。送盒子的人是谁、替谁来，镜头没有拍清。' }
 }
 
 function scene(id, heading, speaker, text, mediaKey, next, extra) {

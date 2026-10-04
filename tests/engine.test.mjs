@@ -29,6 +29,8 @@ assert.deepEqual(notesForNode('a03').map(item => item.id), ['phase-one', 'phase-
 for (const required of ['old-film', 'liang', 'shen', 'song', 'xu', 'jiang', 'lu', 'tang', 'digital-double', 'publication-consent']) {
   assert.ok(glossary.some(item => item.id === required), `missing first-appearance explanation: ${required}`)
 }
+const outOfGamePhrases = /玩家当前|本幕需要|需要继续核对|不能单独证明|无剧透说明/
+glossary.forEach(item => assert.doesNotMatch(item.text, outOfGamePhrases, `out-of-game wording in ${item.id}`))
 
 let undoState = engine.createState(story.startId, story)
 while (undoState.currentId !== 'q01') undoState = engine.advance(story, undoState)

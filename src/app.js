@@ -1,9 +1,9 @@
-import story from './data/story.js?v=12'
-import * as engine from './core/engine.js?v=12'
-import * as storage from './core/storage.js?v=12'
-import { takes, enabledByDefault } from './data/audio-manifest.js?v=12'
-import { unlockedCharacters } from './data/characters.js?v=12'
-import { notesForNode, unlockedGlossary } from './data/glossary.js?v=12'
+import story from './data/story.js?v=13'
+import * as engine from './core/engine.js?v=13'
+import * as storage from './core/storage.js?v=13'
+import { takes, enabledByDefault } from './data/audio-manifest.js?v=13'
+import { unlockedCharacters } from './data/characters.js?v=13'
+import { notesForNode, unlockedGlossary } from './data/glossary.js?v=13'
 
 const $ = id => document.getElementById(id)
 const ui = {
@@ -139,16 +139,16 @@ function renderContextNotes(node) {
 }
 
 const presentationTypes = {
-  intro: { icon: '◎', label: '背景简报', note: '进入案件前的已知信息' },
-  dialogue: { icon: '●', label: '现场对话', note: '角色正在当面或实时说话' },
-  thought: { icon: '◌', label: '内心独白', note: '林知夏此刻的观察与判断' },
-  narration: { icon: '◇', label: '场景叙述', note: '玩家当前能够观察到的情况' },
-  record: { icon: '▤', label: '调查记录', note: '已取得的材料、核对或处置结果' },
-  chat: { icon: '▣', label: '聊天记录', note: '正在查看经授权或已保存的屏幕材料' },
-  playback: { icon: '▶', label: '影像回放', note: '正在查看此前留下的视频或监控记录' },
-  flashback: { icon: '↶', label: '回忆重现', note: '根据角色证言重现，并非同期录像' },
-  decision: { icon: '?', label: '调查决策', note: '你的选择将改变止损、证据或公开方式' },
-  ending: { icon: '◆', label: '调查结局', note: '本轮选择共同形成的结果' }
+  intro: { icon: '◎', label: '案前', note: '先把我手里的情况捋一遍' },
+  dialogue: { icon: '●', label: '现场', note: '这句话正在我面前发生' },
+  thought: { icon: '◌', label: '知夏心声', note: '这是我的判断，还不是结论' },
+  narration: { icon: '◇', label: '眼前', note: '我现在能看到的情况' },
+  record: { icon: '▤', label: '入档', note: '刚拿到的材料，先原样记下' },
+  chat: { icon: '▣', label: '屏幕记录', note: '保存下来的聊天内容' },
+  playback: { icon: '▶', label: '倒回去看', note: '旧画面里也许还漏了什么' },
+  flashback: { icon: '↶', label: '她的回忆', note: '这是当事人记得的版本，不是录像' },
+  decision: { icon: '?', label: '下一步', note: '轮到我决定先做什么' },
+  ending: { icon: '◆', label: '落点', note: '一路选择把事情带到了这里' }
 }
 
 function resolvePresentation(node) {
@@ -206,7 +206,7 @@ function renderOrientation(node) {
   if (!guide) return
   ui.orientationKicker.textContent = guide.kicker || '调查路标'
   ui.orientationRoute.textContent = guide.route || ''
-  ui.orientationGoal.textContent = guide.goal ? `本段目标：${guide.goal}` : ''
+  ui.orientationGoal.textContent = guide.goal ? `我得弄清：${guide.goal}` : ''
 }
 
 function renderEnding(node) {
@@ -412,12 +412,12 @@ function openDrawer(type) {
   const isCharacters = type === 'characters'
   const isGlossary = type === 'glossary'
   const items = type === 'evidence' ? state.evidence : (isCharacters ? unlockedCharacters(state.visited) : (isGlossary ? unlockedGlossary(state.visited) : statusCards()))
-  ui.drawerTitle.textContent = type === 'evidence' ? '证据册' : (isCharacters ? '人物档案' : (isGlossary ? '已解锁词条' : '调查状态'))
+  ui.drawerTitle.textContent = type === 'evidence' ? '证据册' : (isCharacters ? '人物档案' : (isGlossary ? '知夏的调查手记' : '调查状态'))
   ui.drawerBody.replaceChildren()
   if (!items.length) {
     const empty = document.createElement('p')
     empty.className = 'empty'
-    empty.textContent = type === 'evidence' ? '推进剧情后，证据会出现在这里。' : (isCharacters ? '人物会在首次登场后加入档案。' : (isGlossary ? '新人物和名词首次出现后，会自动收录在这里。' : '作出选择后，处置状态会在这里更新。'))
+    empty.textContent = type === 'evidence' ? '还没有能放进证据册的材料。' : (isCharacters ? '等我真正见到或听说一个人，再把他写进来。' : (isGlossary ? '现在还是空白。遇到陌生名字时，我会记在这里。' : '做出选择后，我会把造成的变化记在这里。'))
     ui.drawerBody.append(empty)
   } else if (isCharacters) {
     const list = document.createElement('div')
