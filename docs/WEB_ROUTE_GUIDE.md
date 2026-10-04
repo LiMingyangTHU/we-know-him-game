@@ -54,7 +54,7 @@
 
 1. 每个主要角色先做 2 段盲听样音，确定音色、语速和情绪范围。
 2. 每句台词生成独立文件，文件名使用节点 ID，例如 `a01.mp3`。
-3. 在 `audio-manifest.js` 填写 `src` 和实际 `durationMs`。
+3. 在 `audio-manifest.js` 填写 `src` 和实际 `durationMs`。未填写时，游戏按角色音色表调用设备上的中文自然语音。
 4. 分离旁白、人物对白、环境声和提示音；提供统一音量标准。
 5. 浏览器首次播放必须由用户点击触发，之后才允许自动续播。
 
@@ -81,7 +81,7 @@
 - 网页端是主版本，后续不再手工同步小程序 WXML。
 - 剧情文字只改 `src/data/story.js`。
 - 画面只改 `media-manifest.js` 与 `assets/`。
-- 配音只改 `audio-manifest.js` 与 `assets/audio/`。
+- 配音与音乐只改 `audio-manifest.js` 与 `assets/audio/`。对白播放时，背景音乐会自动降低音量。
 - 每次更新 Service Worker 缓存内容时递增缓存版本号。
 - 发布前保留一个可回退压缩包，文件名包含日期和版本号。
 

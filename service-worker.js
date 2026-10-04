@@ -1,8 +1,9 @@
-const CACHE = 'we-know-him-web-v15'
+const CACHE = 'we-know-him-web-v16'
 const APP_SHELL = [
   './', './index.html', './styles.css', './manifest.webmanifest',
   './src/app.js', './src/core/engine.js', './src/core/storage.js',
   './src/data/story.js', './src/data/full-story.js', './src/data/media-manifest.js', './src/data/audio-manifest.js', './src/data/characters.js', './src/data/glossary.js', './src/data/player-copy.js',
+  './assets/audio/bgm-inquiry.mp3', './assets/audio/bgm-pressure.mp3', './assets/audio/bgm-truth.mp3', './assets/audio/bgm-aftermath.mp3',
   './icons/icon-192.png', './icons/icon-512.png',
   './assets/images/lin-message-v2.webp', './assets/images/lin-phone-natural-v4.webp', './assets/images/liang-deadline-v2.webp',
   './assets/images/song-receipts-v2.webp', './assets/images/runner-box-v2.webp',

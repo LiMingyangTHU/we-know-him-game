@@ -1,7 +1,7 @@
 import story from './data/story.js?v=15'
 import * as engine from './core/engine.js?v=15'
 import * as storage from './core/storage.js?v=15'
-import { takes, enabledByDefault } from './data/audio-manifest.js?v=15'
+import { takes, musicTracks, musicKeyForNode, voiceProfileForSpeaker, enabledByDefault } from './data/audio-manifest.js?v=16'
 import { unlockedCharacters } from './data/characters.js?v=15'
 import { notesForNode, unlockedGlossary } from './data/glossary.js?v=15'
 import { presentNode } from './data/player-copy.js?v=15'
@@ -25,8 +25,13 @@ const ui = {
 }
 
 let state = null
-let audioEnabled = enabledByDefault
-let audio = new Audio()
+let audioEnabled = localStorage.getItem('audioEnabled') === 'true' || enabledByDefault
+const voiceAudio = new Audio()
+const musicAudio = new Audio()
+musicAudio.loop = true
+musicAudio.preload = 'auto'
+let currentMusicKey = ''
+let musicFadeTimer = null
 let toastTimer = null
 let transitionTimer = null
 let lastPresentation = null
@@ -56,7 +61,7 @@ function showToast(text) {
 }
 
 function showHome() {
-  stopAudio()
+  stopAllAudio()
   ui.game.classList.add('hidden')
   ui.home.classList.remove('hidden')
   const saved = storage.load()
@@ -79,7 +84,7 @@ function showGame(nextState) {
 function commit(nextState) {
   state = nextState
   storage.save(state)
-  stopAudio()
+  stopVoice()
   render(story.nodes[state.currentId])
 }
 
@@ -116,10 +121,11 @@ function render(node) {
   ui.skipIntro.classList.toggle('hidden', node.kind !== 'intro')
   if (isEnd) renderEnding(viewNode)
 
-  const take = takes[node.audioId] || {}
-  ui.audioButton.classList.toggle('disabled', !take.src)
-  ui.audioButton.textContent = audioEnabled && take.src ? '声' : '静'
-  if (audioEnabled && take.src) playAudio(take.src)
+  const canSpeak = Boolean(takes[node.audioId]?.src || voiceProfileForSpeaker(viewNode.speaker))
+  ui.audioButton.classList.toggle('disabled', !canSpeak && !musicTracks[musicKeyForNode(node)])
+  ui.audioButton.textContent = audioEnabled ? '声' : '静'
+  ui.audioButton.title = audioEnabled ? '关闭配音与背景音乐' : '开启配音与背景音乐'
+  syncAudioForNode(node, viewNode)
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
@@ -483,14 +489,101 @@ function closeDrawer() {
   ui.drawer.setAttribute('aria-hidden', 'true')
 }
 
-function playAudio(src) {
-  audio.src = src
-  audio.play().catch(() => showToast('声音没有自动播放，再点一次“声”就好。'))
+function fadeMusicTo(target, duration = 260) {
+  clearInterval(musicFadeTimer)
+  const start = musicAudio.volume
+  const began = performance.now()
+  musicFadeTimer = setInterval(() => {
+    const ratio = Math.min(1, (performance.now() - began) / duration)
+    musicAudio.volume = start + (target - start) * ratio
+    if (ratio >= 1) clearInterval(musicFadeTimer)
+  }, 25)
 }
 
-function stopAudio() {
-  audio.pause()
-  audio.currentTime = 0
+function restoreMusic() {
+  const track = musicTracks[currentMusicKey]
+  if (audioEnabled && track) fadeMusicTo(track.volume, 320)
+}
+
+function playMusicForNode(node) {
+  const key = musicKeyForNode(node)
+  const track = musicTracks[key]
+  if (!track || !audioEnabled) return
+  if (currentMusicKey === key && musicAudio.src) {
+    musicAudio.play().catch(() => {})
+    return
+  }
+  currentMusicKey = key
+  clearInterval(musicFadeTimer)
+  musicAudio.pause()
+  musicAudio.src = track.src
+  musicAudio.volume = 0
+  musicAudio.play().then(() => fadeMusicTo(track.volume, 700)).catch(() => {
+    showToast('浏览器拦住了声音，再点一次“静”即可开启。')
+  })
+}
+
+function selectVoice(profile) {
+  const voices = window.speechSynthesis?.getVoices?.() || []
+  for (const token of profile.preferredVoices) {
+    const voice = voices.find(item => item.name.toLowerCase().includes(token.toLowerCase()))
+    if (voice) return voice
+  }
+  return voices.find(item => /^zh[-_]/i.test(item.lang)) || null
+}
+
+function speakWithBrowser(text, profile) {
+  if (!window.speechSynthesis || !window.SpeechSynthesisUtterance || !text) return false
+  window.speechSynthesis.cancel()
+  const utterance = new SpeechSynthesisUtterance(text)
+  const voice = selectVoice(profile)
+  if (voice) utterance.voice = voice
+  utterance.lang = voice?.lang || 'zh-CN'
+  utterance.rate = profile.rate
+  utterance.pitch = profile.pitch
+  utterance.volume = profile.volume
+  utterance.onstart = () => fadeMusicTo(0.07, 180)
+  utterance.onend = restoreMusic
+  utterance.onerror = restoreMusic
+  window.speechSynthesis.speak(utterance)
+  return true
+}
+
+function playRecordedVoice(src) {
+  voiceAudio.src = src
+  voiceAudio.onplay = () => fadeMusicTo(0.07, 180)
+  voiceAudio.onended = restoreMusic
+  voiceAudio.onerror = restoreMusic
+  voiceAudio.play().catch(() => showToast('浏览器拦住了配音，再点一次“静”即可开启。'))
+}
+
+function playVoiceForNode(node, viewNode) {
+  if (!audioEnabled) return
+  const take = takes[node.audioId] || {}
+  if (take.src) return playRecordedVoice(take.src)
+  const profile = voiceProfileForSpeaker(viewNode.speaker)
+  if (profile) speakWithBrowser(viewNode.text, profile)
+}
+
+function syncAudioForNode(node, viewNode) {
+  if (!audioEnabled) return
+  playMusicForNode(node)
+  playVoiceForNode(node, viewNode)
+}
+
+function stopVoice() {
+  voiceAudio.pause()
+  voiceAudio.currentTime = 0
+  if (window.speechSynthesis) window.speechSynthesis.cancel()
+  restoreMusic()
+}
+
+function stopAllAudio() {
+  stopVoice()
+  clearInterval(musicFadeTimer)
+  musicAudio.pause()
+  musicAudio.currentTime = 0
+  currentMusicKey = ''
 }
 
 ui.continue.addEventListener('click', () => showGame(storage.load()))
@@ -509,11 +602,18 @@ ui.drawerClose.addEventListener('click', closeDrawer)
 ui.drawerMask.addEventListener('click', closeDrawer)
 ui.confirm.addEventListener('close', () => { if (ui.confirm.returnValue === 'confirm') restart() })
 ui.audioButton.addEventListener('click', () => {
-  const take = takes[story.nodes[state.currentId]?.audioId] || {}
-  if (!take.src) return showToast('这段记录还没有声音，先看文字。')
   audioEnabled = !audioEnabled
+  localStorage.setItem('audioEnabled', String(audioEnabled))
   ui.audioButton.textContent = audioEnabled ? '声' : '静'
-  audioEnabled ? playAudio(take.src) : stopAudio()
+  ui.audioButton.title = audioEnabled ? '关闭配音与背景音乐' : '开启配音与背景音乐'
+  if (audioEnabled) {
+    const node = story.nodes[state.currentId]
+    syncAudioForNode(node, presentNode(node))
+    showToast('声音已开启：对白时背景音乐会自动降低。')
+  } else {
+    stopAllAudio()
+    showToast('声音已关闭。')
+  }
 })
 window.addEventListener('keydown', event => {
   if (event.key === 'Escape') closeDrawer()
