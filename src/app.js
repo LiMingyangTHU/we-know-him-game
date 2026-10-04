@@ -1,10 +1,10 @@
-import story from './data/story.js?v=14'
-import * as engine from './core/engine.js?v=14'
-import * as storage from './core/storage.js?v=14'
-import { takes, enabledByDefault } from './data/audio-manifest.js?v=14'
-import { unlockedCharacters } from './data/characters.js?v=14'
-import { notesForNode, unlockedGlossary } from './data/glossary.js?v=14'
-import { presentNode } from './data/player-copy.js?v=14'
+import story from './data/story.js?v=15'
+import * as engine from './core/engine.js?v=15'
+import * as storage from './core/storage.js?v=15'
+import { takes, enabledByDefault } from './data/audio-manifest.js?v=15'
+import { unlockedCharacters } from './data/characters.js?v=15'
+import { notesForNode, unlockedGlossary } from './data/glossary.js?v=15'
+import { presentNode } from './data/player-copy.js?v=15'
 
 const $ = id => document.getElementById(id)
 const ui = {
@@ -34,7 +34,7 @@ let lastPresentation = null
 const flagLabels = {
   PREWARN: value => value ? '我先发出了付款风险提醒' : '我先留证，公开提醒晚了一步',
   EARLY: value => value ? '我尽早核验并咨询了止付' : '我等过补充材料，处置晚了几小时',
-  JOB: value => value ? '我及时找到了一期授权期限' : '我等企业回信时，截图仍在传播',
+  JOB: value => value ? '我及时找到了第1期实习授权期限' : '我等企业回信时，截图仍在传播',
   TRUST: value => value ? '我只留下姜宁授权的打码片段' : '我只记匿名时间线，没有保留私聊',
   RESEARCH: value => value ? '我和宋老师停下交接，封存样品' : '我多留了一段通话，正规安排晚了',
   HIDDEN: value => value ? '我只标连接线索，把责任留待核查' : '我曾过早点名，删帖也收不回截图',

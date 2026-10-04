@@ -36,6 +36,8 @@ glossary.forEach(item => assert.doesNotMatch(item.text, outOfGamePhrases, `out-o
 
 const productionCodes = /(?:Q\d{2}|E\d+)/
 const productionWording = /玩家|本轮结局|游戏内演示|选择结果|待导入/
+const obsoletePhaseShorthand = /一期|二期/
+const colloquialMoney = /十三万八|九万四千二|七万五千六|四万三千八|一万八千六|一万二/
 const allowedVoice = /^(林知夏|梁一舟|宋岚|沈舟|许橙|姜宁|陆鸣|周衡|唐遇|视频里的沈舟)/
 for (const node of Object.values(story.nodes)) {
   const view = presentNode(node)
@@ -43,6 +45,17 @@ for (const node of Object.values(story.nodes)) {
     if (!value) continue
     assert.doesNotMatch(value, productionCodes, `${node.id}.${field} leaks an internal route code`)
     assert.doesNotMatch(value, productionWording, `${node.id}.${field} uses production-facing wording`)
+    assert.doesNotMatch(value, obsoletePhaseShorthand, `${node.id}.${field} uses ambiguous phase shorthand`)
+    assert.doesNotMatch(value, colloquialMoney, `${node.id}.${field} uses a colloquial money amount`)
+  }
+  for (const option of node.options || []) {
+    assert.doesNotMatch(option.text, obsoletePhaseShorthand, `${node.id} option uses ambiguous phase shorthand`)
+    assert.doesNotMatch(option.text, colloquialMoney, `${node.id} option uses a colloquial money amount`)
+  }
+  for (const message of view.media?.messages || []) {
+    const value = `${message.text || ''}${message.attachment?.title || ''}${message.attachment?.note || ''}`
+    assert.doesNotMatch(value, obsoletePhaseShorthand, `${node.id} chat uses ambiguous phase shorthand`)
+    assert.doesNotMatch(value, colloquialMoney, `${node.id} chat uses a colloquial money amount`)
   }
   for (const [field, value] of Object.entries({ orientationKicker: view.orientation?.kicker, orientationRoute: view.orientation?.route, orientationGoal: view.orientation?.goal, mediaAlt: view.media?.alt })) {
     if (!value) continue
@@ -59,12 +72,20 @@ for (const node of Object.values(story.nodes)) {
     assert.match(view.education, /我/, `${node.id} ending reflection is not Lin Zhixia's voice`)
   }
 }
+assert.match(story.nodes.c02b.text, /7\.56万元.*1\.86万元.*9\.42万元/)
+assert.match(story.nodes.c11.text, /13\.8万元.*7\.56万元.*1\.86万元.*9\.42万元.*4\.38万元/)
 assert.equal(presentNode(story.nodes.q01).heading, '旧片的新名字')
 assert.equal(presentNode(story.nodes.b1a3).heading, '梁一舟暂停付款')
 assert.equal(presentNode(story.nodes.e1).heading, '看见隐形人')
 characters.forEach(person => {
   assert.doesNotMatch(`${person.role}${person.known}`, productionWording, `${person.id} profile uses production-facing wording`)
+  assert.doesNotMatch(`${person.role}${person.known}`, obsoletePhaseShorthand, `${person.id} profile uses ambiguous phase shorthand`)
+  assert.doesNotMatch(`${person.role}${person.known}`, colloquialMoney, `${person.id} profile uses a colloquial money amount`)
   assert.match(person.known, /我/, `${person.id} profile is not written from Lin Zhixia's perspective`)
+})
+glossary.forEach(item => {
+  assert.doesNotMatch(`${item.category}${item.title}${item.text}`, obsoletePhaseShorthand, `${item.id} glossary entry uses ambiguous phase shorthand`)
+  assert.doesNotMatch(`${item.category}${item.title}${item.text}`, colloquialMoney, `${item.id} glossary entry uses a colloquial money amount`)
 })
 
 let undoState = engine.createState(story.startId, story)
