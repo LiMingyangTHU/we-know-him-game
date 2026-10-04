@@ -1,4 +1,4 @@
-import { images, videos } from './media-manifest.js?v=8'
+import { images, videos } from './media-manifest.js?v=9'
 
 const evidence = {
   testimony: { id: 'testimony-board', title: '三份证言', boundary: '能证明三人分别接触过真实的工资、真人和技术建议；不能证明三条承诺来自同一权限身份。' },
@@ -26,12 +26,16 @@ function card(id, heading, speaker, text, key, next, extra = {}) {
   return { id, kind: 'card', heading, speaker, text, media: media(key), audioId: id, next, ...extra }
 }
 
-function question(id, questionId, heading, text, key, progress, options) {
-  return { id, kind: 'choice', questionId, heading, speaker: '调查选择', text, media: media(key), progress, options }
+function question(id, questionId, heading, text, key, progress, options, extra = {}) {
+  return { id, kind: 'choice', questionId, heading, speaker: '调查选择', text, media: media(key), progress, options, ...extra }
 }
 
 function ending(id, title, text, education) {
-  return { id, kind: 'ending', endingId: id.toUpperCase(), heading: title, speaker: '本轮结局', text, education, media: media('end'), progress: 100 }
+  const endingMedia = {
+    e1: 'endingClear', e2: 'endingClear', e3: 'linFinalEdit',
+    e4: 'endingWitnessExit', e5: 'linFakeVideo', e6: 'linFakeVideo'
+  }
+  return { id, kind: 'ending', endingId: id.toUpperCase(), heading: title, speaker: '本轮结局', text, education, media: media(endingMedia[id] || 'end'), progress: 100 }
 }
 
 export const fullNodes = {
@@ -47,7 +51,7 @@ export const fullNodes = {
     { letter: 'B', text: '先听姜宁：真正见过本人的交往经历', next: 'q03b' },
     { letter: 'C', text: '先听宋岚：真正有效的技术建议', next: 'q03c' }
   ]),
-  q03a: card('q03a', '先听许橙', '许橙', '“五月十七日工资真的到账了。所以六月二期收费时，我没怀疑。我还把一期推荐给过学弟——二期四个月没消息，我才不敢继续沉默。”', 'group', 'q03all', { source: '第一证言', progress: 24 }),
+  q03a: card('q03a', '先听许橙', '许橙', '“五月十七日工资真的到账了。所以六月二期收费时，我没怀疑。我还把一期推荐给过学弟——二期四个月没消息，我才不敢继续沉默。”', 'xuSalary', 'q03all', { source: '第一证言', progress: 24 }),
   q03b: card('q03b', '先听姜宁', '姜宁', '“五月以后我每月都见过他。他不是纯网络里的假人。九月二十日吃饭，他突然提到宋老师的返修——我从没告诉过他我是谁的学生。”', 'jiangConsent', 'q03all', { source: '第一证言', progress: 24 }),
   q03c: card('q03c', '先听宋岚', '宋岚', '“那张分析图确实帮我少走过弯路。也正因为这样，我没再追问：他现在到底有没有权限替研究院接单。”', 'song', 'q03all', { source: '第一证言', progress: 24 }),
   q03all: card('q03all', '三段证言全部保留', '林知夏（内心）', '真工资、真人见面、真技术建议。每一句都可能是真的；它们拼在一起，却不能自动生成一份今天仍有效的授权。', 'victimMeeting', 'q04intro', { source: '证言对照', progress: 26 }),
@@ -61,32 +65,54 @@ export const fullNodes = {
   q04a: card('q04a', 'Q04 A｜先拼原页', '核对结果', '完整页下缘写着“合作期至五月”。一名正要付款的学生据此暂缓；企业正式回复仍需等待。', 'safe1', 'q05intro', { source: '选择结果', progress: 33 }),
   q04b: card('q04b', 'Q04 B｜等待权威书面回复', '邮箱回执', '企业自动回复“一个工作日内处理”。证据将更权威；等待期间，被裁切的真函继续以“官方合作”名义传播，一名学生先付款。', 'wait1', 'q05intro', { source: '选择结果', progress: 33 }),
 
-  q05intro: card('q05intro', '第五幕｜真人账号里的两种人', '姜宁', '“九月十七日他借一万二，说课题结题款被卡住，三天就还。后来我才想起，那个课题去年已经结题。”', 'jiangConsent', 'q05clue', { chapter: 5, time: '9月24日上午', place: '活动室', source: '有限证言', progress: 34 }),
-  q05clue: card('q05clue', '一句不该知道的话', '姜宁', '“九月二十日吃饭，他忽然说‘你们宋老师的返修，检测位我帮你盯着’。我没告诉过他导师是谁，但朋友圈里有课题组合影，我也抱怨过导师被返修折腾。”', 'jiangConsent', 'q05', { source: '当事人证言', progress: 36 }),
-  q05: question('q05', 'Q05', 'Q05｜验证账号是否多人使用', '姜宁愿意说明借款，但不愿公开全部聊天。你怎样验证“账号不止一双手”？', 'jiangConsent', 37, [
+  q05intro: card('q05intro', '第五幕｜真人账号里的两种人', '姜宁', '“前面一直像正常交往。到了借钱那晚，同一个账号突然换了说话习惯：不写句号、连发短句，还总用波浪号催我。”', 'jiangConsent', 'q05clue', { chapter: 5, time: '9月24日上午', place: '活动室', source: '当事人授权节选', progress: 34, media: { type: 'chat', title: '沈舟', subtitle: '经姜宁授权的打码节选', messages: [
+    { time: '5月26日 22:18', side: 'received', name: '沈舟', avatar: '沈', text: '这组曲线先不要截断。把空白对照和原始文件一起发我。' },
+    { side: 'received', name: '沈舟', avatar: '沈', text: '今天看你没怎么吃东西。到宿舍后告诉我一声。' },
+    { time: '9月17日 23:08', side: 'received', name: '沈舟', avatar: '沈', text: '宝 睡了吗' },
+    { side: 'received', name: '沈舟', avatar: '沈', text: '临时周转一下嘛～' },
+    { side: 'received', name: '沈舟', avatar: '沈', text: '12000 三天就还你' },
+    { side: 'sent', name: '姜宁', avatar: '姜', text: '什么课题这么急？' },
+    { side: 'received', name: '沈舟', avatar: '沈', text: '别担心呀～' }
+  ] } }),
+  q05clue: card('q05clue', '一句不该知道的话', '姜宁', '“更奇怪的是，他后来主动提到宋老师的返修。我没有告诉过他导师是谁。”', 'jiangConsent', 'q05', { source: '当事人授权节选', progress: 36, media: { type: 'chat', title: '沈舟', subtitle: '9月20日聊天节选', messages: [
+    { time: '9月20日 19:46', side: 'received', name: '沈舟', avatar: '沈', text: '你们宋老师的返修，检测位我帮你盯着。' },
+    { side: 'sent', name: '姜宁', avatar: '姜', text: '你怎么知道我是宋老师的学生？' },
+    { side: 'received', name: '沈舟', avatar: '沈', text: '朋友圈不是有合影嘛' },
+    { side: 'received', name: '沈舟', avatar: '沈', text: '别多想～' }
+  ] } }),
+  q05: question('q05', 'Q05', 'Q05｜验证账号是否多人使用', '同一账号前期常用完整长句和句号，借款时却变成秒回短句、空格和波浪号。姜宁不愿公开全部聊天，你怎样继续验证？', 'jiangConsent', 37, [
     { letter: 'A', text: '由她自选并打码片段，本地比较文风与回复时段，发布前逐句确认', next: 'q05a', effects: { flags: { TRUST: 1 }, evidence: [evidence.consentText] } },
     { letter: 'B', text: '不用文本工具，只把她口述的时间矛盾记成匿名证言', next: 'q05b', effects: { flags: { TRUST: 0 } } }
-  ]),
-  q05a: card('q05a', 'Q05 A｜本地打码分析', '分析结果', '技术话题回复慢、长句、少标点；排期与汇款话题秒回、短句、常用波浪号。结果只写“存在文风差异”，不上传原文，也不指认操作者。', 'safe2', 'q06intro', { source: '经授权的线索', progress: 40 }),
+  ], { media: { type: 'chat', title: '文风对照', subtitle: '只显示已获授权片段', system: '相同头像与账号，不等于始终由同一人操作', messages: [
+    { time: '技术话题｜平均18分钟回复', side: 'received', name: '沈舟', avatar: '沈', text: '先保留原始数据。误差来源需要逐项排除。' },
+    { time: '借款话题｜连续秒回', side: 'received', name: '沈舟', avatar: '沈', text: '宝 在吗' },
+    { side: 'received', name: '沈舟', avatar: '沈', text: '就周转三天～' },
+    { side: 'received', name: '沈舟', avatar: '沈', text: '现在转一下嘛～' }
+  ] } }),
+  q05a: card('q05a', 'Q05 A｜本地打码分析', '分析结果', '技术话题回复较慢，习惯完整长句和句号；借款话题连续秒回，常省略标点并使用空格和波浪号。结论只写“存在显著文风差异”，不上传原文，也不指认具体操作者。', 'safe2', 'q06intro', { source: '经授权的线索', progress: 40, media: { type: 'chat', title: '本地文风对照', subtitle: '结论不上传原始私聊', system: '只能说明账号使用方式异常，不能单凭文风给具体人员定责', messages: [
+    { side: 'received', name: '样本A｜技术话题', avatar: 'A', text: '先保留原始数据。误差来源需要逐项排除。' },
+    { side: 'received', name: '样本B｜借款话题', avatar: 'B', text: '宝 在吗' },
+    { side: 'received', name: '样本B｜借款话题', avatar: 'B', text: '现在转一下嘛～' }
+  ] } }),
   q05b: card('q05b', 'Q05 B｜只留匿名时间线', '记录范围', '采访只保留时间矛盾和匿名证言。姜宁暴露更少，也意味着公开视频不会出现聊天对照；她仍可以独立报案。', 'preserve', 'q06intro', { source: '隐私优先', progress: 40 }),
 
-  q06intro: scene('q06intro', '第六幕｜屏幕里那张脸', '取样确认回放', '屏幕里的“沈舟”知道论文期限、样品类别和上次讨论内容；门外跑腿员举着同一张脸的手机，拇指却在另一台设备上移动。', 'sampleConfirm', 'q06registry', { chapter: 6, time: '9月24日中午', place: '材料实验室', source: '游戏内演示', progress: 41 }),
+  q06intro: scene('q06intro', '第六幕｜屏幕里那张脸', '取样确认回放', '屏幕里的“沈舟”知道论文期限、样品类别和上次讨论内容；门外跑腿员举着同一张脸的手机，拇指却在另一台设备上移动。', 'aiIdentityCheck', 'q06registry', { chapter: 6, time: '9月24日中午', place: '材料实验室', source: '游戏内演示', progress: 41 }),
   q06registry: card('q06registry', '公司存在，权限不存在', '公开信息核对', '星桥注册仅半年，公示范围包含技术咨询和会议服务，没有对应检测资质公示；研究院官网也查不到这笔订单。', 'verifyOfficial', 'q06', { source: '官方渠道', progress: 43, onEnter: { evidence: [evidence.registry] } }),
-  q06: question('q06', 'Q06', 'Q06｜继续交接还是继续核验', '视频里的脸对答如流，壳公司的合同却接不了检测。你如何继续？', 'sampleConfirm', 44, [
+  q06: question('q06', 'Q06', 'Q06｜继续交接还是继续核验', '视频里的脸对答如流，壳公司的合同却接不了检测。你如何继续？', 'aiIdentityCheck', 44, [
     { letter: 'A', text: '停止交接，核验订单账户与资质，封存样品和空盒，并向期刊申请延期', next: 'q06a', effects: { flags: { RESEARCH: 1 } } },
     { letter: 'B', text: '再接一次视频，把订单号、地址和取样授权逐项问清并录下承诺', next: 'q06b', effects: { flags: { RESEARCH: 0 } } }
   ]),
   q06a: card('q06a', 'Q06 A｜先停交接', '宋岚', '“先停。样品封起来，尾款不付，延期邮件我现在就发。被骗经过和补救过程，也得如实写进说明。”', 'verifyOfficial', 'q07intro', { source: '选择结果', progress: 47 }),
   q06b: card('q06b', 'Q06 B｜再录一段承诺', '第二次通话', '对方给出更明确的地址和授权承诺，却仍没有可独立核验的订单号。通话成为新证据；正规检测安排又晚了数小时。', 'shencall', 'q07intro', { source: '选择结果', progress: 47 }),
 
-  q07intro: card('q07intro', '第七幕｜隐形人', '四格回放', '论坛两个机位、咖啡店窗外、实验楼门口：三处画面边缘都出现一只橙色反光条缺角的配送箱。此前所有人都只盯着画面中央的脸。', 'deliveryBoxRef', 'q07name', { chapter: 7, time: '9月24日下午', place: '媒体办公室', source: '找相同', progress: 48 }),
+  q07intro: card('q07intro', '第七幕｜隐形人', '四格回放', '论坛两个机位、咖啡店窗外、实验楼门口：三处画面边缘都出现一只橙色反光条缺角的配送箱。此前所有人都只盯着画面中央的脸。', 'evidenceWall', 'q07name', { chapter: 7, time: '9月24日下午', place: '媒体办公室', source: '找相同', progress: 48 }),
   q07name: card('q07name', '排班表给出一个名字', '陆鸣', '“五月论坛物料栏签的是唐遇。五月是普通工单，六月以后社团又见过他。但共享文件和账号记录，还得由学校、平台和警方依法核。”', 'runnerBox', 'q07', { source: '排班记录', progress: 51, onEnter: { evidence: [evidence.boxMatch] } }),
-  q07: question('q07', 'Q07', 'Q07｜线索还是定罪', '三个场景都出现同一只缺角反光条的配送箱。现有材料能得出什么？', 'deliveryBoxRef', 52, [
+  q07: question('q07', 'Q07', 'Q07｜线索还是定罪', '三个场景都出现同一只缺角反光条的配送箱。现有材料能得出什么？', 'evidenceWall', 52, [
     { letter: 'A', text: '公开认定跑腿员就是唐遇，也是所有线上消息与AI视频的操作者', next: 'q07a', effects: { flags: { HIDDEN: 0 } } },
     { letter: 'B', text: '只标记“同一跑腿员连接三处”，申请核对排班、共享文件和账号记录', next: 'q07b', effects: { flags: { HIDDEN: 1 } } }
   ]),
   q07a: card('q07a', 'Q07 A｜指认快于证据', '两小时后的页面', '指认帖已删除，但截图正在传播。评论区开始搜索“唐遇”的宿舍；周衡把删帖声明截成“媒体先定罪后撤回”。', 'warn', 'q08intro', { source: '选择结果', progress: 55 }),
-  q07b: card('q07b', 'Q07 B｜只写已知边界', '调查板', '板上只写“同一跑腿员连接三地”。姓名来自排班表，账号和责任仍标为待核；完整材料交由有权限的机构查询。', 'preserve', 'q08intro', { source: '选择结果', progress: 55 }),
+  q07b: card('q07b', 'Q07 B｜只写已知边界', '调查板', '板上只写“同一跑腿员连接三地”。姓名来自排班表，账号和责任仍标为待核；完整材料交由有权限的机构查询。', 'evidenceWall', 'q08intro', { source: '选择结果', progress: 55 }),
 
   q08intro: card('q08intro', '第八幕｜两条资金通道', '周衡', '“许橙的两千八、宋老师的七万五，我可以让财务退款。押金还在对账。你的视频帮过我，现在也可以帮大家体面收场。”', 'zhouRefund', 'q08ledger', { chapter: 8, time: '9月24日下午', place: '校外咖啡馆', source: '当面会谈', progress: 56 }),
   q08ledger: card('q08ledger', '清单上缺了一笔', '林知夏（现场记录）', '清单列着许橙2800元、宋岚75600元和“对账中”的18600元；姜宁转入沈舟个人账户的12000元不在纸上。', 'money', 'q08', { source: '玩家所见', progress: 59, onEnter: { evidence: [evidence.refund] } }),
@@ -119,13 +145,13 @@ export const fullNodes = {
   m01c: card('m01c', '第二步｜私人问题也可能被绕开', '视频里的沈舟', '“那天人多，我穿深色外套吧？改天请你吃饭。”答案模糊，却足以让人继续相信。', 'shencall', 'm01d', { source: '固定演出', progress: 82 }),
   m01d: card('m01d', '第三步｜挂断后独立回拨', '核验结果', '梁挂断，从姜宁留存的旧号码独立回拨。无人接听；刷新后，刚才的视频账号已把他拉黑。回拨无应答只是可疑信号，但转账必须停止。', 'verifyOfficial', 'q11intro', { source: '固定演出', progress: 84 }),
 
-  q11intro: card('q11intro', '第十一幕｜证词的所有权', '姜宁', '“我想让后来的人知道风险，但我不想把自己交给围观的人。如果我不授权公开，请连我的声音都不要放进去。”', 'victimMeeting', 'q11consent', { chapter: 11, time: '9月25日晚', place: '授权确认', source: '当事人意愿', progress: 85 }),
+  q11intro: card('q11intro', '第十一幕｜证词的所有权', '姜宁', '“我想让后来的人知道风险，但我不想把自己交给围观的人。如果我不授权公开，请连我的声音都不要放进去。”', 'consentInterview', 'q11consent', { chapter: 11, time: '9月25日晚', place: '授权确认', source: '当事人意愿', progress: 85 }),
   q11consent: card('q11consent', '持有材料，不等于获得公开权', '宋岚', '“完整材料可以给银行和警方。公开视频里，只放我确认过、打过码的部分。”', 'songReceipts', 'q11', { source: '公开边界', progress: 87, onEnter: { evidence: [evidence.consent] } }),
-  q11: question('q11', 'Q11', 'Q11｜公开多少原件', '有人建议上传未打码的借款截图、合同回执和采访录音，供网友“破案”。你选择？', 'victimMeeting', 88, [
+  q11: question('q11', 'Q11', 'Q11｜公开多少原件', '有人建议上传未打码的借款截图、合同回执和采访录音，供网友“破案”。你选择？', 'consentInterview', 88, [
     { letter: 'A', text: '只公开本人逐项同意的必要打码材料，其余交给有权限的机关', next: 'q11a', effects: { flags: { SAFE: 1 } } },
     { letter: 'B', text: '未经同意上传原件换取关注', next: 'e4', effects: { flags: { SAFE: 0 } } }
   ]),
-  q11a: card('q11a', 'Q11 A｜证人继续合作', '授权清单', '姜宁的材料按Q05选择决定使用范围；合同、回执和录音逐项确认。完整原件由当事人决定交银行、学校或警方。', 'preserve', 'q12intro', { source: '选择结果', progress: 90 }),
+  q11a: card('q11a', 'Q11 A｜证人继续合作', '授权清单', '姜宁的材料按Q05选择决定使用范围；合同、回执和录音逐项确认。完整原件由当事人决定交银行、学校或警方。', 'consentInterview', 'q12intro', { source: '选择结果', progress: 90 }),
 
   q12intro: scene('q12intro', '终幕｜双倒计时', '宋岚', '“电话让他打，我不接了。教授可以再评，论文也可以延期；来路不明的数据一旦写进去，我解释不清。”', 'song', 'q12cut', { chapter: 12, time: '9月25日深夜', place: '校园媒体办公室', source: '现场', progress: 92 }),
   q12cut: card('q12cut', '重新剪开同一批真素材', '林知夏（操作记录）', '工资被放回“一期事实”；收费页标成“二期待核”；履历拆成“曾任职”和“现无授权”；屏幕里的脸与跑腿员只标“待核连接”。', 'linFinalEdit', 'q12', { source: '发布台', progress: 94 }),

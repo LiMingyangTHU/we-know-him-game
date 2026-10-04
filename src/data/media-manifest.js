@@ -35,6 +35,12 @@ const images = {
   ,linFakeVideo: './assets/images/lin-fake-video-v3.webp'
   ,luReplies: './assets/images/lu-replies-v3.webp'
   ,linFinalEdit: './assets/images/lin-final-edit-v3.webp'
+  ,xuSalary: './assets/images/xu-salary-v5.webp'
+  ,aiIdentityCheck: './assets/images/ai-identity-check-v5.webp'
+  ,evidenceWall: './assets/images/evidence-wall-v5.webp'
+  ,consentInterview: './assets/images/consent-interview-v5.webp'
+  ,endingClear: './assets/images/ending-clear-v5.webp'
+  ,endingWitnessExit: './assets/images/ending-witness-exit-v5.webp'
 }
 
 const videos = {

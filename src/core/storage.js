@@ -1,4 +1,4 @@
-export const KEY = 'weKnowHim.web.save.v4'
+export const KEY = 'weKnowHim.web.save.v5'
 
 export function load() {
   try {

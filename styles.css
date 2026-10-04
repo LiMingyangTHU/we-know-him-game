@@ -110,7 +110,11 @@ h1 { margin: 24px 0 0; font-size: clamp(3rem, 9vw, 5.5rem); line-height: 1.05; l
 .choice:disabled { opacity: .62; cursor: wait; }
 .choice-letter { flex: none; color: var(--orange); font-size: 1.5rem; font-weight: 800; }
 .choice-text { font-size: 1rem; line-height: 1.65; }
-.next-button { width: 100%; margin-top: 34px; background: var(--orange); color: #102032; }
+.story-actions { margin-top: 34px; display: grid; grid-template-columns: minmax(128px, .42fr) 1fr; gap: 12px; }
+.story-actions .button { width: 100%; }
+.next-button { background: var(--orange); color: #102032; }
+.step-back-button { color: #c3d0dc; background: #152b40; border: 1px solid #36536e; }
+.step-back-button:disabled { opacity: .38; cursor: not-allowed; transform: none; }
 .chapter-end { margin-top: 30px; padding: 28px; border-radius: 18px; display: grid; gap: 16px; line-height: 1.7; }
 .chapter-end p { margin: 0; color: var(--muted); }
 .ending-code { width: max-content; padding: 6px 11px; border-radius: 999px; background: rgba(229,173,120,.12); color: var(--orange); font-size: .82rem; font-weight: 800; letter-spacing: .08em; }
@@ -160,6 +164,8 @@ dialog p { color: var(--muted); line-height: 1.6; }
   .narrative { min-height: 0; }
   .dialogue { font-size: 1.25rem; }
   .choice { min-height: 100px; }
+  .story-actions { grid-template-columns: 1fr; }
+  .step-back-button { order: 2; }
   .toolbelt { bottom: max(8px, env(safe-area-inset-bottom)); }
 }
 @media (prefers-reduced-motion: reduce) {

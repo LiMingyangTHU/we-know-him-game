@@ -1,5 +1,5 @@
-import { images, videos } from './media-manifest.js?v=8'
-import { fullNodes, earlyProgress } from './full-story.js?v=8'
+import { images, videos } from './media-manifest.js?v=9'
+import { fullNodes, earlyProgress } from './full-story.js?v=9'
 
 const evidence = {
   oldClip: { id: 'old-clip', title: '五月旧片', boundary: '能证明一期发过工资、沈舟本人参加过讲座；不能证明二期有岗位或科研检测获授权。' },

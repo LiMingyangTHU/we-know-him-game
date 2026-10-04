@@ -1,8 +1,8 @@
-import story from './data/story.js?v=8'
-import * as engine from './core/engine.js?v=8'
-import * as storage from './core/storage.js?v=8'
-import { takes, enabledByDefault } from './data/audio-manifest.js?v=8'
-import { unlockedCharacters } from './data/characters.js?v=8'
+import story from './data/story.js?v=9'
+import * as engine from './core/engine.js?v=9'
+import * as storage from './core/storage.js?v=9'
+import { takes, enabledByDefault } from './data/audio-manifest.js?v=9'
+import { unlockedCharacters } from './data/characters.js?v=9'
 
 const $ = id => document.getElementById(id)
 const ui = {
@@ -10,7 +10,7 @@ const ui = {
   chapter: $('chapterLabel'), progressLabel: $('progressLabel'), progressFill: $('progressFill'), meta: $('meta'),
   video: $('sceneVideo'), image: $('sceneImage'), chat: $('chatScene'), badge: $('mediaBadge'), heading: $('heading'), speaker: $('speaker'), dialogue: $('dialogue'),
   narrative: $('narrativePanel'),
-  choices: $('choices'), next: $('nextButton'), skipIntro: $('skipIntroButton'), chapterEnd: $('chapterEnd'), replay: $('replayButton'),
+  choices: $('choices'), next: $('nextButton'), stepBack: $('stepBackButton'), skipIntro: $('skipIntroButton'), chapterEnd: $('chapterEnd'), replay: $('replayButton'),
   endingCode: $('endingCode'), endingTitle: $('endingTitle'), endingText: $('endingText'), endingDetails: $('endingDetails'), endingEducation: $('endingEducation'),
   evidenceButton: $('evidenceButton'), charactersButton: $('charactersButton'), statusButton: $('statusButton'), restartButton: $('restartButton'),
   evidenceCount: $('evidenceCount'), charactersCount: $('charactersCount'), statusCount: $('statusCount'), drawer: $('drawer'), drawerMask: $('drawerMask'),
@@ -87,6 +87,9 @@ function render(node) {
   ui.evidenceCount.textContent = state.evidence.length
   ui.charactersCount.textContent = unlockedCharacters(state.visited).length
   ui.statusCount.textContent = statusCards().length
+  const canStepBack = Boolean(state.undoSnapshot) && !state.undoLocked
+  ui.stepBack.disabled = !canStepBack
+  ui.stepBack.title = canStepBack ? '退回前一个界面；退回后必须先继续推进' : '继续推进后可再次使用'
 
   renderMedia(node.media, node.id)
   renderChoices(node)
@@ -210,6 +213,21 @@ function renderChat(media) {
     body.append(system)
   }
   ;(media.messages || []).forEach(message => {
+    if (message.time) {
+      const time = document.createElement('div')
+      time.className = 'chat-time'
+      time.textContent = message.time
+      body.append(time)
+    }
+    if (message.system) {
+      const system = document.createElement('div')
+      system.className = 'chat-system'
+      const label = document.createElement('span')
+      label.textContent = message.system
+      system.append(label)
+      body.append(system)
+      return
+    }
     const row = document.createElement('div')
     row.className = `chat-row ${message.side === 'sent' ? 'sent' : 'received'}`
     const avatar = document.createElement('span')
@@ -268,6 +286,12 @@ function renderChoices(node) {
 function next() {
   const node = story.nodes[state.currentId]
   if (node.kind !== 'choice' && node.kind !== 'ending') commit(engine.advance(story, state))
+}
+
+function stepBack() {
+  if (!state.undoSnapshot || state.undoLocked) return showToast('退回后必须先继续推进，不能连续退回')
+  commit(engine.back(story, state))
+  showToast('已退回一步；继续推进后可再次使用')
 }
 
 function restart() {
@@ -353,6 +377,7 @@ ui.continue.addEventListener('click', () => showGame(storage.load()))
 ui.newGame.addEventListener('click', () => storage.load() ? askRestart() : restart())
 ui.homeButton.addEventListener('click', showHome)
 ui.next.addEventListener('click', next)
+ui.stepBack.addEventListener('click', stepBack)
 ui.skipIntro.addEventListener('click', () => commit(engine.jump(story, state, 'a01')))
 ui.replay.addEventListener('click', askRestart)
 ui.restartButton.addEventListener('click', askRestart)

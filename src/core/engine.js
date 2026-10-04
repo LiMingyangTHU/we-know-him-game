@@ -13,7 +13,9 @@ export function createState(startId, story) {
     history: [],
     progress: story?.nodes?.[startId]?.progress || 0,
     completed: false,
-    ending: null
+    ending: null,
+    undoSnapshot: null,
+    undoLocked: false
   }
 }
 
@@ -33,13 +35,31 @@ function applyEffects(state, effects) {
   return next
 }
 
-function moveTo(story, state, targetId) {
+function snapshot(state) {
+  return {
+    currentId: state.currentId,
+    flags: { ...state.flags },
+    choices: { ...state.choices },
+    evidence: state.evidence.slice(),
+    visited: state.visited.slice(),
+    history: state.history.slice(),
+    progress: state.progress,
+    completed: state.completed,
+    ending: state.ending,
+    undoSnapshot: null,
+    undoLocked: true
+  }
+}
+
+function moveTo(story, state, targetId, undoSource = state) {
   if (!story.nodes[targetId]) throw new Error(`Missing target node: ${targetId}`)
   const next = { ...state }
   next.history = state.history.concat(state.currentId)
   next.currentId = targetId
   next.visited = state.visited.concat(targetId)
   next.progress = Math.max(state.progress || 0, story.nodes[targetId].progress || 0)
+  next.undoSnapshot = snapshot(undoSource)
+  next.undoLocked = false
   const entered = applyEffects(next, story.nodes[targetId].onEnter)
   if (story.nodes[targetId].kind === 'ending') {
     entered.completed = true
@@ -66,7 +86,7 @@ export function choose(story, state, letter) {
   next.choices = { ...state.choices, [node.questionId]: letter }
   const target = option.next === '$ENDING' ? resolveEnding(next.choices)?.toLowerCase() : option.next
   if (!target) throw new Error(`No ending resolved after ${node.id}.${letter}`)
-  return moveTo(story, next, target)
+  return moveTo(story, next, target, state)
 }
 
 export function jump(story, state, targetId) {
@@ -74,10 +94,12 @@ export function jump(story, state, targetId) {
 }
 
 export function back(story, state) {
-  if (!state.history.length) return state
-  const history = state.history.slice()
-  const target = history.pop()
-  return { ...state, currentId: target, history, visited: state.visited.slice(0, -1) }
+  if (!state.undoSnapshot || state.undoLocked) return state
+  return {
+    ...state.undoSnapshot,
+    undoSnapshot: null,
+    undoLocked: true
+  }
 }
 
 export function resolveEnding(choices) {
