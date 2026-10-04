@@ -4,3 +4,6 @@ Thumbs.db
 node_modules/
 .tools-gh/
 .tools-gh.zip
+audio-preview/_a01_work/
+
+audio-preview/

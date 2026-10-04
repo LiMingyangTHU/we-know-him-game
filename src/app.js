@@ -1,7 +1,7 @@
 import story from './data/story.js?v=15'
 import * as engine from './core/engine.js?v=15'
 import * as storage from './core/storage.js?v=15'
-import { takes, musicTracks, musicKeyForNode, voiceProfileForSpeaker, enabledByDefault } from './data/audio-manifest.js?v=16'
+import { takes, musicTracks, musicKeyForNode, enabledByDefault } from './data/audio-manifest.js?v=17'
 import { unlockedCharacters } from './data/characters.js?v=15'
 import { notesForNode, unlockedGlossary } from './data/glossary.js?v=15'
 import { presentNode } from './data/player-copy.js?v=15'
@@ -121,10 +121,10 @@ function render(node) {
   ui.skipIntro.classList.toggle('hidden', node.kind !== 'intro')
   if (isEnd) renderEnding(viewNode)
 
-  const canSpeak = Boolean(takes[node.audioId]?.src || voiceProfileForSpeaker(viewNode.speaker))
+  const canSpeak = Boolean(takes[node.audioId]?.src)
   ui.audioButton.classList.toggle('disabled', !canSpeak && !musicTracks[musicKeyForNode(node)])
   ui.audioButton.textContent = audioEnabled ? '声' : '静'
-  ui.audioButton.title = audioEnabled ? '关闭配音与背景音乐' : '开启配音与背景音乐'
+  ui.audioButton.title = audioEnabled ? '关闭声音' : '开启声音'
   syncAudioForNode(node, viewNode)
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
@@ -523,32 +523,6 @@ function playMusicForNode(node) {
   })
 }
 
-function selectVoice(profile) {
-  const voices = window.speechSynthesis?.getVoices?.() || []
-  for (const token of profile.preferredVoices) {
-    const voice = voices.find(item => item.name.toLowerCase().includes(token.toLowerCase()))
-    if (voice) return voice
-  }
-  return voices.find(item => /^zh[-_]/i.test(item.lang)) || null
-}
-
-function speakWithBrowser(text, profile) {
-  if (!window.speechSynthesis || !window.SpeechSynthesisUtterance || !text) return false
-  window.speechSynthesis.cancel()
-  const utterance = new SpeechSynthesisUtterance(text)
-  const voice = selectVoice(profile)
-  if (voice) utterance.voice = voice
-  utterance.lang = voice?.lang || 'zh-CN'
-  utterance.rate = profile.rate
-  utterance.pitch = profile.pitch
-  utterance.volume = profile.volume
-  utterance.onstart = () => fadeMusicTo(0.07, 180)
-  utterance.onend = restoreMusic
-  utterance.onerror = restoreMusic
-  window.speechSynthesis.speak(utterance)
-  return true
-}
-
 function playRecordedVoice(src) {
   voiceAudio.src = src
   voiceAudio.onplay = () => fadeMusicTo(0.07, 180)
@@ -557,24 +531,21 @@ function playRecordedVoice(src) {
   voiceAudio.play().catch(() => showToast('浏览器拦住了配音，再点一次“静”即可开启。'))
 }
 
-function playVoiceForNode(node, viewNode) {
+function playVoiceForNode(node) {
   if (!audioEnabled) return
   const take = takes[node.audioId] || {}
   if (take.src) return playRecordedVoice(take.src)
-  const profile = voiceProfileForSpeaker(viewNode.speaker)
-  if (profile) speakWithBrowser(viewNode.text, profile)
 }
 
 function syncAudioForNode(node, viewNode) {
   if (!audioEnabled) return
   playMusicForNode(node)
-  playVoiceForNode(node, viewNode)
+  playVoiceForNode(node)
 }
 
 function stopVoice() {
   voiceAudio.pause()
   voiceAudio.currentTime = 0
-  if (window.speechSynthesis) window.speechSynthesis.cancel()
   restoreMusic()
 }
 
@@ -605,11 +576,11 @@ ui.audioButton.addEventListener('click', () => {
   audioEnabled = !audioEnabled
   localStorage.setItem('audioEnabled', String(audioEnabled))
   ui.audioButton.textContent = audioEnabled ? '声' : '静'
-  ui.audioButton.title = audioEnabled ? '关闭配音与背景音乐' : '开启配音与背景音乐'
+  ui.audioButton.title = audioEnabled ? '关闭声音' : '开启声音'
   if (audioEnabled) {
     const node = story.nodes[state.currentId]
     syncAudioForNode(node, presentNode(node))
-    showToast('声音已开启：对白时背景音乐会自动降低。')
+    showToast('声音已开启。')
   } else {
     stopAllAudio()
     showToast('声音已关闭。')
