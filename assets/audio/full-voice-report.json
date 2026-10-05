@@ -1,0 +1,610 @@
+[
+  {
+    "id": "a01",
+    "speaker": "林知夏",
+    "durationMs": 11928,
+    "lufs": -16.0,
+    "truePeakDb": -1.58,
+    "segments": 3
+  },
+  {
+    "id": "a01b",
+    "speaker": "林知夏",
+    "durationMs": 8112,
+    "lufs": -16.0,
+    "truePeakDb": -2.04,
+    "segments": 2
+  },
+  {
+    "id": "a02",
+    "speaker": "梁一舟",
+    "durationMs": 8856,
+    "lufs": -16.13,
+    "truePeakDb": -1.5,
+    "segments": 2
+  },
+  {
+    "id": "a02b",
+    "speaker": "梁一舟",
+    "durationMs": 7152,
+    "lufs": -16.07,
+    "truePeakDb": -1.5,
+    "segments": 2
+  },
+  {
+    "id": "a03",
+    "speaker": "林知夏",
+    "durationMs": 28464,
+    "lufs": -16.0,
+    "truePeakDb": -1.58,
+    "segments": 5
+  },
+  {
+    "id": "a04",
+    "speaker": "梁一舟",
+    "durationMs": 14952,
+    "lufs": -16.08,
+    "truePeakDb": -1.5,
+    "segments": 3
+  },
+  {
+    "id": "a05",
+    "speaker": "林知夏",
+    "durationMs": 7008,
+    "lufs": -16.0,
+    "truePeakDb": -1.53,
+    "segments": 2
+  },
+  {
+    "id": "a06",
+    "speaker": "林知夏",
+    "durationMs": 15624,
+    "lufs": -16.0,
+    "truePeakDb": -1.6,
+    "segments": 3
+  },
+  {
+    "id": "b1a",
+    "speaker": "林知夏",
+    "durationMs": 15216,
+    "lufs": -16.0,
+    "truePeakDb": -1.97,
+    "segments": 3
+  },
+  {
+    "id": "b1a2",
+    "speaker": "周衡",
+    "durationMs": 2256,
+    "lufs": -16.01,
+    "truePeakDb": -1.57,
+    "segments": 1
+  },
+  {
+    "id": "b1a3",
+    "speaker": "林知夏",
+    "durationMs": 13080,
+    "lufs": -16.0,
+    "truePeakDb": -1.52,
+    "segments": 3
+  },
+  {
+    "id": "b1b",
+    "speaker": "林知夏",
+    "durationMs": 10944,
+    "lufs": -16.0,
+    "truePeakDb": -2.48,
+    "segments": 3
+  },
+  {
+    "id": "c01",
+    "speaker": "宋岚",
+    "durationMs": 19080,
+    "lufs": -16.0,
+    "truePeakDb": -2.35,
+    "segments": 4
+  },
+  {
+    "id": "c02",
+    "speaker": "宋岚",
+    "durationMs": 21072,
+    "lufs": -16.0,
+    "truePeakDb": -1.58,
+    "segments": 3
+  },
+  {
+    "id": "c02b",
+    "speaker": "林知夏",
+    "durationMs": 21192,
+    "lufs": -16.0,
+    "truePeakDb": -1.6,
+    "segments": 3
+  },
+  {
+    "id": "c03",
+    "speaker": "宋岚 / 林知夏",
+    "durationMs": 13800,
+    "lufs": -16.0,
+    "truePeakDb": -1.84,
+    "segments": 4
+  },
+  {
+    "id": "c04",
+    "speaker": "宋岚",
+    "durationMs": 17784,
+    "lufs": -16.0,
+    "truePeakDb": -1.6,
+    "segments": 2
+  },
+  {
+    "id": "c05",
+    "speaker": "林知夏",
+    "durationMs": 17688,
+    "lufs": -16.0,
+    "truePeakDb": -1.57,
+    "segments": 2
+  },
+  {
+    "id": "c06",
+    "speaker": "宋岚",
+    "durationMs": 15864,
+    "lufs": -16.0,
+    "truePeakDb": -1.7,
+    "segments": 3
+  },
+  {
+    "id": "c07",
+    "speaker": "林知夏",
+    "durationMs": 11208,
+    "lufs": -16.0,
+    "truePeakDb": -1.62,
+    "segments": 2
+  },
+  {
+    "id": "c07b",
+    "speaker": "宋岚",
+    "durationMs": 15336,
+    "lufs": -16.0,
+    "truePeakDb": -1.88,
+    "segments": 3
+  },
+  {
+    "id": "c08",
+    "speaker": "宋岚",
+    "durationMs": 10248,
+    "lufs": -16.0,
+    "truePeakDb": -2.13,
+    "segments": 2
+  },
+  {
+    "id": "c09",
+    "speaker": "宋岚",
+    "durationMs": 11184,
+    "lufs": -16.0,
+    "truePeakDb": -1.6,
+    "segments": 3
+  },
+  {
+    "id": "c10",
+    "speaker": "沈舟",
+    "durationMs": 7272,
+    "lufs": -16.94,
+    "truePeakDb": -1.5,
+    "segments": 2
+  },
+  {
+    "id": "c11",
+    "speaker": "林知夏",
+    "durationMs": 22944,
+    "lufs": -16.0,
+    "truePeakDb": -1.59,
+    "segments": 4
+  },
+  {
+    "id": "b2a",
+    "speaker": "林知夏",
+    "durationMs": 12312,
+    "lufs": -16.0,
+    "truePeakDb": -2.07,
+    "segments": 3
+  },
+  {
+    "id": "b2a2",
+    "speaker": "宋岚",
+    "durationMs": 15672,
+    "lufs": -16.0,
+    "truePeakDb": -2.07,
+    "segments": 3
+  },
+  {
+    "id": "b2a3",
+    "speaker": "林知夏",
+    "durationMs": 10608,
+    "lufs": -16.0,
+    "truePeakDb": -1.68,
+    "segments": 3
+  },
+  {
+    "id": "b2b",
+    "speaker": "林知夏",
+    "durationMs": 9792,
+    "lufs": -16.0,
+    "truePeakDb": -1.56,
+    "segments": 3
+  },
+  {
+    "id": "b2b2",
+    "speaker": "林知夏",
+    "durationMs": 9624,
+    "lufs": -16.0,
+    "truePeakDb": -1.77,
+    "segments": 2
+  },
+  {
+    "id": "intro01",
+    "speaker": "林知夏",
+    "durationMs": 24960,
+    "lufs": -16.0,
+    "truePeakDb": -1.52,
+    "segments": 4
+  },
+  {
+    "id": "intro02",
+    "speaker": "林知夏",
+    "durationMs": 18000,
+    "lufs": -16.01,
+    "truePeakDb": -1.5,
+    "segments": 6
+  },
+  {
+    "id": "intro03",
+    "speaker": "林知夏",
+    "durationMs": 15576,
+    "lufs": -16.0,
+    "truePeakDb": -1.59,
+    "segments": 4
+  },
+  {
+    "id": "intro04",
+    "speaker": "林知夏",
+    "durationMs": 19128,
+    "lufs": -16.03,
+    "truePeakDb": -1.5,
+    "segments": 4
+  },
+  {
+    "id": "q03intro",
+    "speaker": "林知夏",
+    "durationMs": 14880,
+    "lufs": -16.0,
+    "truePeakDb": -1.85,
+    "segments": 3
+  },
+  {
+    "id": "q03voices",
+    "speaker": "林知夏 / 许橙 / 姜宁 / 宋岚",
+    "durationMs": 16944,
+    "lufs": -16.01,
+    "truePeakDb": -1.5,
+    "segments": 6
+  },
+  {
+    "id": "q03a",
+    "speaker": "许橙",
+    "durationMs": 19344,
+    "lufs": -16.0,
+    "truePeakDb": -1.63,
+    "segments": 3
+  },
+  {
+    "id": "q03b",
+    "speaker": "姜宁",
+    "durationMs": 12384,
+    "lufs": -16.0,
+    "truePeakDb": -1.63,
+    "segments": 3
+  },
+  {
+    "id": "q03c",
+    "speaker": "宋岚",
+    "durationMs": 9912,
+    "lufs": -16.0,
+    "truePeakDb": -2.38,
+    "segments": 2
+  },
+  {
+    "id": "q03all",
+    "speaker": "林知夏",
+    "durationMs": 23016,
+    "lufs": -16.0,
+    "truePeakDb": -1.7,
+    "segments": 5
+  },
+  {
+    "id": "q04intro",
+    "speaker": "许橙 / 林知夏",
+    "durationMs": 16224,
+    "lufs": -16.0,
+    "truePeakDb": -1.66,
+    "segments": 3
+  },
+  {
+    "id": "q04archive",
+    "speaker": "陆鸣",
+    "durationMs": 7608,
+    "lufs": -16.08,
+    "truePeakDb": -1.51,
+    "segments": 3
+  },
+  {
+    "id": "q04a",
+    "speaker": "林知夏",
+    "durationMs": 16704,
+    "lufs": -16.0,
+    "truePeakDb": -1.63,
+    "segments": 4
+  },
+  {
+    "id": "q04b",
+    "speaker": "林知夏",
+    "durationMs": 16608,
+    "lufs": -16.0,
+    "truePeakDb": -1.99,
+    "segments": 4
+  },
+  {
+    "id": "q05intro",
+    "speaker": "姜宁",
+    "durationMs": 12024,
+    "lufs": -16.0,
+    "truePeakDb": -1.51,
+    "segments": 3
+  },
+  {
+    "id": "q05clue",
+    "speaker": "姜宁",
+    "durationMs": 7200,
+    "lufs": -16.0,
+    "truePeakDb": -1.5,
+    "segments": 2
+  },
+  {
+    "id": "q05a",
+    "speaker": "林知夏",
+    "durationMs": 16728,
+    "lufs": -16.0,
+    "truePeakDb": -1.55,
+    "segments": 3
+  },
+  {
+    "id": "q05b",
+    "speaker": "林知夏",
+    "durationMs": 13824,
+    "lufs": -16.0,
+    "truePeakDb": -1.69,
+    "segments": 3
+  },
+  {
+    "id": "q06intro",
+    "speaker": "林知夏",
+    "durationMs": 17256,
+    "lufs": -16.02,
+    "truePeakDb": -1.5,
+    "segments": 4
+  },
+  {
+    "id": "q06registry",
+    "speaker": "林知夏",
+    "durationMs": 12528,
+    "lufs": -16.0,
+    "truePeakDb": -1.62,
+    "segments": 2
+  },
+  {
+    "id": "q06a",
+    "speaker": "宋岚",
+    "durationMs": 10104,
+    "lufs": -16.0,
+    "truePeakDb": -1.68,
+    "segments": 3
+  },
+  {
+    "id": "q06b",
+    "speaker": "林知夏",
+    "durationMs": 15960,
+    "lufs": -16.0,
+    "truePeakDb": -1.56,
+    "segments": 3
+  },
+  {
+    "id": "q07intro",
+    "speaker": "林知夏",
+    "durationMs": 16296,
+    "lufs": -16.0,
+    "truePeakDb": -1.55,
+    "segments": 3
+  },
+  {
+    "id": "q07name",
+    "speaker": "陆鸣",
+    "durationMs": 13296,
+    "lufs": -16.12,
+    "truePeakDb": -1.5,
+    "segments": 3
+  },
+  {
+    "id": "q07a",
+    "speaker": "林知夏",
+    "durationMs": 14520,
+    "lufs": -16.0,
+    "truePeakDb": -1.57,
+    "segments": 3
+  },
+  {
+    "id": "q07b",
+    "speaker": "林知夏",
+    "durationMs": 12528,
+    "lufs": -16.0,
+    "truePeakDb": -1.57,
+    "segments": 3
+  },
+  {
+    "id": "q08intro",
+    "speaker": "林知夏 / 周衡",
+    "durationMs": 15744,
+    "lufs": -16.0,
+    "truePeakDb": -1.52,
+    "segments": 4
+  },
+  {
+    "id": "q08ledger",
+    "speaker": "林知夏",
+    "durationMs": 16392,
+    "lufs": -16.0,
+    "truePeakDb": -2.09,
+    "segments": 3
+  },
+  {
+    "id": "q08a",
+    "speaker": "林知夏",
+    "durationMs": 10152,
+    "lufs": -16.0,
+    "truePeakDb": -2.02,
+    "segments": 3
+  },
+  {
+    "id": "q08b",
+    "speaker": "林知夏",
+    "durationMs": 19272,
+    "lufs": -16.01,
+    "truePeakDb": -1.5,
+    "segments": 3
+  },
+  {
+    "id": "q09intro",
+    "speaker": "林知夏",
+    "durationMs": 13128,
+    "lufs": -16.05,
+    "truePeakDb": -1.5,
+    "segments": 2
+  },
+  {
+    "id": "q09compare",
+    "speaker": "林知夏",
+    "durationMs": 15048,
+    "lufs": -16.0,
+    "truePeakDb": -1.59,
+    "segments": 4
+  },
+  {
+    "id": "q09a",
+    "speaker": "林知夏",
+    "durationMs": 12720,
+    "lufs": -16.0,
+    "truePeakDb": -1.62,
+    "segments": 2
+  },
+  {
+    "id": "q09b",
+    "speaker": "林知夏",
+    "durationMs": 12432,
+    "lufs": -16.0,
+    "truePeakDb": -1.61,
+    "segments": 3
+  },
+  {
+    "id": "q10intro",
+    "speaker": "林知夏",
+    "durationMs": 18024,
+    "lufs": -16.0,
+    "truePeakDb": -1.59,
+    "segments": 4
+  },
+  {
+    "id": "q10a",
+    "speaker": "林知夏",
+    "durationMs": 11040,
+    "lufs": -16.0,
+    "truePeakDb": -1.6,
+    "segments": 3
+  },
+  {
+    "id": "q10b",
+    "speaker": "林知夏",
+    "durationMs": 13104,
+    "lufs": -16.0,
+    "truePeakDb": -1.54,
+    "segments": 2
+  },
+  {
+    "id": "m01",
+    "speaker": "林知夏 / 梁一舟",
+    "durationMs": 14208,
+    "lufs": -16.02,
+    "truePeakDb": -1.5,
+    "segments": 4
+  },
+  {
+    "id": "m01b",
+    "speaker": "林知夏",
+    "durationMs": 8664,
+    "lufs": -16.0,
+    "truePeakDb": -1.55,
+    "segments": 2
+  },
+  {
+    "id": "m01c",
+    "speaker": "沈舟 / 林知夏",
+    "durationMs": 7896,
+    "lufs": -16.09,
+    "truePeakDb": -1.5,
+    "segments": 3
+  },
+  {
+    "id": "m01d",
+    "speaker": "林知夏",
+    "durationMs": 14760,
+    "lufs": -16.0,
+    "truePeakDb": -1.55,
+    "segments": 4
+  },
+  {
+    "id": "q11intro",
+    "speaker": "林知夏 / 姜宁",
+    "durationMs": 15432,
+    "lufs": -16.0,
+    "truePeakDb": -1.6,
+    "segments": 4
+  },
+  {
+    "id": "q11consent",
+    "speaker": "宋岚",
+    "durationMs": 7800,
+    "lufs": -16.0,
+    "truePeakDb": -2.08,
+    "segments": 2
+  },
+  {
+    "id": "q11a",
+    "speaker": "林知夏",
+    "durationMs": 11088,
+    "lufs": -16.0,
+    "truePeakDb": -1.51,
+    "segments": 2
+  },
+  {
+    "id": "q12intro",
+    "speaker": "林知夏 / 宋岚",
+    "durationMs": 18552,
+    "lufs": -16.0,
+    "truePeakDb": -1.52,
+    "segments": 4
+  },
+  {
+    "id": "q12cut",
+    "speaker": "林知夏",
+    "durationMs": 19008,
+    "lufs": -16.0,
+    "truePeakDb": -1.59,
+    "segments": 4
+  }
+]
