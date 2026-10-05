@@ -20,18 +20,18 @@
   {
     "id": "a02",
     "speaker": "梁一舟",
-    "voice": "zh-CN-YunxiaNeural",
-    "durationMs": 9792,
-    "lufs": -16.06,
-    "truePeakDb": -1.52,
+    "voice": "zh-CN-YunjianNeural",
+    "durationMs": 9408,
+    "lufs": -16.28,
+    "truePeakDb": -1.5,
     "segments": 2
   },
   {
     "id": "a02b",
     "speaker": "梁一舟",
-    "voice": "zh-CN-YunxiaNeural",
-    "durationMs": 8832,
-    "lufs": -16.02,
+    "voice": "zh-CN-YunjianNeural",
+    "durationMs": 8568,
+    "lufs": -16.06,
     "truePeakDb": -1.55,
     "segments": 2
   },
@@ -47,9 +47,9 @@
   {
     "id": "a04",
     "speaker": "梁一舟",
-    "voice": "zh-CN-YunxiaNeural",
-    "durationMs": 16464,
-    "lufs": -16.07,
+    "voice": "zh-CN-YunjianNeural",
+    "durationMs": 16104,
+    "lufs": -16.12,
     "truePeakDb": -1.5,
     "segments": 3
   },

@@ -34,11 +34,11 @@ TAKES = {
         ('头像没见过。', '+4%', .24),
         ('对方发来的封面，我却一眼认出——那是我5月拍的片子，只是标题变了。', '+2%', 0),
     ]),
-    'a02': ('梁一舟', 'zh-CN-YunxiaNeural', [
+    'a02': ('梁一舟', 'zh-CN-YunjianNeural', [
         ('学姐，能帮我看看是真的吗？', '+6%', .25),
         ('他们说今晚零点锁本批名额，校友推荐价2800元。', '+5%', 0),
     ]),
-    'a02b': ('梁一舟', 'zh-CN-YunxiaNeural', [
+    'a02b': ('梁一舟', 'zh-CN-YunjianNeural', [
         ('我已经填到最后一步了。', '+5%', .23),
         ('室友说名额过点就没，可我越看，越觉得哪里不对。', '+3%', 0),
     ]),
@@ -49,7 +49,7 @@ TAKES = {
         ('现在，群里把第1期实习的旧片改名，放在第2期实习付款页旁边。', '+3%', .25),
         ('却没有说明，新项目是否仍由原企业授权。', '+1%', 0),
     ]),
-    'a04': ('梁一舟', 'zh-CN-YunxiaNeural', [
+    'a04': ('梁一舟', 'zh-CN-YunjianNeural', [
         ('我不是信这张广告图，我是信你当时拍到的工资。', '+5%', .24),
         ('群里还转了沈舟学长的宣讲视频——就是5月论坛里，回答技术问题的那位校友。', '+4%', .28),
         ('那次出镜，也是他本人吧？', '+2%', 0),
@@ -95,7 +95,7 @@ def run(*args) -> None:
 async def synth_one(edge_tts, text: str, voice: str, rate: str, path: Path) -> None:
     for attempt in range(3):
         try:
-            pitch = '-3Hz' if voice == 'zh-CN-YunxiaNeural' else ('-2Hz' if voice == 'zh-CN-YunyangNeural' else '+0Hz')
+            pitch = '-2Hz' if voice in {'zh-CN-YunjianNeural', 'zh-CN-YunyangNeural'} else '+0Hz'
             await edge_tts.Communicate(text, voice, rate=rate, pitch=pitch).save(str(path))
             if path.stat().st_size > 1000:
                 return
@@ -191,7 +191,8 @@ def build_takes() -> list[dict]:
 def write_manifest(report: list[dict]) -> None:
     lines = ['// Generated static takes. Do not edit durations by hand.', 'export const generatedTakes = {']
     for item in report:
-        lines.append(f"  {item['id']}: {{ speaker: '{item['speaker']}', src: './assets/audio/voices/{item['id']}.mp3', durationMs: {item['durationMs']} }},")
+        revision = '?v=2' if item['id'] in {'a02', 'a02b', 'a04'} else ''
+        lines.append(f"  {item['id']}: {{ speaker: '{item['speaker']}', src: './assets/audio/voices/{item['id']}.mp3{revision}', durationMs: {item['durationMs']} }},")
     lines += ['}', '']
     MANIFEST.write_text('\n'.join(lines), encoding='utf-8')
     REPORT.write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding='utf-8')
