@@ -1,4 +1,4 @@
-import { generatedTakes } from './generated-voice-takes.js?v=20'
+import { generatedTakes } from './generated-voice-takes.js?v=21'
 
 // 只播放已经过后期处理的静态成品，不再调用设备自带朗读。
 export const takes = generatedTakes

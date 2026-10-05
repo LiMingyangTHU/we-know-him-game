@@ -24,7 +24,9 @@ REPORT = ROOT / 'assets' / 'audio' / 'full-voice-report.json'
 PROFILES = {
     '林知夏': ('zh-CN-XiaoxiaoNeural', 8, '+0Hz'),
     '梁一舟': ('en-US-BrianMultilingualNeural', 18, '+2Hz'),
-    '宋岚': ('en-US-EmmaMultilingualNeural', 14, '-1Hz'),
+    # Based on the approved v2 Xu Cheng reference: Emma's brighter placement,
+    # kept moderately faster for the game's dialogue rhythm.
+    '宋岚': ('en-US-EmmaMultilingualNeural', 9, '+1Hz'),
     '沈舟': ('zh-CN-YunyangNeural', 7, '-1Hz'),
     '许橙': ('zh-CN-XiaoxiaoNeural', 10, '+3Hz'),
     '姜宁': ('zh-CN-XiaoyiNeural', 9, '-5Hz'),
@@ -52,9 +54,17 @@ MIXED = {
         ('许橙', '第1期实习工资来自恒微科技，第2期实习招募缴费却进了星桥。群里的合作函确实盖着章，可右下角像被裁掉了一行。'),
         ('林知夏', '我带着截图离开活动室，陆鸣已在社团档案室等我。'),
     ],
+    'q07a': [
+        ('林知夏', '我过早把唐遇的名字写进公开帖。2小时后我删了，截图却已经传开。评论区开始搜索他的宿舍，周衡也截下删帖声明，反过来说我：'),
+        ('周衡', '先定罪，后撤回。'),
+    ],
     'q08intro': [
         ('林知夏', '证据墙刚整理完，周衡主动约我到校外咖啡馆。他把退款清单推过来。'),
         ('周衡', '许橙的2800元、宋老师的7.56万元，我可以让财务退。你把旧片撤掉，大家体面收场。'),
+    ],
+    'q08b': [
+        ('林知夏', '当晚，许橙的2800元原路退回。宋老师的7.56万元对公首款仍称需要5个工作日处理，1.86万元个人垫付款则还在对账中。我在新生群里看到周衡发出退款截图，配了一句：'),
+        ('周衡', '正规项目才会退款。'),
     ],
     'm01': [
         ('林知夏', '发布准备到一半，梁一舟突然来电。'),
@@ -93,6 +103,10 @@ process.stdout.write(JSON.stringify(rows));
 
 
 def canonical_speaker(label: str) -> str:
+    primary = label.split('（', 1)[0]
+    for name in PROFILES:
+        if name in primary:
+            return name
     for name in PROFILES:
         if name in label:
             return name
@@ -218,7 +232,7 @@ def write_outputs(report: list[dict]) -> None:
     for item in report:
         lines.append(
             f"  {item['id']}: {{ speaker: '{item['speaker']}', "
-            f"src: './assets/audio/voices/{item['id']}.mp3?v=4', durationMs: {item['durationMs']} }},"
+            f"src: './assets/audio/voices/{item['id']}.mp3?v=5', durationMs: {item['durationMs']} }},"
         )
     lines.extend(['}', ''])
     MANIFEST.write_text('\n'.join(lines), encoding='utf-8')
