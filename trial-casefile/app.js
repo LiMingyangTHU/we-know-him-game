@@ -1,10 +1,10 @@
-import story from '../src/data/story.js?v=16'
+import story from '../src/data/story.js?v=17'
 import * as engine from '../src/core/engine.js?v=15'
 import * as storage from './storage.js?v=1'
-import { takes, musicTracks, musicKeyForNode, enabledByDefault } from '../src/data/audio-manifest.js?v=22'
+import { takes, musicTracks, musicKeyForNode, enabledByDefault } from '../src/data/audio-manifest.js?v=23'
 import { unlockedCharacters } from '../src/data/characters.js?v=15'
 import { notesForNode, unlockedGlossary } from '../src/data/glossary.js?v=15'
-import { presentNode } from '../src/data/player-copy.js?v=16'
+import { presentNode } from '../src/data/player-copy.js?v=17'
 
 const $ = id => document.getElementById(id)
 const ui = {
@@ -47,6 +47,15 @@ const flagLabels = {
   FAKE: value => value ? '我保住了原片与伪片的来源链' : '我先发警报，来源记录随后补交',
   VERIFY: value => value ? '我等三方答复齐后具名发布' : '我中午先预警，傍晚再补答复',
   SAFE: value => value ? '我按授权公开，当事人继续合作' : '原件被公开后，我转入补救'
+}
+
+const endingVerdicts = {
+  E1: { label: '好结局 · 及时止损', review: '评价：你赶在下一批付款前发出了清楚的提醒，也保住了关键材料和当事人的选择权。' },
+  E2: { label: '较好结局 · 留有缺口', review: '评价：主要风险得到了控制，但前面的迟疑或取证缺口，使部分损失已经无法完全挽回。' },
+  E3: { label: '遗憾结局 · 真相来迟', review: '评价：你完成了更完整的调查，却错过了最需要提醒的几天。完整不总能补回时效。' },
+  E4: { label: '坏结局 · 证人退出', review: '评价：公开原件造成了二次伤害，调查失去当事人的信任，也失去了继续公开推进的条件。' },
+  E5: { label: '坏结局 · 更正被利用', review: '评价：含糊的说法留下了被截取和改写的空间，骗子借你的沉默继续为项目背书。' },
+  E6: { label: '隐藏坏结局 · 被借用的脸', review: '评价：止传和证据对照没有同时完成，林知夏自己的形象也进入了诈骗链条。' }
 }
 
 function statusCards() {
@@ -130,7 +139,7 @@ function render(node) {
 }
 
 function renderContextNotes(node) {
-  const notes = notesForNode(node.id)
+  const notes = node.kind === 'intro' ? [] : notesForNode(node.id)
   ui.contextNotes.classList.toggle('hidden', !notes.length)
   ui.contextNotesBody.replaceChildren()
   notes.forEach(note => {
@@ -147,16 +156,16 @@ function renderContextNotes(node) {
 }
 
 const presentationTypes = {
-  intro: { icon: '◎', label: '案前', note: '先把我手里的情况捋一遍' },
-  dialogue: { icon: '●', label: '现场', note: '这句话正在我面前发生' },
-  thought: { icon: '◌', label: '知夏心声', note: '这是我的判断，还不是结论' },
-  narration: { icon: '◇', label: '眼前', note: '我现在能看到的情况' },
-  record: { icon: '▤', label: '入档', note: '刚拿到的材料，先原样记下' },
-  chat: { icon: '▣', label: '屏幕记录', note: '保存下来的聊天内容' },
-  playback: { icon: '▶', label: '倒回去看', note: '旧画面里也许还漏了什么' },
-  flashback: { icon: '↶', label: '她的回忆', note: '这是当事人记得的版本，不是录像' },
-  decision: { icon: '?', label: '下一步', note: '轮到我决定先做什么' },
-  ending: { icon: '◆', label: '落点', note: '一路选择把事情带到了这里' }
+  intro: { icon: '◎', label: '开场', note: '' },
+  dialogue: { icon: '●', label: '现场', note: '' },
+  thought: { icon: '◌', label: '知夏心声', note: '' },
+  narration: { icon: '◇', label: '当时', note: '' },
+  record: { icon: '▤', label: '已保存材料', note: '' },
+  chat: { icon: '▣', label: '聊天记录', note: '' },
+  playback: { icon: '▶', label: '视频回放', note: '' },
+  flashback: { icon: '↶', label: '当事人回忆', note: '' },
+  decision: { icon: '?', label: '我怎么做', note: '' },
+  ending: { icon: '◆', label: '结果', note: '' }
 }
 
 function resolvePresentation(node) {
@@ -177,7 +186,7 @@ function renderPresentation(node, presentation) {
   document.body.dataset.presentation = presentation.type
   ui.modeIcon.textContent = presentation.icon || '◇'
   ui.modeLabel.textContent = presentation.label || '场景叙述'
-  ui.modeNote.textContent = presentation.note || ''
+  ui.modeNote.textContent = ''
   const shouldCue = Boolean(node.presentation?.cue || node.orientation || presentation.type === 'flashback' || (lastPresentation === 'flashback' && presentation.type !== 'flashback'))
   if (shouldCue && lastPresentation !== null) playSceneTransition(node, presentation, lastPresentation)
   lastPresentation = presentation.type
@@ -189,7 +198,7 @@ function playSceneTransition(node, presentation, previousType) {
   const title = returning ? '回到现在' : (node.presentation?.cueTitle || (presentation.type === 'flashback' ? '进入回忆' : node.heading || presentation.label))
   const subtitle = returning
     ? [node.time, node.place].filter(Boolean).join(' · ') || '继续核对现实中的材料'
-    : (node.presentation?.cueSubtitle || [node.time, node.place, presentation.note].filter(Boolean).join(' · '))
+    : (node.presentation?.cueSubtitle || [node.time, node.place].filter(Boolean).join(' · '))
   ui.transitionIcon.textContent = returning ? '→' : (presentation.icon || '◇')
   ui.transitionTitle.textContent = title
   ui.transitionSubtitle.textContent = subtitle
@@ -218,10 +227,11 @@ function renderOrientation(node) {
 }
 
 function renderEnding(node) {
-  ui.endingCode.textContent = '结局手记'
+  const verdict = endingVerdicts[node.endingId] || { label: '结局', review: '评价：这次调查已经结束。' }
+  ui.endingCode.textContent = verdict.label
   ui.endingTitle.textContent = node.heading || '事情落在这里'
   ui.endingText.textContent = node.text || ''
-  ui.endingEducation.textContent = node.education || ''
+  ui.endingEducation.textContent = `${verdict.review}${node.education ? ` ${node.education}` : ''}`
   ui.endingDetails.replaceChildren()
   endingNotes(node.endingId).forEach(note => {
     const item = document.createElement('p')

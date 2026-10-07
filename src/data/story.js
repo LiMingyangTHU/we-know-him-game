@@ -1,5 +1,5 @@
 import { images, videos } from './media-manifest.js?v=15'
-import { fullNodes, earlyProgress } from './full-story.js?v=15'
+import { fullNodes, earlyProgress } from './full-story.js?v=16'
 
 const evidence = {
   oldClip: { id: 'old-clip', title: '5月论坛旧片', boundary: '片子能证明第1期实习确实发过工资，沈舟也确实参加过当时的讲座。它不能证明后来的第2期实习招募真实存在，更不能证明研究院授权了检测委托。' },

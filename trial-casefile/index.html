@@ -7,7 +7,7 @@
   <meta name="description" content="《我们都认识他》调查档案UI试行版">
   <base href="../">
   <link rel="icon" href="./icons/icon-192.png">
-  <link rel="stylesheet" href="./styles.css?v=15">
+  <link rel="stylesheet" href="./styles.css?v=16">
   <link rel="stylesheet" href="./trial-casefile/styles.css?v=1">
   <title>我们都认识他｜调查档案UI试行版</title>
 </head>
@@ -21,11 +21,11 @@
       <h1>我们都认识他</h1>
       <p class="hook">三句真话，可能指向一个假结论。</p>
       <div class="rule"></div>
-      <p class="intro">我是校园媒体学生林知夏。一条被改名的旧片，把实习招募、科研检测和几段互相矛盾的证言牵到了一起。我要做的，是把每个人说的“真话”放回它发生的时间里。</p>
+      <p class="intro">我是校园媒体学生林知夏。那天，一个新生请我帮忙看报名链接。我原本只想确认旧片是不是被用错了，后来却接连碰上检测合同、借款记录和几段说不清来历的视频。</p>
 
       <section class="build-card glass-card" aria-label="当前版本">
         <div><span>调查档案UI · 试行版</span><strong>12次选择 · 6个结局</strong></div>
-        <p>调查时间、人物证言和证据边界会同步归档。关键回忆与影像回放将以电影式转场呈现。</p>
+        <p>聊天、人物和零散材料会自动收进档案。林知夏只是边走边记，她当时的猜测也可能出错。</p>
       </section>
 
       <div class="home-actions">
@@ -33,7 +33,7 @@
         <button id="newButton" class="button secondary">打开案件</button>
       </div>
 
-      <aside class="tip"><strong>调查原则</strong><span>认识一张脸，不等于确认他今天手里的权限。</span></aside>
+      <aside class="tip"><strong>事情一开始很普通</strong><span>“学姐，能帮我看一下这个报名链接吗？”</span></aside>
     </section>
   </main>
 
@@ -54,13 +54,13 @@
         <header><span>调查记录</span><strong id="caseStage">案件起点</strong></header>
         <ol id="caseTimeline">
           <li data-stage="1" class="active"><i>01</i><div><strong>陌生私信</strong><small>旧片被重新命名</small></div></li>
-          <li data-stage="2"><i>02</i><div><strong>科研加急</strong><small>13.8万元合同</small></div></li>
-          <li data-stage="3"><i>03</i><div><strong>三人座谈</strong><small>互相矛盾的沈舟</small></div></li>
-          <li data-stage="4"><i>04</i><div><strong>身份拼图</strong><small>姓名、声音与权限</small></div></li>
-          <li data-stage="5"><i>05</i><div><strong>团伙链条</strong><small>账本与分工</small></div></li>
-          <li data-stage="6"><i>06</i><div><strong>公开选择</strong><small>发布、授权与结局</small></div></li>
+          <li data-stage="2"><i>02</i><div><strong>实验室来电</strong><small>宋老师的检测合同</small></div></li>
+          <li data-stage="3"><i>03</i><div><strong>活动室座谈</strong><small>3个人的讲述</small></div></li>
+          <li data-stage="4"><i>04</i><div><strong>屏幕里的脸</strong><small>视频与聊天记录</small></div></li>
+          <li data-stage="5"><i>05</i><div><strong>咖啡馆之后</strong><small>退款清单与新视频</small></div></li>
+          <li data-stage="6"><i>06</i><div><strong>最后剪辑</strong><small>我决定怎么发布</small></div></li>
         </ol>
-        <section class="case-principle"><span>知夏的原则</span><p>先保留原始材料，再从独立渠道核实。</p></section>
+        <section class="case-principle"><span>知夏随手记</span><p>别把人名、金额和聊天时间记串了。</p></section>
       </aside>
 
       <section class="visual-column case-visual">
@@ -150,7 +150,7 @@
   </dialog>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script type="module" src="./trial-casefile/app.js?v=1"></script>
-  <script type="module" src="./trial-casefile/ui.js?v=1"></script>
+  <script type="module" src="./trial-casefile/app.js?v=4"></script>
+  <script type="module" src="./trial-casefile/ui.js?v=3"></script>
 </body>
 </html>

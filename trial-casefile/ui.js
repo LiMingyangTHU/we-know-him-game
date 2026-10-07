@@ -1,7 +1,7 @@
-import story from '../src/data/story.js?v=16'
+import story from '../src/data/story.js?v=17'
 
 const SAVE_KEY = 'weKnowHim.casefileTrial.save.v1'
-const stageNames = ['案件起点', '科研加急', '三人座谈', '身份拼图', '团伙链条', '公开选择']
+const stageNames = ['陌生私信', '实验室来电', '活动室座谈', '屏幕里的脸', '咖啡馆之后', '最后剪辑']
 
 function loadState() {
   try { return JSON.parse(localStorage.getItem(SAVE_KEY) || 'null') } catch { return null }
@@ -11,7 +11,7 @@ function stageFor(id = '') {
   if (/^(q10|m01|q11|q12|e\d)/.test(id)) return 6
   if (/^(q07|q08|q09)/.test(id)) return 5
   if (/^(q05|q06)/.test(id)) return 4
-  if (/^(intro|q03|q04)/.test(id)) return 3
+  if (/^(q03|q04)/.test(id)) return 3
   if (/^(c|q02|b2)/.test(id)) return 2
   return 1
 }

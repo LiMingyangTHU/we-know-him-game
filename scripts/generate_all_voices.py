@@ -233,7 +233,7 @@ def write_outputs(report: list[dict]) -> None:
     for item in report:
         lines.append(
             f"  {item['id']}: {{ speaker: '{item['speaker']}', "
-            f"src: './assets/audio/voices/{item['id']}.mp3?v=6', durationMs: {item['durationMs']} }},"
+            f"src: './assets/audio/voices/{item['id']}.mp3?v=7', durationMs: {item['durationMs']} }},"
         )
     lines.extend(['}', ''])
     MANIFEST.write_text('\n'.join(lines), encoding='utf-8')

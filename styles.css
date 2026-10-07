@@ -107,6 +107,7 @@ h1 { margin: 24px 0 0; font-size: clamp(3rem, 9vw, 5.5rem); line-height: 1.05; l
 .mode-strip div { min-width: 0; display: flex; align-items: baseline; gap: 9px; }
 .mode-strip strong { font-size: .78rem; letter-spacing: .1em; white-space: nowrap; }
 .mode-strip small { overflow: hidden; color: #91a6b8; font-size: .72rem; text-overflow: ellipsis; white-space: nowrap; }
+.mode-strip small:empty { display: none; }
 .scene-heading { margin: 0; color: var(--blue); font-size: clamp(1.08rem, 1.6vw, 1.25rem); font-weight: 800; line-height: 1.45; letter-spacing: .025em; }
 .orientation-card { position: relative; margin: 20px 0 24px; padding: 18px 20px 18px 22px; overflow: hidden; border: 1px solid rgba(127,197,175,.42); border-radius: 16px; background: linear-gradient(135deg, rgba(31,67,82,.9), rgba(18,44,60,.82)); box-shadow: inset 4px 0 0 var(--green); }
 .orientation-card::after { content: '→'; position: absolute; right: 17px; top: 11px; color: rgba(137,188,237,.18); font-size: 3.4rem; font-weight: 900; }
