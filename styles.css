@@ -59,6 +59,8 @@ h1 { margin: 24px 0 0; font-size: clamp(3rem, 9vw, 5.5rem); line-height: 1.05; l
 .meta { min-height: 24px; margin-bottom: 12px; color: #91a9bd; font-size: .8rem; font-weight: 600; letter-spacing: .045em; }
 .media-frame { position: relative; width: 100%; max-height: calc(100dvh - 160px); aspect-ratio: 9 / 16; margin: 0; overflow: hidden; border-radius: 22px; background: #101d2b; }
 .scene-media { width: 100%; height: 100%; display: block; object-fit: contain; background: #0d1925; }
+.scene-media.scene-alt { position: absolute; inset: 0; z-index: 1; opacity: 0; transition: opacity 1.25s ease; }
+.scene-media.scene-alt.is-visible { opacity: 1; }
 .chat-scene { width: 100%; height: 100%; display: flex; flex-direction: column; color: #111; background: #ededed; font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif; }
 .chat-header { flex: none; min-height: 72px; padding: 25px 18px 12px; display: grid; grid-template-columns: 30px 1fr 30px; align-items: center; gap: 8px; border-bottom: 1px solid #d6d6d6; background: rgba(247,247,247,.96); }
 .chat-back, .chat-menu { color: #171717; font-size: 1.55rem; line-height: 1; text-align: center; }
@@ -126,6 +128,11 @@ h1 { margin: 24px 0 0; font-size: clamp(3rem, 9vw, 5.5rem); line-height: 1.05; l
 #contextNotesBody article > p { grid-column: 1 / -1; margin: 3px 0 0; color: #b7c5d1; font-size: .88rem; line-height: 1.72; text-wrap: pretty; }
 .speaker { margin: 28px 0 0; color: var(--green); font-size: .92rem; font-weight: 800; letter-spacing: .055em; }
 .dialogue { max-width: 36em; margin: 12px 0 0; color: #f2f6f9; font-size: clamp(1.16rem, 1.65vw, 1.42rem); line-height: 1.82; letter-spacing: .012em; text-wrap: pretty; }
+.dialogue.page-enter { animation: text-page-enter .32s ease both; }
+.page-marker { display: inline-flex; margin-top: 12px; padding: 3px 9px; border: 1px solid rgba(124,197,211,.32); border-radius: 999px; color: #98c8d1; background: rgba(16,39,54,.7); font-size: .72rem; font-weight: 750; letter-spacing: .08em; }
+.clue-highlight { color: #8fe1e5; font-weight: 800; text-decoration: underline; text-decoration-color: rgba(143,225,229,.42); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+.clue-highlight.clue-money { color: #ffbd7b; text-decoration-color: rgba(255,189,123,.45); }
+@keyframes text-page-enter { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
 body[data-presentation="thought"] .mode-strip { border-color: rgba(229,173,120,.5); background: rgba(75,53,40,.42); }
 body[data-presentation="thought"] .mode-icon { background: var(--orange); }
 body[data-presentation="thought"] .dialogue { padding-left: 22px; border-left: 3px solid var(--orange); color: #e8ddd2; font-style: italic; }

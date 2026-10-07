@@ -1,4 +1,5 @@
-import story from '../src/data/story.js?v=17'
+import story from '../src/data/story.js?v=18'
+import { presentNode } from '../src/data/player-copy.js?v=18'
 
 const SAVE_KEY = 'weKnowHim.casefileTrial.save.v1'
 const stageNames = ['陌生私信', '实验室来电', '活动室座谈', '屏幕里的脸', '咖啡馆之后', '最后剪辑']
@@ -26,7 +27,7 @@ function refreshCaseChrome() {
   const node = story.nodes[state.currentId]
   if (!node) return
   const stage = stageFor(node.id)
-  document.querySelector('#caseTask').textContent = cleanHeading(node.heading)
+  document.querySelector('#caseTask').textContent = cleanHeading(presentNode(node).heading)
   document.querySelector('#caseStage').textContent = stageNames[stage - 1]
   document.querySelectorAll('#caseTimeline li').forEach(item => {
     const itemStage = Number(item.dataset.stage)

@@ -77,6 +77,15 @@ assert.match(story.nodes.c11.text, /13\.8万元.*7\.56万元.*1\.86万元.*9\.42
 assert.equal(presentNode(story.nodes.q01).heading, '旧片的新名字')
 assert.equal(presentNode(story.nodes.b1a3).heading, '梁一舟暂停付款')
 assert.equal(presentNode(story.nodes.e1).heading, '看见隐形人')
+assert.equal(presentNode(story.nodes.q04intro).media.frames.length, 2)
+assert.equal(presentNode(story.nodes.q07intro).media.frames.length, 2)
+assert.equal(presentNode(story.nodes.q08intro).media.frames.length, 2)
+assert.equal(presentNode(story.nodes.q10intro).media.frames.length, 2)
+const mechanicalSummary = /把昨天有资格和今天有权限拆分开|过去是真的.*今天仍有权|交换速度|信息代价|核验路径|留在边界外/
+for (const node of Object.values(story.nodes)) {
+  const view = presentNode(node)
+  assert.doesNotMatch(`${view.heading}${view.text}${view.education || ''}`, mechanicalSummary, `${node.id} retains mechanical summary wording`)
+}
 characters.forEach(person => {
   assert.doesNotMatch(`${person.role}${person.known}`, productionWording, `${person.id} profile uses production-facing wording`)
   assert.doesNotMatch(`${person.role}${person.known}`, obsoletePhaseShorthand, `${person.id} profile uses ambiguous phase shorthand`)

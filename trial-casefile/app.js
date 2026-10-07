@@ -1,16 +1,16 @@
-import story from '../src/data/story.js?v=17'
+import story from '../src/data/story.js?v=18'
 import * as engine from '../src/core/engine.js?v=15'
 import * as storage from './storage.js?v=1'
-import { takes, musicTracks, musicKeyForNode, enabledByDefault } from '../src/data/audio-manifest.js?v=23'
-import { unlockedCharacters } from '../src/data/characters.js?v=15'
-import { notesForNode, unlockedGlossary } from '../src/data/glossary.js?v=15'
-import { presentNode } from '../src/data/player-copy.js?v=17'
+import { takes, musicTracks, musicKeyForNode, enabledByDefault } from '../src/data/audio-manifest.js?v=24'
+import { unlockedCharacters } from '../src/data/characters.js?v=16'
+import { notesForNode, unlockedGlossary } from '../src/data/glossary.js?v=16'
+import { presentNode } from '../src/data/player-copy.js?v=18'
 
 const $ = id => document.getElementById(id)
 const ui = {
   home: $('homeView'), game: $('gameView'), continue: $('continueButton'), newGame: $('newButton'), homeButton: $('homeButton'),
   chapter: $('chapterLabel'), progressLabel: $('progressLabel'), progressFill: $('progressFill'), meta: $('meta'),
-  video: $('sceneVideo'), image: $('sceneImage'), chat: $('chatScene'), badge: $('mediaBadge'), heading: $('heading'), speaker: $('speaker'), dialogue: $('dialogue'),
+  video: $('sceneVideo'), image: $('sceneImage'), imageAlt: $('sceneImageAlt'), chat: $('chatScene'), badge: $('mediaBadge'), heading: $('heading'), speaker: $('speaker'), dialogue: $('dialogue'), pageMarker: $('pageMarker'),
   orientation: $('orientationCard'), orientationKicker: $('orientationKicker'), orientationRoute: $('orientationRoute'), orientationGoal: $('orientationGoal'),
   modeStrip: $('modeStrip'), modeIcon: $('modeIcon'), modeLabel: $('modeLabel'), modeNote: $('modeNote'),
   contextNotes: $('contextNotes'), contextNotesBody: $('contextNotesBody'),
@@ -35,6 +35,10 @@ let musicFadeTimer = null
 let toastTimer = null
 let transitionTimer = null
 let lastPresentation = null
+let mediaFrameTimer = null
+let currentViewNode = null
+let textPages = []
+let textPageIndex = 0
 
 const flagLabels = {
   PREWARN: value => value ? '我先发出了付款风险提醒' : '我先留证，公开提醒晚了一步',
@@ -99,6 +103,9 @@ function commit(nextState) {
 
 function render(node) {
   const viewNode = presentNode(node)
+  currentViewNode = viewNode
+  textPages = buildTextPages(viewNode, node)
+  textPageIndex = 0
   const presentation = resolvePresentation(node)
   const progress = state.progress || 0
   ui.chapter.textContent = node.chapter ? `第${node.chapter}幕` : (node.kind === 'intro' ? '我手里的线索' : (node.kind === 'ending' ? '事后手记' : '正在核对'))
@@ -111,7 +118,7 @@ function render(node) {
   renderOrientation(viewNode)
   renderContextNotes(node)
   ui.speaker.textContent = viewNode.speaker || ''
-  ui.dialogue.textContent = viewNode.text || ''
+  renderTextPage(node)
   ui.evidenceCount.textContent = state.evidence.length
   ui.charactersCount.textContent = unlockedCharacters(state.visited).length
   ui.statusCount.textContent = statusCards().length
@@ -126,7 +133,7 @@ function render(node) {
   ui.narrative.classList.toggle('hidden', isEnd)
   ui.chapterEnd.classList.toggle('hidden', !isEnd)
   ui.next.classList.toggle('hidden', isEnd || node.kind === 'choice')
-  ui.next.textContent = node.nextLabel || (node.kind === 'intro' ? '继续整理线索' : '继续核对')
+  updateNextLabel(node)
   ui.skipIntro.classList.toggle('hidden', node.kind !== 'intro')
   if (isEnd) renderEnding(viewNode)
 
@@ -136,6 +143,58 @@ function render(node) {
   ui.audioButton.title = audioEnabled ? '关闭声音' : '开启声音'
   syncAudioForNode(node, viewNode)
   window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+function buildTextPages(viewNode, node) {
+  if (Array.isArray(viewNode.pages) && viewNode.pages.length) return viewNode.pages
+  const text = viewNode.text || ''
+  if (node.kind === 'choice' || node.kind === 'ending' || (node.progress || 0) < 20 || text.length < 68) return [text]
+  const sentences = text.match(/[^。！？；]+[。！？；]?/g) || [text]
+  const pages = []
+  let page = ''
+  sentences.forEach(sentence => {
+    if (page && `${page}${sentence}`.length > 62) {
+      pages.push(page)
+      page = sentence
+    } else page += sentence
+  })
+  if (page) pages.push(page)
+  return pages.length ? pages : [text]
+}
+
+const cluePattern = /(13\.8万元|9\.42万元|7\.56万元|4\.38万元|1\.86万元|1\.2万元|2800元|9月25日|9月22日21点17分|9月22日21:17|2024年|第1期实习|第2期实习|第1期|第2期|合作期至5月|研究院订单号|正式订单|取样单|对公账户|个人账户|缺角配送箱|橙色反光条|缺了同一角|备用机位|共享盘|未授权|没有材料检测|没有得到授权)/g
+
+function renderHighlightedText(element, text = '') {
+  element.replaceChildren()
+  let cursor = 0
+  for (const match of text.matchAll(cluePattern)) {
+    if (match.index > cursor) element.append(document.createTextNode(text.slice(cursor, match.index)))
+    const mark = document.createElement('strong')
+    mark.className = /万元|元/.test(match[0]) ? 'clue-highlight clue-money' : 'clue-highlight'
+    mark.textContent = match[0]
+    element.append(mark)
+    cursor = match.index + match[0].length
+  }
+  if (cursor < text.length) element.append(document.createTextNode(text.slice(cursor)))
+}
+
+function renderTextPage(node) {
+  renderHighlightedText(ui.dialogue, textPages[textPageIndex] || '')
+  const multiple = textPages.length > 1
+  ui.pageMarker.classList.toggle('hidden', !multiple)
+  ui.pageMarker.textContent = multiple ? `本段 ${textPageIndex + 1} / ${textPages.length}` : ''
+  ui.dialogue.classList.remove('page-enter')
+  void ui.dialogue.offsetWidth
+  ui.dialogue.classList.add('page-enter')
+  updateNextLabel(node)
+}
+
+function updateNextLabel(node) {
+  if (textPageIndex < textPages.length - 1) {
+    ui.next.textContent = `继续看 · ${textPageIndex + 1}/${textPages.length}`
+    return
+  }
+  ui.next.textContent = node.nextLabel || (node.kind === 'intro' ? '继续整理线索' : '继续核对')
 }
 
 function renderContextNotes(node) {
@@ -269,10 +328,13 @@ function endingNotes(endingId) {
 }
 
 function renderMedia(media = {}, nodeId = '', presentation = {}) {
+  clearInterval(mediaFrameTimer)
   const isVideo = media.type === 'video'
   const isChat = media.type === 'chat'
   ui.video.classList.toggle('hidden', !isVideo)
   ui.image.classList.toggle('hidden', isVideo || isChat)
+  ui.imageAlt.classList.add('hidden')
+  ui.imageAlt.classList.remove('is-visible')
   ui.chat.classList.toggle('hidden', !isChat)
   ui.badge.classList.toggle('hidden', !isVideo)
   document.querySelector('.media-frame').dataset.presentation = presentation.type || 'narration'
@@ -286,7 +348,8 @@ function renderMedia(media = {}, nodeId = '', presentation = {}) {
     renderChat(media)
   } else {
     ui.video.pause()
-    ui.image.src = media.src || ''
+    const frames = media.frames?.length ? media.frames : [media.src || '']
+    ui.image.src = frames[0]
     ui.image.alt = media.alt || ''
     ui.image.classList.remove('motion-left', 'motion-right', 'motion-push')
     const modes = ['motion-left', 'motion-right', 'motion-push']
@@ -295,6 +358,23 @@ function renderMedia(media = {}, nodeId = '', presentation = {}) {
     ui.image.classList.remove('media-enter')
     void ui.image.offsetWidth
     ui.image.classList.add('media-enter')
+    if (frames.length > 1) {
+      let frameIndex = 0
+      ui.imageAlt.src = frames[1]
+      ui.imageAlt.alt = media.alt || ''
+      ui.imageAlt.classList.remove('hidden')
+      mediaFrameTimer = setInterval(() => {
+        frameIndex = (frameIndex + 1) % frames.length
+        const nextIndex = (frameIndex + 1) % frames.length
+        ui.imageAlt.src = frames[frameIndex]
+        ui.imageAlt.classList.add('is-visible')
+        setTimeout(() => {
+          ui.image.src = frames[frameIndex]
+          ui.imageAlt.classList.remove('is-visible')
+          ui.imageAlt.src = frames[nextIndex]
+        }, 1250)
+      }, 4600)
+    }
   }
 }
 
@@ -395,7 +475,7 @@ function renderChoices(node) {
     const button = document.createElement('button')
     button.className = 'choice'
     button.innerHTML = `<span class="choice-letter">${option.letter}</span><span class="choice-text"></span>`
-    button.querySelector('.choice-text').textContent = option.text
+    renderHighlightedText(button.querySelector('.choice-text'), option.text)
     button.addEventListener('click', () => {
       ui.choices.querySelectorAll('button').forEach(item => { item.disabled = true })
       setTimeout(() => commit(engine.choose(story, state, option.letter)), 160)
@@ -406,6 +486,11 @@ function renderChoices(node) {
 
 function next() {
   const node = story.nodes[state.currentId]
+  if (textPageIndex < textPages.length - 1) {
+    textPageIndex += 1
+    renderTextPage(node)
+    return
+  }
   if (node.kind !== 'choice' && node.kind !== 'ending') commit(engine.advance(story, state))
 }
 

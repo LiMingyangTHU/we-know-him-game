@@ -1,14 +1,14 @@
 import { images, videos } from './media-manifest.js?v=15'
 
 const evidence = {
-  testimony: { id: 'testimony-board', title: '3份证言', boundary: '真工资、真人见面、真技术建议——3个人各握着一块真实材料。可把这3块拼在一起，仍缺少“今天仍有授权”这一角。' },
+  testimony: { id: 'testimony-board', title: '3份证言', boundary: '许橙拿过工资，姜宁见过沈舟，宋老师收过有用的分析图。可这些都发生在以前，没人能证明他现在还代表恒微或研究院。' },
   fullLetter: { id: 'full-letter', title: '第1期实习完整合作函', boundary: '被裁掉的页脚写着“合作期至5月”。这证明原合作已经到期，第2期实习招募不能继续沿用旧函件作为授权证明。至于谁在组织收费，还要继续查。' },
   consentText: { id: 'consent-text', title: '打码文风样本', boundary: '两种说话习惯已经并排放好。我可以记下“账号异常”，还不能把任何人的名字写在后面。' },
-  registry: { id: 'company-registry', title: '公司公示与机构核验', boundary: '公司找得到，检测资格和研究院订单却找不到。钱和人的最后去向，仍要交给能查后台的人。' },
-  boxMatch: { id: 'box-match', title: '缺角反光条对照', boundary: '同一只箱子把3处画面连上了。排班、账号和后台记录没对完以前，它只是连接线，不是姓名牌。' },
+  registry: { id: 'company-registry', title: '公司登记与研究院回复', boundary: '星桥公司查得到，登记业务里却没有材料检测；研究院也查不到宋老师的订单。合同看着正式，不代表研究院真的接了单。' },
+  boxMatch: { id: 'box-match', title: '缺角反光条对照', boundary: '3处画面里出现了同一只箱子。排班表上虽然有唐遇的名字，可谁登录过账号、谁做了视频，还要查记录。' },
   refund: { id: 'refund-list', title: '退款清单与双账户', boundary: '公司账上的2笔写进了退款清单，沈舟个人账户里的借款没有。至少有2条钱路，不能只跟着一张表走。' },
-  fakeVideo: { id: 'fake-video', title: '原片与冒名视频', boundary: '原片里我从没说过那句推荐。备用机位出现在伪片里，说明内部素材被碰过；是谁碰的，访问记录才有资格回答。' },
-  replies: { id: 'official-replies', title: '三方具名答复', boundary: '恒微、研究院和学校分别说明了自己能够确认的范围。这些答复能拆掉含糊的“官方合作”，不能替我给某个人定罪。' },
+  fakeVideo: { id: 'fake-video', title: '原片与冒名视频', boundary: '原片里我从没说过那句推荐。冒名视频却用了没公开的备用机位，说明有人动过社团素材；具体是谁，要看共享盘的登录记录。' },
+  replies: { id: 'official-replies', title: '3封正式回信', boundary: '恒微只承认第1期实习，研究院说沈舟早已离职，学校只批过论坛当天的场地。星桥再说“官方合作”，我终于知道该拿哪封信去对。' },
   consent: { id: 'consent-matrix', title: '公开授权清单', boundary: '每段截图、录音和回执旁边都有当事人的选择：可公开、只交机构，或者不要使用。' }
 }
 

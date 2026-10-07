@@ -83,6 +83,8 @@ body.casefile-trial { color: var(--case-ink); background: var(--case-paper); }
 .case-visual .media-frame { position: relative; width: 100%; max-height: none; aspect-ratio: 4/3; padding: 10px 10px 31px; overflow: visible; border: 0; border-radius: 0; background: #f2ede4; box-shadow: 0 12px 32px rgba(79,67,51,.16); transform: rotate(-.22deg); }
 .case-visual .media-frame::after { content: ''; position: absolute; z-index: 6; top: -8px; left: 43%; width: 74px; height: 17px; background: rgba(202,183,149,.72); transform: rotate(1.5deg); }
 .case-visual .scene-media, .case-visual .chat-scene { width: 100%; height: 100%; object-fit: cover; object-position: center 23%; background: #151717; }
+.case-visual .scene-media.scene-alt { position: absolute; inset: 10px 10px 31px; z-index: 1; width: calc(100% - 20px); height: calc(100% - 41px); opacity: 0; transition: opacity 1.25s ease; }
+.case-visual .scene-media.scene-alt.is-visible { opacity: 1; }
 .case-visual .chat-scene { overflow: hidden; }
 .case-visual .chat-header { min-height: 58px; padding-top: 13px; }
 .case-visual .chat-body { padding-bottom: 58px; }
@@ -125,6 +127,9 @@ body.casefile-trial { color: var(--case-ink); background: var(--case-paper); }
 .case-story #contextNotesBody article > p { color: #756c62; }
 .case-story .speaker { margin-top: 24px; color: #9b5e35; font-size: .78rem; }
 .case-story .dialogue { max-width: 35em; margin-top: 9px; color: #2f2a26; font-family: "Songti SC", "STSong", serif; font-size: clamp(1.08rem,1.45vw,1.28rem); line-height: 1.85; }
+.case-story .page-marker { margin-top: 10px; border-color: rgba(104,91,72,.24); color: #796653; background: rgba(255,255,255,.48); font-family: Inter, "PingFang SC", sans-serif; }
+.case-story .clue-highlight { color: #176873; text-decoration-color: rgba(23,104,115,.34); }
+.case-story .clue-highlight.clue-money { color: #a45124; text-decoration-color: rgba(164,81,36,.35); }
 .casefile-trial[data-presentation="thought"] .case-story .dialogue { padding: 17px 19px; border: 0; border-left: 3px solid #bd7b49; color: #5f5145; background: rgba(210,194,173,.27); font-style: normal; }
 .casefile-trial[data-presentation="record"] .case-story .dialogue { padding: 17px 19px; border-color: #b8ad9e; border-radius: 0; color: #494139; background: rgba(255,255,255,.36); }
 .casefile-trial[data-presentation="decision"] .case-story .dialogue { color: #41362d; font-weight: 700; }

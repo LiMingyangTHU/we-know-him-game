@@ -58,7 +58,7 @@
   {
     "id": "a06",
     "speaker": "林知夏",
-    "durationMs": 13992,
+    "durationMs": 16128,
     "lufs": -16.0,
     "truePeakDb": -1.61,
     "segments": 4
@@ -194,9 +194,9 @@
   {
     "id": "c11",
     "speaker": "林知夏",
-    "durationMs": 20952,
+    "durationMs": 21312,
     "lufs": -16.0,
-    "truePeakDb": -1.89,
+    "truePeakDb": -1.55,
     "segments": 4
   },
   {
@@ -314,10 +314,10 @@
   {
     "id": "q03all",
     "speaker": "林知夏",
-    "durationMs": 19032,
+    "durationMs": 19224,
     "lufs": -16.0,
-    "truePeakDb": -1.63,
-    "segments": 4
+    "truePeakDb": -1.55,
+    "segments": 3
   },
   {
     "id": "q04intro",
@@ -370,9 +370,9 @@
   {
     "id": "q05a",
     "speaker": "林知夏",
-    "durationMs": 16920,
+    "durationMs": 18120,
     "lufs": -16.0,
-    "truePeakDb": -1.62,
+    "truePeakDb": -1.58,
     "segments": 4
   },
   {
@@ -394,9 +394,9 @@
   {
     "id": "q06registry",
     "speaker": "林知夏",
-    "durationMs": 14928,
+    "durationMs": 17280,
     "lufs": -16.0,
-    "truePeakDb": -1.54,
+    "truePeakDb": -1.59,
     "segments": 3
   },
   {
@@ -442,9 +442,9 @@
   {
     "id": "q07b",
     "speaker": "林知夏",
-    "durationMs": 13512,
+    "durationMs": 18792,
     "lufs": -16.0,
-    "truePeakDb": -1.55,
+    "truePeakDb": -1.57,
     "segments": 3
   },
   {
@@ -514,26 +514,26 @@
   {
     "id": "q10intro",
     "speaker": "林知夏",
-    "durationMs": 20856,
+    "durationMs": 23712,
     "lufs": -16.0,
-    "truePeakDb": -1.6,
+    "truePeakDb": -1.59,
     "segments": 5
   },
   {
     "id": "q10a",
     "speaker": "林知夏",
-    "durationMs": 13128,
+    "durationMs": 13968,
     "lufs": -16.0,
-    "truePeakDb": -1.62,
+    "truePeakDb": -1.54,
     "segments": 3
   },
   {
     "id": "q10b",
     "speaker": "林知夏",
-    "durationMs": 13752,
+    "durationMs": 17664,
     "lufs": -16.0,
     "truePeakDb": -1.57,
-    "segments": 3
+    "segments": 4
   },
   {
     "id": "m01",
@@ -546,10 +546,10 @@
   {
     "id": "m01b",
     "speaker": "林知夏",
-    "durationMs": 10704,
+    "durationMs": 15240,
     "lufs": -16.0,
-    "truePeakDb": -1.57,
-    "segments": 2
+    "truePeakDb": -1.59,
+    "segments": 3
   },
   {
     "id": "m01c",
@@ -586,9 +586,9 @@
   {
     "id": "q11a",
     "speaker": "林知夏",
-    "durationMs": 12408,
-    "lufs": -16.0,
-    "truePeakDb": -1.52,
+    "durationMs": 14928,
+    "lufs": -16.07,
+    "truePeakDb": -1.5,
     "segments": 3
   },
   {
@@ -602,9 +602,9 @@
   {
     "id": "q12cut",
     "speaker": "林知夏",
-    "durationMs": 19056,
-    "lufs": -16.0,
-    "truePeakDb": -1.6,
+    "durationMs": 23520,
+    "lufs": -16.12,
+    "truePeakDb": -1.5,
     "segments": 5
   }
 ]

@@ -7,8 +7,8 @@
   <meta name="description" content="《我们都认识他》调查档案UI试行版">
   <base href="../">
   <link rel="icon" href="./icons/icon-192.png">
-  <link rel="stylesheet" href="./styles.css?v=16">
-  <link rel="stylesheet" href="./trial-casefile/styles.css?v=1">
+  <link rel="stylesheet" href="./styles.css?v=17">
+  <link rel="stylesheet" href="./trial-casefile/styles.css?v=2">
   <title>我们都认识他｜调查档案UI试行版</title>
 </head>
 <body class="casefile-trial">
@@ -71,6 +71,7 @@
         <figure class="media-frame glass-card">
           <video id="sceneVideo" class="scene-media hidden" muted loop autoplay playsinline></video>
           <img id="sceneImage" class="scene-media motion-image" alt="">
+          <img id="sceneImageAlt" class="scene-media scene-alt hidden" alt="">
           <div id="chatScene" class="chat-scene hidden" aria-label="聊天记录"></div>
           <figcaption id="mediaBadge" class="media-badge hidden">影像回放</figcaption>
         </figure>
@@ -97,6 +98,7 @@
             <div id="contextNotesBody"></div>
           </section>
           <p id="speaker" class="speaker"></p>
+          <span id="pageMarker" class="page-marker hidden"></span>
           <p id="dialogue" class="dialogue"></p>
         </article>
         <div id="choices" class="choices"></div>
@@ -150,7 +152,7 @@
   </dialog>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script type="module" src="./trial-casefile/app.js?v=4"></script>
-  <script type="module" src="./trial-casefile/ui.js?v=3"></script>
+  <script type="module" src="./trial-casefile/app.js?v=6"></script>
+  <script type="module" src="./trial-casefile/ui.js?v=4"></script>
 </body>
 </html>

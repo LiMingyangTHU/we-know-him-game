@@ -1,4 +1,4 @@
-const CACHE = 'we-know-him-web-v24'
+const CACHE = 'we-know-him-web-v27'
 const APP_SHELL = [
   './', './index.html', './styles.css', './manifest.webmanifest',
   './trial-casefile/', './trial-casefile/index.html', './trial-casefile/styles.css', './trial-casefile/app.js', './trial-casefile/ui.js', './trial-casefile/storage.js',
@@ -17,6 +17,11 @@ const APP_SHELL = [
   './assets/images/evidence-wall-v5.webp', './assets/images/consent-interview-v5.webp',
   './assets/images/ending-clear-v5.webp', './assets/images/ending-witness-exit-v5.webp',
   './assets/images/transition-lab-v6.webp', './assets/images/roundtable-player-v6.webp',
+  './assets/images/archive-motion-01-v1.webp', './assets/images/archive-motion-02-v1.webp',
+  './assets/images/delivery-clue-01-v1.webp', './assets/images/delivery-clue-02-v1.webp',
+  './assets/images/refund-ledger-01-v1.webp', './assets/images/refund-ledger-02-v1.webp',
+  './assets/images/fake-video-compare-v1.webp',
+  './assets/images/official-replies-01-v1.webp', './assets/images/official-replies-02-v1.webp',
   './assets/characters/01-lin.webp', './assets/characters/02-shen.webp', './assets/characters/03-zhou.webp',
   './assets/characters/04-tang.webp', './assets/characters/05-lu.webp', './assets/characters/06-xu.webp',
   './assets/characters/07-jiang.webp', './assets/characters/08-song.webp', './assets/characters/09-liang.webp'

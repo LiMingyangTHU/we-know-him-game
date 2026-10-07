@@ -1,9 +1,9 @@
 import { images, videos } from './media-manifest.js?v=15'
-import { fullNodes, earlyProgress } from './full-story.js?v=16'
+import { fullNodes, earlyProgress } from './full-story.js?v=17'
 
 const evidence = {
   oldClip: { id: 'old-clip', title: '5月论坛旧片', boundary: '片子能证明第1期实习确实发过工资，沈舟也确实参加过当时的讲座。它不能证明后来的第2期实习招募真实存在，更不能证明研究院授权了检测委托。' },
-  signup: { id: 'signup-page', title: '第2期实习报名页', boundary: '页面上留着2800元名额费、截止倒计时和收款户名。但岗位是否存在、企业是否授权，还要从独立渠道核实。' },
+  signup: { id: 'signup-page', title: '第2期实习报名页', boundary: '页面上有2800元名额费、截止倒计时和收款户名，却没有岗位名单，也没有恒微的联系电话。我得自己从企业官网问。' },
   contract: { id: 'research-contract', title: '外协合同与回执', boundary: '学校确实走了付款流程，星桥也确实收了钱。可订单号那一栏仍是空的，研究院还没有开口。' },
   emptyBox: { id: 'empty-box', title: '未启封采样盒', boundary: '盒子到了，样品还在宋老师手里。送盒子的人是谁、替谁来，镜头没有拍清。' }
 }

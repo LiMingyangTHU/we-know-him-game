@@ -42,7 +42,7 @@ export const characters = [
   {
     id: 'tang', name: '唐遇', role: '配送与物料跑腿员',
     portrait: './assets/characters/04-tang.webp', unlock: ['q07name'],
-    known: '我先在5月物料排班表里看到这个名字，后来又在几段画面里看见相似的配送箱。这些只是连接线索，还不能说明他做了什么。'
+    known: '我先在5月物料排班表里看到这个名字，后来又在几段画面里看见相似的配送箱。可画面没拍清脸，账号记录也还没查到，我不能只凭箱子认定是他。'
   }
 ]
 
