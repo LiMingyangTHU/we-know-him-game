@@ -29,14 +29,14 @@ const nodes = {
   a01: scene('a01', '第1幕｜旧片的新名字', '林知夏（内心）', '导出进度停在87%。我正要重启软件，手机在桌边亮了一下。陌生新生发来的封面，正是我4个月前剪过的那条片子。', 'lin', 'a01b', { chapter: 1, time: '9月23日上午', place: '校园媒体办公室', source: '现场', progress: 3, orientation: { kicker: '案件起点｜9月23日上午', route: '你的旧片 → 新生正在打开的付款页', goal: '先确认旧片被怎样改名，再判断是否需要立即提醒停付' }, nextLabel: '查看陌生私信' }),
   a01b: card('a01b', '1条陌生私信', '林知夏（内心）', '头像没见过。对方发来的封面，我却一眼认出——那是我5月拍的片子，只是标题变了。', 'linPhoneNatural', 'a02', { source: '玩家所见', progress: 5 }),
   a02: scene('a02', '新生的私信', '梁一舟（私信）', '学姐，能帮我看看是真的吗？他们说今晚零点锁本批名额，校友推荐价2800元。', 'liang', 'a02b', { chapter: 1, time: '9月23日上午', place: '新生宿舍', source: '聊天记录', progress: 7, media: { type: 'chat', title: '梁一舟', subtitle: '对方正在输入…', time: '09:41', messages: [
-    { side: 'received', name: '梁一舟', avatar: '梁', text: '学姐，能帮我看看是真的吗？' },
-    { side: 'received', name: '梁一舟', avatar: '梁', text: '他们说今晚零点锁本批名额，校友推荐价2800元。' },
+    { side: 'received', name: '梁一舟', avatar: '梁', text: '学姐，你帮我看一眼，这个靠谱吗？' },
+    { side: 'received', name: '梁一舟', avatar: '梁', text: '群里说今晚0点就锁名额，校友推荐价2800元。' },
     { side: 'received', name: '梁一舟', avatar: '梁', attachment: { title: '第2期实习报名页', note: '链接卡片｜请先核验来源' } }
   ] } }),
   a02b: card('a02b', '付款按钮前', '梁一舟（语音转写）', '我已经填到最后一步了。室友说名额过点就没，可我越看越觉得哪里不对。', 'liangDeadline', 'a03', { source: '当事人发送', progress: 9, media: { type: 'chat', title: '梁一舟', subtitle: '聊天记录', time: '09:43', messages: [
-    { side: 'received', name: '梁一舟', avatar: '梁', text: '我已经填到最后一步了。' },
-    { side: 'received', name: '梁一舟', avatar: '梁', text: '室友说名额过点就没，可我越看越觉得哪里不对。' },
-    { side: 'sent', name: '林知夏', avatar: '林', text: '先别付款。把页面从头到尾录下来发我。' }
+    { side: 'received', name: '梁一舟', avatar: '梁', text: '我都填到付款这一步了。' },
+    { side: 'received', name: '梁一舟', avatar: '梁', text: '室友催我快点，说过了今晚就没名额……可我越看越不踏实。' },
+    { side: 'sent', name: '林知夏', avatar: '林', text: '先别付。把报名页从头到尾录一遍发我。' }
   ] } }),
   a03: card('a03', '旧片被改成“第2期实习实录”', '报名群界面', '我翻回群公告才理清两件事：第1期实习是春季举办的免费线下项目，有学生真正到岗，也收到了恒微科技发放的工资。第2期实习招募是6月以后才出现的收费项目，要先交2800元名额费。现在，群里把第1期实习的旧片改名后放在第2期实习付款页旁边，却没有说明新项目是否仍由原企业授权。', 'fee', 'a04', { source: '屏幕证据', progress: 11, onEnter: { evidence: [evidence.signup] }, media: { type: 'chat', title: '2026新生互助群（87）', subtitle: '群聊', time: '09:36', system: '周衡修改了群公告', messages: [
     { side: 'received', name: '周衡', avatar: '周', text: '第2期实习早鸟批次今晚24:00截止。还没登记的同学尽快。' },

@@ -1,10 +1,10 @@
-import story from './data/story.js?v=15'
+import story from './data/story.js?v=16'
 import * as engine from './core/engine.js?v=15'
 import * as storage from './core/storage.js?v=15'
-import { takes, musicTracks, musicKeyForNode, enabledByDefault } from './data/audio-manifest.js?v=21'
+import { takes, musicTracks, musicKeyForNode, enabledByDefault } from './data/audio-manifest.js?v=22'
 import { unlockedCharacters } from './data/characters.js?v=15'
 import { notesForNode, unlockedGlossary } from './data/glossary.js?v=15'
-import { presentNode } from './data/player-copy.js?v=15'
+import { presentNode } from './data/player-copy.js?v=16'
 
 const $ = id => document.getElementById(id)
 const ui = {
