@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#242729">
+  <meta name="description" content="《我们都认识他》调查档案UI试行版">
+  <base href="../">
+  <link rel="icon" href="./icons/icon-192.png">
+  <link rel="stylesheet" href="./styles.css?v=15">
+  <link rel="stylesheet" href="./trial-casefile/styles.css?v=1">
+  <title>我们都认识他｜调查档案UI试行版</title>
+</head>
+<body class="casefile-trial">
+  <noscript>本游戏需要启用 JavaScript。</noscript>
+
+  <main id="homeView" class="view home-view trial-home">
+    <div class="home-image" aria-hidden="true"></div>
+    <section class="home-shell">
+      <p class="eyebrow">CASE FILE 09-23 · 校园反诈互动推理</p>
+      <h1>我们都认识他</h1>
+      <p class="hook">三句真话，可能指向一个假结论。</p>
+      <div class="rule"></div>
+      <p class="intro">我是校园媒体学生林知夏。一条被改名的旧片，把实习招募、科研检测和几段互相矛盾的证言牵到了一起。我要做的，是把每个人说的“真话”放回它发生的时间里。</p>
+
+      <section class="build-card glass-card" aria-label="当前版本">
+        <div><span>调查档案UI · 试行版</span><strong>12次选择 · 6个结局</strong></div>
+        <p>调查时间、人物证言和证据边界会同步归档。关键回忆与影像回放将以电影式转场呈现。</p>
+      </section>
+
+      <div class="home-actions">
+        <button id="continueButton" class="button primary hidden">继续调查</button>
+        <button id="newButton" class="button secondary">打开案件</button>
+      </div>
+
+      <aside class="tip"><strong>调查原则</strong><span>认识一张脸，不等于确认他今天手里的权限。</span></aside>
+    </section>
+  </main>
+
+  <main id="gameView" class="view game-view hidden">
+    <header class="topbar case-topbar">
+      <button id="homeButton" class="icon-button" aria-label="返回首页">‹</button>
+      <div class="case-brand"><span>CASE 09-23</span><strong>我们都认识他</strong></div>
+      <div class="current-task"><span>当前任务</span><strong id="caseTask">整理手中的线索</strong></div>
+      <div class="progress-wrap">
+        <div class="progress-meta"><span id="chapterLabel">调查中</span><span id="progressLabel">0%</span></div>
+        <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100"><div id="progressFill"></div></div>
+      </div>
+      <button id="audioButton" class="icon-button audio-button" aria-label="开关配音">静</button>
+    </header>
+
+    <div class="game-layout case-layout">
+      <aside class="case-timeline" aria-label="调查时间线">
+        <header><span>调查记录</span><strong id="caseStage">案件起点</strong></header>
+        <ol id="caseTimeline">
+          <li data-stage="1" class="active"><i>01</i><div><strong>陌生私信</strong><small>旧片被重新命名</small></div></li>
+          <li data-stage="2"><i>02</i><div><strong>科研加急</strong><small>13.8万元合同</small></div></li>
+          <li data-stage="3"><i>03</i><div><strong>三人座谈</strong><small>互相矛盾的沈舟</small></div></li>
+          <li data-stage="4"><i>04</i><div><strong>身份拼图</strong><small>姓名、声音与权限</small></div></li>
+          <li data-stage="5"><i>05</i><div><strong>团伙链条</strong><small>账本与分工</small></div></li>
+          <li data-stage="6"><i>06</i><div><strong>公开选择</strong><small>发布、授权与结局</small></div></li>
+        </ol>
+        <section class="case-principle"><span>知夏的原则</span><p>先保留原始材料，再从独立渠道核实。</p></section>
+      </aside>
+
+      <section class="visual-column case-visual">
+        <div class="visual-heading">
+          <div><span>现场材料</span><strong id="meta" class="meta"></strong></div>
+          <button type="button" id="visualHint">点击工具栏查看归档</button>
+        </div>
+        <figure class="media-frame glass-card">
+          <video id="sceneVideo" class="scene-media hidden" muted loop autoplay playsinline></video>
+          <img id="sceneImage" class="scene-media motion-image" alt="">
+          <div id="chatScene" class="chat-scene hidden" aria-label="聊天记录"></div>
+          <figcaption id="mediaBadge" class="media-badge hidden">影像回放</figcaption>
+        </figure>
+        <section class="quick-file" aria-label="快速归档">
+          <header><span>随案归档</span><button id="quickEvidenceOpen" type="button">查看全部</button></header>
+          <div id="quickEvidence"><p class="empty-quick">继续调查后，关键材料会出现在这里。</p></div>
+        </section>
+      </section>
+
+      <section class="story-column case-story">
+        <article id="narrativePanel" class="narrative" aria-live="polite">
+          <div id="modeStrip" class="mode-strip">
+            <span id="modeIcon" class="mode-icon"></span>
+            <div><strong id="modeLabel"></strong><small id="modeNote"></small></div>
+          </div>
+          <p id="heading" class="scene-heading"></p>
+          <section id="orientationCard" class="orientation-card hidden" aria-label="本段调查路标">
+            <span id="orientationKicker" class="orientation-kicker"></span>
+            <strong id="orientationRoute" class="orientation-route"></strong>
+            <p id="orientationGoal" class="orientation-goal"></p>
+          </section>
+          <section id="contextNotes" class="context-notes hidden" aria-label="知夏手记">
+            <header><span>NEW</span><strong>刚归档的背景信息</strong></header>
+            <div id="contextNotesBody"></div>
+          </section>
+          <p id="speaker" class="speaker"></p>
+          <p id="dialogue" class="dialogue"></p>
+        </article>
+        <div id="choices" class="choices"></div>
+        <div id="chapterEnd" class="chapter-end glass-card hidden">
+          <span id="endingCode" class="ending-code"></span>
+          <strong id="endingTitle">事情落在这里</strong>
+          <p id="endingText"></p>
+          <div id="endingDetails" class="ending-details"></div>
+          <p id="endingEducation" class="ending-education"></p>
+          <button id="replayButton" class="button secondary">重新打开案件</button>
+        </div>
+        <div class="story-actions">
+          <button id="stepBackButton" class="button step-back-button" disabled>撤回上一步</button>
+          <button id="nextButton" class="button next-button">继续调查</button>
+        </div>
+        <button id="skipIntroButton" class="text-button hidden">直接查看那条陌生私信</button>
+      </section>
+    </div>
+
+    <nav class="toolbelt case-tools" aria-label="调查工具">
+      <button id="evidenceButton"><span id="evidenceCount" class="count">0</span><span>证据册</span></button>
+      <button id="charactersButton"><span id="charactersCount" class="count">0</span><span>人物档案</span></button>
+      <button id="statusButton"><span id="statusCount" class="count">0</span><span>选择记录</span></button>
+      <button id="glossaryButton"><span id="glossaryCount" class="count">0</span><span>调查手记</span></button>
+      <button id="restartButton"><span class="count">↺</span><span>重新开始</span></button>
+    </nav>
+  </main>
+
+  <div id="sceneTransition" class="scene-transition hidden" aria-hidden="true">
+    <div class="transition-lines" aria-hidden="true"></div>
+    <div class="scene-transition-panel">
+      <span id="transitionIcon" class="transition-icon"></span>
+      <small>CASE FILE · SCENE CHANGE</small>
+      <strong id="transitionTitle"></strong>
+      <p id="transitionSubtitle"></p>
+    </div>
+  </div>
+
+  <div id="drawerMask" class="drawer-mask hidden"></div>
+  <aside id="drawer" class="drawer" aria-hidden="true">
+    <header><div><span>CASE FILE 09-23</span><h2 id="drawerTitle">证据册</h2></div><button id="drawerClose" aria-label="关闭">×</button></header>
+    <div id="drawerBody" class="drawer-body"></div>
+  </aside>
+
+  <dialog id="confirmDialog">
+    <form method="dialog">
+      <h2>重新打开案件？</h2>
+      <p>当前选择、证据与调查进度都会被清空。</p>
+      <div class="dialog-actions"><button value="cancel" class="button secondary">取消</button><button value="confirm" class="button primary">重新开始</button></div>
+    </form>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script type="module" src="./trial-casefile/app.js?v=1"></script>
+  <script type="module" src="./trial-casefile/ui.js?v=1"></script>
+</body>
+</html>
