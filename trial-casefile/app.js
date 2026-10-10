@@ -2,9 +2,9 @@ import story from '../src/data/story.js?v=18'
 import * as engine from '../src/core/engine.js?v=15'
 import * as storage from './storage.js?v=1'
 import { takes, musicTracks, musicKeyForNode, enabledByDefault } from '../src/data/audio-manifest.js?v=24'
-import { unlockedCharacters } from '../src/data/characters.js?v=16'
+import { unlockedCharacters } from '../src/data/characters.js?v=17'
 import { notesForNode, unlockedGlossary } from '../src/data/glossary.js?v=16'
-import { presentNode } from '../src/data/player-copy.js?v=18'
+import { presentNode } from '../src/data/player-copy.js?v=19'
 
 const $ = id => document.getElementById(id)
 const ui = {

@@ -1,4 +1,6 @@
 import assert from 'node:assert/strict'
+import fs from 'node:fs'
+import path from 'node:path'
 import * as engine from '../src/core/engine.js'
 import story from '../src/data/story.js'
 import { glossary, notesForNode } from '../src/data/glossary.js'
@@ -81,6 +83,12 @@ assert.equal(presentNode(story.nodes.q04intro).media.frames.length, 2)
 assert.equal(presentNode(story.nodes.q07intro).media.frames.length, 2)
 assert.equal(presentNode(story.nodes.q08intro).media.frames.length, 2)
 assert.equal(presentNode(story.nodes.q10intro).media.frames.length, 2)
+const stills = Object.values(story.nodes).map(presentNode).filter(node => node.media?.type === 'image')
+assert.equal(new Set(stills.map(node => node.media.src)).size, stills.length, 'illustrated pages must have distinct compositions')
+for (const node of stills) {
+  assert.match(node.media.src, /^\.\/assets\/page-visuals\/[\w-]+\.svg$/, `${node.id} has no page-specific visual`)
+  assert.ok(fs.existsSync(path.resolve(node.media.src)), `${node.id} visual is missing`)
+}
 const mechanicalSummary = /把昨天有资格和今天有权限拆分开|过去是真的.*今天仍有权|交换速度|信息代价|核验路径|留在边界外/
 for (const node of Object.values(story.nodes)) {
   const view = presentNode(node)

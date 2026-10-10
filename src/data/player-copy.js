@@ -1,3 +1,5 @@
+import { pageVisuals } from './page-visuals.js?v=1'
+
 const speakerAliases = {
   '调查选择': '林知夏（下一步）',
   '操作记录': '林知夏（手记）',
@@ -304,9 +306,10 @@ export function presentNode(node) {
     // 场景和时间已经由顶栏、时间线与转场说明。正文不再额外显示
     // “应该查什么”的答案式路标，让玩家自己判断下一步。
     orientation: null,
-    media: (override.media || node.media) ? {
-      ...(override.media || node.media),
-      alt: stripInternalPrefix((override.media || node.media).alt || '')
+    media: (pageVisuals[node.id] || override.media || node.media) ? {
+      ...(pageVisuals[node.id] || override.media || node.media),
+      ...(pageVisuals[node.id] && override.media?.frames?.length > 1 ? { frames: [pageVisuals[node.id].src, override.media.frames[1]] } : {}),
+      alt: stripInternalPrefix((pageVisuals[node.id] || override.media || node.media).alt || '')
     } : node.media,
     text: choiceText,
     options: node.options?.map((option, index) => ({

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>人物档案更新｜独立演示</title>
+  <style>
+    :root{font-family:"Noto Sans SC","Microsoft YaHei",sans-serif;color:#2e3638;background:#e8e3da}
+    *{box-sizing:border-box} body{margin:0;min-height:100vh;background:radial-gradient(circle at 20% 15%,#faf7ef 0,#ebe5da 45%,#d7d1c7 100%)}
+    .shell{max-width:1180px;margin:auto;padding:34px 28px 60px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid #b5afa5;padding-bottom:20px}
+    .tag{color:#a26c46;font-size:12px;font-weight:800;letter-spacing:.22em}.top a{color:#5d6767;text-decoration:none;border:1px solid #b7b1a7;padding:11px 16px;border-radius:3px}
+    h1{font-family:Georgia,"Songti SC",serif;font-weight:500;font-size:clamp(34px,5vw,58px);margin:28px 0 6px}.intro{color:#67716f;line-height:1.7;max-width:680px}
+    .tabs{display:flex;gap:10px;margin:30px 0 22px;flex-wrap:wrap}.tab{border:1px solid #aaa79f;background:transparent;color:#4e5858;padding:12px 22px;cursor:pointer;font-size:15px}.tab.active{background:#263b40;color:#fff;border-color:#263b40}
+    .dossier{display:grid;grid-template-columns:minmax(250px,36%) 1fr;min-height:485px;background:#f8f4ec;box-shadow:0 18px 45px #5a504329;border:1px solid #d5cbbb}
+    .portrait{position:relative;overflow:hidden;background:#26343b}.portrait img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.86)}.portrait:after{content:"";position:absolute;inset:35% 0 0;background:linear-gradient(transparent,#0e1e25ab)}.portrait span{position:absolute;z-index:1;left:25px;bottom:25px;color:#fff;letter-spacing:.18em;font-size:13px}
+    .record{padding:32px 40px;display:flex;flex-direction:column}.row{font-size:13px;color:#a46c44;letter-spacing:.18em;font-weight:800}.name{font:normal clamp(36px,5vw,55px) Georgia,"Songti SC",serif;margin:15px 0 8px}.role{font-size:17px;color:#566462;margin:0 0 22px}.divider{height:1px;background:#d6cec0;margin-bottom:20px}.known{font-size:19px;line-height:1.8;max-width:600px;min-height:96px;margin:0}.clue{margin-top:18px;padding:16px 18px;border-left:3px solid #b87948;background:#f0e6d8;line-height:1.7;color:#5a5952}.clue strong{color:#955a35}.actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:auto;padding-top:24px}.actions button{cursor:pointer;font:inherit;padding:13px 20px;border:1px solid #2f4b50;background:#2f4b50;color:white}.actions button.secondary{color:#2f4b50;background:transparent}.hint{font-size:13px;color:#777d7a;margin-top:18px}
+    .reveal{position:fixed;inset:0;z-index:20;display:none;align-items:center;justify-content:center;overflow:hidden;color:#fff;background:linear-gradient(120deg,#172a31,#3b5f64 42%,#bf8354 80%,#f1c08b);background-size:250% 250%;animation:gradient 2.5s ease infinite}.reveal.show{display:flex}.reveal:before,.reveal:after{content:"";position:absolute;width:130vmax;height:2px;background:#ffffff55;transform:rotate(-23deg);animation:sweep 1.15s ease-out both}.reveal:after{animation-delay:.3s;top:69%}.reveal-inner{position:relative;z-index:2;text-align:center;padding:30px;animation:rise .8s ease-out both}.reveal small{font-size:13px;letter-spacing:.34em;color:#e8ded0}.reveal h2{font:normal clamp(40px,7vw,80px) Georgia,"Songti SC",serif;margin:17px 0}.reveal p{font-size:clamp(16px,2.2vw,24px);margin:0}.reveal .pulse{margin:26px auto 0;width:34px;height:1px;background:#fff;box-shadow:0 0 22px #fff;animation:stretch 1.8s ease-in-out infinite}
+    @keyframes gradient{50%{background-position:100% 100%}}@keyframes rise{from{opacity:0;transform:translateY(35px)}to{opacity:1;transform:translateY(0)}}@keyframes sweep{from{left:-170%;top:25%}to{left:10%;top:68%}}@keyframes stretch{50%{width:185px}}
+    @media(max-width:700px){.shell{padding:20px 16px 45px}.dossier{grid-template-columns:1fr}.portrait{height:290px}.record{padding:25px;min-height:390px}.known{font-size:17px;min-height:0}.top a{font-size:12px}}
+    @media(prefers-reduced-motion:reduce){.reveal,.reveal:before,.reveal:after,.reveal-inner,.pulse{animation:none!important}}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <div class="top"><span class="tag">CASE FILE · 界面演示</span><a href="../">返回试玩版</a></div>
+    <h1>人物档案，随着线索改写</h1>
+    <p class="intro">这是独立的演出预览，不会修改游戏存档。选择人物并点击“模拟获得新线索”，查看全屏渐变提示和档案前后变化。</p>
+    <div class="tabs" role="tablist" aria-label="选择演示人物"></div>
+    <section class="dossier" aria-live="polite">
+      <div class="portrait"><img id="portrait" alt=""><span id="photoLabel"></span></div>
+      <div class="record"><div class="row" id="recordStage"></div><h2 class="name" id="name"></h2><p class="role" id="role"></p><div class="divider"></div><p class="known" id="known"></p><div class="clue" id="clue"></div><div class="actions"><button id="revealButton">模拟获得新线索</button><button class="secondary" id="resetButton">查看更新前</button></div></div>
+    </section>
+    <p class="hint">演示规则：全屏提示只展示本次新增线索；更新后的档案仍保留“已核实”和“待核实”的区别。</p>
+  </main>
+  <div class="reveal" id="reveal" role="alertdialog" aria-modal="true" aria-label="人物档案更新"><div class="reveal-inner"><small>NEW INFORMATION · 人物档案更新</small><h2 id="revealName"></h2><p id="revealLine"></p><div class="pulse"></div></div></div>
+  <script type="module">
+    const people=[
+      {name:'周衡',photo:'../../assets/characters/03-zhou.webp',before:{role:'星桥公司负责人｜实习招募群管理员',known:'他在第2期实习群里发公告，解释名额和收费。5月的第1期实习也有星桥参与。',clue:'目前只有群公告和旧活动记录；第2期的授权尚未核实。'},after:{role:'星桥公司负责人｜退款谈判者',known:'我在咖啡馆见到他本人。他拿出公司收款的退款清单，提出让我撤掉旧片、只发模糊更正。',clue:'新增：他能处理星桥账户里的2笔款；姜宁转入沈舟个人账户的12000元不在清单里。'},reveal:'他拿出了退款清单，却少了一笔。'},
+      {name:'沈舟',photo:'../../assets/characters/02-shen.webp',before:{role:'校友｜5月论坛讲者',known:'5月论坛上，我拍到他本人答疑。宋老师说他的技术建议确实帮过忙。',clue:'真实面孔和专业能力已有目击证言；现在的任职与接单权限待核。'},after:{role:'校友｜研究院前工程师',known:'研究院的正式回复到了：沈舟曾在院里工作，但早已离职。5月讲座和技术建议是真的，9月检测订单却查不到。',clue:'新增：过去在研究院任职，不等于现在有权代表研究院接单。'},reveal:'研究院回信，改写了他的身份。'},
+      {name:'唐遇',photo:'../../assets/characters/04-tang.webp',before:{role:'5月论坛物料签收人',known:'陆鸣的物料排班表上写着唐遇。监控里的跑腿员戴着头盔，脸没拍清。',clue:'目前只能把名字记为排班线索，不能据此认人。'},after:{role:'物料签收人｜待核关联线索',known:'我把3处画面并排，发现同一只缺角反光条的配送箱。排班表有唐遇的名字，但无法单凭箱子确认每次是谁拿的。',clue:'新增：同款箱子连接3处现场；身份、账号和视频操作者仍需查证。'},reveal:'3段画面的边缘，出现了同一只箱子。'}
+    ];
+    const $=s=>document.querySelector(s);let selected=0,updated=false,timer;
+    const render=()=>{const p=people[selected],s=updated?p.after:p.before;$('#portrait').src=p.photo;$('#portrait').alt=p.name+'的人物照片';$('#photoLabel').textContent=p.name+' / 人物照片';$('#name').textContent=p.name;$('#role').textContent=s.role;$('#known').textContent=s.known;$('#clue').innerHTML='<strong>'+(updated?'新增线索':'当前掌握')+'</strong> · '+s.clue;$('#recordStage').textContent=updated?'02 / 更新后档案':'01 / 初见档案';$('#revealButton').disabled=updated;$('#revealButton').textContent=updated?'已获得新线索':'模拟获得新线索';$('.tabs').innerHTML=people.map((item,i)=>`<button class="tab ${i===selected?'active':''}" role="tab" aria-selected="${i===selected}" data-i="${i}">${item.name}</button>`).join('')};
+    $('.tabs').addEventListener('click',e=>{const b=e.target.closest('[data-i]');if(!b)return;clearTimeout(timer);$('#reveal').classList.remove('show');selected=Number(b.dataset.i);updated=false;render()});
+    $('#revealButton').addEventListener('click',()=>{if(updated)return;const p=people[selected];$('#revealName').textContent=p.name;$('#revealLine').textContent=p.reveal;$('#reveal').classList.add('show');timer=setTimeout(()=>{updated=true;render();$('#reveal').classList.remove('show')},2600)});
+    $('#resetButton').addEventListener('click',()=>{clearTimeout(timer);$('#reveal').classList.remove('show');updated=false;render()});
+    $('#reveal').addEventListener('click',()=>{clearTimeout(timer);updated=true;render();$('#reveal').classList.remove('show')});
+    render();
+  </script>
+</body>
+</html>

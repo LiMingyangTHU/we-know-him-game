@@ -2,47 +2,47 @@ export const characters = [
   {
     id: 'lin', name: '林知夏', role: '校园媒体学生｜我的身份',
     portrait: './assets/characters/01-lin.webp', unlock: ['intro01'],
-    known: '我拍摄并剪出了5月论坛的旧片。它被挪用后，我开始逐一核对素材、授权和当事人证言。'
+    known: '我是校园媒体的学生。5月那条论坛短片由我拍摄、剪辑；今天有人把它换了标题，放到了新的实习报名页旁边。'
   },
   {
     id: 'liang', name: '梁一舟', role: '大一新生｜准备报名者',
     portrait: './assets/characters/09-liang.webp', unlock: ['a02'],
-    known: '他在“零点锁名额”的付款页前来问我。我最先从他发来的封面认出了5月旧片。'
+    known: '刚入学的新生。他看到第2期实习报名页和“今晚锁名额”的提醒，付款前把链接转来问我。'
   },
   {
-    id: 'zhou', name: '周衡', role: '星桥青年实践计划负责人',
+    id: 'zhou', name: '周衡', role: '星桥公司负责人｜实习招募群管理员',
     portrait: './assets/characters/03-zhou.webp', unlock: ['a03'],
-    known: '我最先在第2期实习招募群里看到他。他管群、催缴和处理退款，说起第1期实习时总像项目仍在正常延续。'
+    known: '我在第2期实习招募群看到他发公告、解释收费和名额安排。5月的第1期实习也有星桥参与；这次是否得到企业授权，我还没查清。'
   },
   {
     id: 'song', name: '宋岚', role: '材料学教师｜论文返修中',
     portrait: './assets/characters/08-song.webp', unlock: ['c01'],
-    known: '她联系我索取5月未剪原片。她要在9月25日前补交论文检测数据，还要赶月底的教授职称申报。13.8万元检测合同已付9.42万元，样品仍在实验室。'
+    known: '她正在赶论文返修，也要准备教授职称申报。她找我要5月讲座的未剪原片，想核对当时沈舟介绍的身份。'
   },
   {
-    id: 'shen', name: '沈舟', role: '校友｜曾从事材料研究工作',
+    id: 'shen', name: '沈舟', role: '校友｜5月论坛讲者',
     portrait: './assets/characters/02-shen.webp', unlock: ['c03'],
-    known: '我5月拍到他在讲座上答疑，技术细节说得很准。他现在还能不能代表研究院安排检测，我还没核实。'
+    known: '5月论坛上，我拍到他当面回答材料检测问题，宋老师也认得他。至于他现在在哪里任职、能否代表机构接单，我还要另查。'
   },
   {
     id: 'xu', name: '许橙', role: '第1期实习生',
     portrait: './assets/characters/06-xu.webp', unlock: ['q03intro'],
-    known: '她告诉我，第1期实习真的到岗、也真的收到过工资。正因为这段经历是真的，她才信了后来的第2期实习招募。'
+    known: '她参加过5月的第1期实习。我在座谈会上见到她带来的工资记录；她说后来又报名了第2期实习。'
   },
   {
     id: 'jiang', name: '姜宁', role: '宋岚的研究生',
     portrait: './assets/characters/07-jiang.webp', unlock: ['q03intro'],
-    known: '她是宋老师的研究生，也和“沈舟”保持过私人往来。她愿意给我看部分聊天，但公开到哪一句，必须由她决定。'
+    known: '宋老师的研究生。她说自己在线下见过沈舟，也愿意让我看一小部分聊天；哪些能公开，她要逐句确认。'
   },
   {
     id: 'lu', name: '陆鸣', role: '5月论坛承办人',
     portrait: './assets/characters/05-lu.webp', unlock: ['q04archive'],
-    known: '他把5月活动的完整合作函、排班表和未剪素材交给我核对。这些存档只能说明当时发生过什么。'
+    known: '他负责5月论坛的社团活动联络和存档。我去找他时，他从档案柜里调出了合作函完整页和未剪素材。'
   },
   {
-    id: 'tang', name: '唐遇', role: '配送与物料跑腿员',
+    id: 'tang', name: '唐遇', role: '5月论坛物料签收人',
     portrait: './assets/characters/04-tang.webp', unlock: ['q07name'],
-    known: '我先在5月物料排班表里看到这个名字，后来又在几段画面里看见相似的配送箱。可画面没拍清脸，账号记录也还没查到，我不能只凭箱子认定是他。'
+    known: '我在陆鸣的5月物料排班表上看到这个名字。几段画面里出现了相似的配送箱，但镜头没拍清人，我还不能把姓名和画面里的跑腿员直接画等号。'
   }
 ]
 
