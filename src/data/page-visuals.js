@@ -3,401 +3,401 @@ export const pageVisuals = {
   "a01b": {
     "type": "image",
     "src": "./assets/images/lin-phone-natural-v4.webp",
-    "alt": "1条陌生私信的剧情画面"
+    "alt": "林知夏在校园媒体办公室查看手机"
   },
   "a05": {
     "type": "image",
     "src": "./assets/images/lin-message-v2.webp",
-    "alt": "暂缓付款的剧情画面"
+    "alt": "林知夏在剪辑桌旁看手机消息"
   },
   "a06": {
     "type": "image",
-    "src": "./assets/images/lin-phone-natural-v4.webp",
-    "alt": "证据边界｜旧经历不能替新项目作保的剧情画面"
+    "src": "./assets/images/lin-old-new-compare-v1.webp",
+    "alt": "林知夏对比旧片的两张宣传截图"
   },
   "q01": {
     "type": "image",
     "src": "./assets/images/scene-payment-hover-v7.webp",
-    "alt": "Q01｜旧片的新名字的剧情画面"
+    "alt": "报名付款页停在确认前"
   },
   "b1a": {
     "type": "image",
     "src": "./assets/images/lin-day.jpg",
-    "alt": "Q01 A｜先预警，再核实的剧情画面"
+    "alt": "林知夏坐在校园媒体办公室查看消息"
   },
   "b1a2": {
     "type": "image",
     "src": "./assets/images/lin-message-v2.webp",
-    "alt": "群内回应的剧情画面"
+    "alt": "林知夏在剪辑桌旁看手机消息"
   },
   "b1a3": {
     "type": "image",
-    "src": "./assets/images/liang-dorm.jpg",
-    "alt": "选择结果｜梁一舟暂停付款的剧情画面"
+    "src": "./assets/images/liang-deadline-v2.webp",
+    "alt": "梁一舟在宿舍看着手机犹豫"
   },
   "b1b": {
     "type": "image",
     "src": "./assets/images/liang-dorm.jpg",
-    "alt": "选择结果｜证据已保存，倒计时仍在走的剧情画面"
+    "alt": "梁一舟坐在宿舍查看报名信息"
   },
   "c01": {
     "type": "image",
     "src": "./assets/images/transition-lab-v6.webp",
-    "alt": "第2幕｜13.8万元的“加急通道”的剧情画面"
+    "alt": "校园材料实验室的走廊与门口"
   },
   "c02b": {
     "type": "image",
     "src": "./assets/images/song-receipts-v2.webp",
-    "alt": "桌上的2张回执的剧情画面"
+    "alt": "宋岚的检测合同和付款回执铺在桌上"
   },
   "c05": {
     "type": "image",
     "src": "./assets/images/song-receipts-v2.webp",
-    "alt": "回到现在｜核对对公首款的剧情画面"
+    "alt": "宋岚的检测合同和付款回执铺在桌上"
   },
   "c06": {
     "type": "image",
     "src": "./assets/images/shen-call.jpg",
-    "alt": "再次进入回忆｜9月22日傍晚的剧情画面"
+    "alt": "手机屏幕上的沈舟视频通话"
   },
   "c07b": {
     "type": "image",
     "src": "./assets/images/runner-box-v2.webp",
-    "alt": "箱盖没有封签的剧情画面"
+    "alt": "跑腿员带着样品盒出现在实验室门口"
   },
   "c08": {
     "type": "image",
     "src": "./assets/images/song-lab.jpg",
-    "alt": "样品还在，事情还有补救空间的剧情画面"
+    "alt": "宋岚在实验室核对材料"
   },
   "c09": {
     "type": "image",
     "src": "./assets/images/song-lab.jpg",
-    "alt": "宋岚的证言的剧情画面"
+    "alt": "宋岚在实验室核对材料"
   },
   "c10": {
     "type": "image",
     "src": "./assets/images/sample-confirm.webp",
-    "alt": "影像回放｜取样确认视频的剧情画面"
+    "alt": "样品盒与尚未确认的交接文件"
   },
   "c11": {
     "type": "image",
     "src": "./assets/images/song-receipts-v2.webp",
-    "alt": "账目对照的剧情画面"
+    "alt": "宋岚的检测合同和付款回执铺在桌上"
   },
   "q02": {
     "type": "image",
     "src": "./assets/images/song-receipts-v2.webp",
-    "alt": "Q02｜13.8万元的“加急通道”的剧情画面"
+    "alt": "宋岚的检测合同和付款回执铺在桌上"
   },
   "b2a": {
     "type": "image",
     "src": "./assets/images/verify-official-v2.webp",
-    "alt": "Q02 A｜独立核验与止损的剧情画面"
+    "alt": "实验台旁的官网核验页面和电话"
   },
   "b2a3": {
     "type": "image",
     "src": "./assets/images/song-lab.jpg",
-    "alt": "选择结果｜样品保住，资金等待核查的剧情画面"
+    "alt": "宋岚在实验室核对材料"
   },
   "b2b": {
     "type": "image",
     "src": "./assets/images/song-receipts-v2.webp",
-    "alt": "Q02 B｜要求补全材料的剧情画面"
+    "alt": "宋岚的检测合同和付款回执铺在桌上"
   },
   "b2b2": {
     "type": "image",
-    "src": "./assets/images/song-receipts-v2.webp",
-    "alt": "选择结果｜多了一份承诺，也多等了数小时的剧情画面"
+    "src": "./assets/images/verify-official-v2.webp",
+    "alt": "实验台旁的官网核验页面和电话"
   },
   "intro01": {
     "type": "image",
     "src": "./assets/images/lin-phone-natural-v4.webp",
-    "alt": "我剪过的那条片子的剧情画面"
+    "alt": "林知夏在校园媒体办公室查看手机"
   },
   "intro02": {
     "type": "image",
     "src": "./assets/images/lin-final-edit-v3.webp",
-    "alt": "事情比我想的多的剧情画面"
+    "alt": "林知夏在媒体办公室的剪辑台前工作"
   },
   "intro03": {
     "type": "image",
     "src": "./assets/images/lin-day.jpg",
-    "alt": "临时建的几页记录的剧情画面"
+    "alt": "林知夏坐在校园媒体办公室查看消息"
   },
   "intro04": {
     "type": "image",
     "src": "./assets/images/scene-payment-hover-v7.webp",
-    "alt": "只是帮忙看一眼的剧情画面"
+    "alt": "报名付款页停在确认前"
   },
   "q03intro": {
     "type": "image",
     "src": "./assets/images/roundtable-player-v6.webp",
-    "alt": "第3幕｜3种证言的剧情画面"
+    "alt": "林知夏在活动室听取当事人的讲述"
   },
   "q03voices": {
     "type": "image",
     "src": "./assets/images/victim-meeting.webp",
-    "alt": "同一张脸，3种认识的剧情画面"
+    "alt": "3位当事人在活动室围桌交谈"
   },
   "q03": {
     "type": "image",
     "src": "./assets/images/victim-meeting.webp",
-    "alt": "Q03｜你先听谁的？的剧情画面"
+    "alt": "3位当事人在活动室围桌交谈"
   },
   "q03a": {
     "type": "image",
     "src": "./assets/images/xu-salary-v5.webp",
-    "alt": "先听许橙的剧情画面"
+    "alt": "许橙展示第1期实习的工资记录"
   },
   "q03b": {
     "type": "image",
     "src": "./assets/images/jiang-consent-v3.webp",
-    "alt": "先听姜宁的剧情画面"
+    "alt": "姜宁把打码聊天记录交给林知夏查看"
   },
   "q03c": {
     "type": "image",
     "src": "./assets/images/song-lab.jpg",
-    "alt": "先听宋岚的剧情画面"
+    "alt": "宋岚在实验室核对材料"
   },
   "q03all": {
     "type": "image",
     "src": "./assets/images/roundtable-player-v6.webp",
-    "alt": "3段证言放到同一张桌上的剧情画面"
+    "alt": "林知夏在活动室听取当事人的讲述"
   },
   "q04intro": {
     "type": "image",
     "src": "./assets/images/lu-archive-v3.webp",
-    "alt": "第4幕｜真文件也会骗人的剧情画面"
+    "alt": "陆鸣在档案室整理活动资料"
   },
   "q04archive": {
     "type": "image",
     "src": "./assets/images/lu-archive-v3.webp",
-    "alt": "陆鸣调出完整存档的剧情画面"
+    "alt": "陆鸣在档案室整理活动资料"
   },
   "q04": {
     "type": "image",
     "src": "./assets/images/archive-motion-02-v1.webp",
-    "alt": "Q04｜核验第2期实习招募授权的剧情画面"
+    "alt": "双手拼合一份被裁切的合作函"
   },
   "q04a": {
     "type": "image",
-    "src": "./assets/images/archive-motion-02-v1.webp",
-    "alt": "Q04 A｜先拼原页的剧情画面"
+    "src": "./assets/images/archive-motion-01-v1.webp",
+    "alt": "档案室里有人翻看原始函件"
   },
   "q04b": {
     "type": "image",
     "src": "./assets/images/lin-message-v2.webp",
-    "alt": "Q04 B｜等待权威书面回复的剧情画面"
+    "alt": "林知夏在剪辑桌旁看手机消息"
   },
   "q05b": {
     "type": "image",
     "src": "./assets/images/jiang-consent-v3.webp",
-    "alt": "Q05 B｜只留匿名时间线的剧情画面"
+    "alt": "姜宁把打码聊天记录交给林知夏查看"
   },
   "q06intro": {
     "type": "image",
     "src": "./assets/images/ai-identity-check-v5.webp",
-    "alt": "第6幕｜屏幕里那张脸的剧情画面"
+    "alt": "视频通话与线下交接画面并排核对"
   },
   "q06registry": {
     "type": "image",
     "src": "./assets/images/verify-official-v2.webp",
-    "alt": "公司存在，不等于有权检测的剧情画面"
+    "alt": "实验台旁的官网核验页面和电话"
   },
   "q06": {
     "type": "image",
     "src": "./assets/images/ai-identity-check-v5.webp",
-    "alt": "Q06｜继续交接还是继续核验的剧情画面"
+    "alt": "视频通话与线下交接画面并排核对"
   },
   "q06a": {
     "type": "image",
-    "src": "./assets/images/verify-official-v2.webp",
-    "alt": "Q06 A｜先停交接的剧情画面"
+    "src": "./assets/images/song-stop-handover-v1.webp",
+    "alt": "宋岚在实验室封存样品并停止交接"
   },
   "q06b": {
     "type": "image",
-    "src": "./assets/images/shen-call.jpg",
-    "alt": "Q06 B｜再录一段承诺的剧情画面"
+    "src": "./assets/images/song-delay-handover-v1.webp",
+    "alt": "宋岚继续核对承诺，样品盒仍未封存"
   },
   "q07intro": {
     "type": "image",
     "src": "./assets/images/evidence-wall-v5.webp",
-    "alt": "第7幕｜隐形人的剧情画面"
+    "alt": "多处现场照片铺在调查资料墙上"
   },
   "q07name": {
     "type": "image",
     "src": "./assets/images/lu-archive-v3.webp",
-    "alt": "排班表给出一个名字的剧情画面"
+    "alt": "陆鸣在档案室整理活动资料"
   },
   "q07": {
     "type": "image",
     "src": "./assets/images/delivery-clue-02-v1.webp",
-    "alt": "Q07｜线索还是定罪的剧情画面"
+    "alt": "照片里几只配送箱的反光条细节"
   },
   "q07a": {
     "type": "image",
-    "src": "./assets/images/lin-message-v2.webp",
-    "alt": "Q07 A｜指认快于证据的剧情画面"
+    "src": "./assets/images/delivery-clue-01-v1.webp",
+    "alt": "资料墙上标出不同地点的同一只配送箱"
   },
   "q07b": {
     "type": "image",
     "src": "./assets/images/evidence-wall-v5.webp",
-    "alt": "Q07 B｜只写已知边界的剧情画面"
+    "alt": "多处现场照片铺在调查资料墙上"
   },
   "q08intro": {
     "type": "image",
     "src": "./assets/images/zhou-refund-v3.webp",
-    "alt": "第8幕｜2条资金通道的剧情画面"
+    "alt": "周衡在咖啡馆拿出一份退款清单"
   },
   "q08ledger": {
     "type": "image",
     "src": "./assets/images/refund-ledger-02-v1.webp",
-    "alt": "清单上缺了一笔的剧情画面"
+    "alt": "退款清单上标出的两条资金路径"
   },
   "q08": {
     "type": "image",
     "src": "./assets/images/zhou-refund-v3.webp",
-    "alt": "Q08｜退款能否交换沉默的剧情画面"
+    "alt": "周衡在咖啡馆拿出一份退款清单"
   },
   "q08a": {
     "type": "image",
-    "src": "./assets/images/zhou-refund-v3.webp",
-    "alt": "Q08 A｜退款与报道分开的剧情画面"
+    "src": "./assets/images/refund-ledger-01-v1.webp",
+    "alt": "咖啡馆里一份退款清单被推到桌前"
   },
   "q08b": {
     "type": "image",
     "src": "./assets/images/refund-ledger-02-v1.webp",
-    "alt": "Q08 B｜小额退款到账的剧情画面"
+    "alt": "退款清单上标出的两条资金路径"
   },
   "q09intro": {
     "type": "image",
     "src": "./assets/images/lin-fake-video-v3.webp",
-    "alt": "第9幕｜我的脸替他们澄清的剧情画面"
+    "alt": "林知夏查看一段借用她面孔的假视频"
   },
   "q09compare": {
     "type": "image",
     "src": "./assets/images/lin-fake-video-v3.webp",
-    "alt": "真素材，被剪成假结论的剧情画面"
+    "alt": "林知夏查看一段借用她面孔的假视频"
   },
   "q09": {
     "type": "image",
     "src": "./assets/images/lin-fake-video-v3.webp",
-    "alt": "Q09｜先保全还是先止扩散的剧情画面"
+    "alt": "林知夏查看一段借用她面孔的假视频"
   },
   "q09a": {
     "type": "image",
-    "src": "./assets/images/lin-final-edit-v3.webp",
-    "alt": "Q09 A｜保住来源链的剧情画面"
+    "src": "./assets/images/fake-video-compare-v1.webp",
+    "alt": "林知夏在剪辑台比对两段视频素材"
   },
   "q09b": {
     "type": "image",
     "src": "./assets/images/lin-fake-video-v3.webp",
-    "alt": "Q09 B｜先发冒名警报的剧情画面"
+    "alt": "林知夏查看一段借用她面孔的假视频"
   },
   "q10intro": {
     "type": "image",
     "src": "./assets/images/official-replies-02-v1.webp",
-    "alt": "第10幕｜3份答复，3种边界的剧情画面"
+    "alt": "电脑上显示来自3个机构的回复"
   },
   "q10": {
     "type": "image",
     "src": "./assets/images/official-replies-02-v1.webp",
-    "alt": "Q10｜完整发布还是分阶段预警的剧情画面"
+    "alt": "电脑上显示来自3个机构的回复"
   },
   "q10a": {
     "type": "image",
-    "src": "./assets/images/official-replies-02-v1.webp",
-    "alt": "Q10 A｜傍晚具名更正的剧情画面"
+    "src": "./assets/images/official-replies-01-v1.webp",
+    "alt": "傍晚的剪辑桌上打开3封正式回复"
   },
   "q10b": {
     "type": "image",
     "src": "./assets/images/lin-final-edit-v3.webp",
-    "alt": "Q10 B｜两阶段发布的剧情画面"
+    "alt": "林知夏在媒体办公室的剪辑台前工作"
   },
   "m01": {
     "type": "image",
     "src": "./assets/images/shen-call.jpg",
-    "alt": "幕间｜学长的视频电话的剧情画面"
+    "alt": "手机屏幕上的沈舟视频通话"
   },
   "m01b": {
     "type": "image",
     "src": "./assets/images/ai-identity-check-v5.webp",
-    "alt": "第1步｜动作测试也可能被通过的剧情画面"
+    "alt": "视频通话与线下交接画面并排核对"
   },
   "m01c": {
     "type": "image",
     "src": "./assets/images/shen-call.jpg",
-    "alt": "第2步｜私人问题也可能被绕开的剧情画面"
+    "alt": "手机屏幕上的沈舟视频通话"
   },
   "m01d": {
     "type": "image",
-    "src": "./assets/images/lin-message-v2.webp",
-    "alt": "第3步｜挂断后独立回拨的剧情画面"
+    "src": "./assets/images/liang-deadline-v2.webp",
+    "alt": "梁一舟在宿舍看着手机犹豫"
   },
   "q11intro": {
     "type": "image",
     "src": "./assets/images/consent-interview-v5.webp",
-    "alt": "第11幕｜证词的所有权的剧情画面"
+    "alt": "林知夏向当事人确认公开材料的范围"
   },
   "q11consent": {
     "type": "image",
     "src": "./assets/images/consent-interview-v5.webp",
-    "alt": "持有材料，不等于获得公开权的剧情画面"
+    "alt": "林知夏向当事人确认公开材料的范围"
   },
   "q11": {
     "type": "image",
     "src": "./assets/images/consent-interview-v5.webp",
-    "alt": "Q11｜公开多少原件的剧情画面"
+    "alt": "林知夏向当事人确认公开材料的范围"
   },
   "q11a": {
     "type": "image",
     "src": "./assets/images/consent-interview-v5.webp",
-    "alt": "Q11 A｜证人继续合作的剧情画面"
+    "alt": "林知夏向当事人确认公开材料的范围"
   },
   "q12intro": {
     "type": "image",
     "src": "./assets/images/lin-final-edit-v3.webp",
-    "alt": "终幕｜双倒计时的剧情画面"
+    "alt": "林知夏在媒体办公室的剪辑台前工作"
   },
   "q12cut": {
     "type": "image",
     "src": "./assets/images/lin-final-edit-v3.webp",
-    "alt": "重新剪开同一批真素材的剧情画面"
+    "alt": "林知夏在媒体办公室的剪辑台前工作"
   },
   "q12": {
     "type": "image",
     "src": "./assets/images/lin-final-edit-v3.webp",
-    "alt": "Q12｜午夜之前如何发布的剧情画面"
+    "alt": "林知夏在媒体办公室的剪辑台前工作"
   },
   "e1": {
     "type": "image",
     "src": "./assets/images/ending-clear-v5.webp",
-    "alt": "E1｜看见隐形人的剧情画面"
+    "alt": "调查结束后桌上留着整理好的材料"
   },
   "e2": {
     "type": "image",
     "src": "./assets/images/official-replies-02-v1.webp",
-    "alt": "E2｜警报已经发出的剧情画面"
+    "alt": "电脑上显示来自3个机构的回复"
   },
   "e3": {
     "type": "image",
     "src": "./assets/images/lin-final-edit-v3.webp",
-    "alt": "E3｜迟到的完整真相的剧情画面"
+    "alt": "林知夏在媒体办公室的剪辑台前工作"
   },
   "e4": {
     "type": "image",
     "src": "./assets/images/ending-witness-exit-v5.webp",
-    "alt": "E4｜证人退出的剧情画面"
+    "alt": "当事人离开后空下的采访座位"
   },
   "e5": {
     "type": "image",
     "src": "./assets/images/lin-fake-video-v3.webp",
-    "alt": "E5｜借来的脸的剧情画面"
+    "alt": "林知夏查看一段借用她面孔的假视频"
   },
   "e6": {
     "type": "image",
     "src": "./assets/images/lin-fake-video-v3.webp",
-    "alt": "E6｜被借用的脸（隐藏结局）的剧情画面"
+    "alt": "林知夏查看一段借用她面孔的假视频"
   }
 }

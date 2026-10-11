@@ -110,7 +110,7 @@ export function resolveEnding(choices) {
   if (choices.Q11 === 'A' && choices.Q12 === 'B') return 'E3'
   if (choices.Q11 === 'A' && choices.Q12 === 'C' && choices.Q08 === 'B' && choices.Q09 === 'B') return 'E6'
   if (choices.Q11 === 'A' && choices.Q12 === 'C') return 'E5'
-  if (choices.Q11 === 'A' && choices.Q12 === 'A' && choices.Q01 === 'A' && choices.Q02 === 'A' && choices.Q07 === 'B' && choices.Q08 === 'A') return 'E1'
+  if (choices.Q11 === 'A' && choices.Q12 === 'A' && choices.Q01 === 'A' && choices.Q02 === 'A' && choices.Q06 === 'A' && choices.Q07 === 'B' && choices.Q08 === 'A') return 'E1'
   if (choices.Q11 === 'A' && choices.Q12 === 'A') return 'E2'
   return null
 }

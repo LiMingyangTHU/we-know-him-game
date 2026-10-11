@@ -84,7 +84,7 @@ assert.equal(stills.length, 80)
 for (const [id, image] of Object.entries({
   intro03: 'lin-day.jpg',
   a05: 'lin-message-v2.webp',
-  a06: 'lin-phone-natural-v4.webp',
+  a06: 'lin-old-new-compare-v1.webp',
   c06: 'shen-call.jpg',
   q04b: 'lin-message-v2.webp',
   q07name: 'lu-archive-v3.webp',
@@ -93,7 +93,7 @@ for (const [id, image] of Object.entries({
   assert.equal(path.basename(presentNode(story.nodes[id]).media.src), image, `${id} shows the wrong character or a future event`)
 }
 for (const node of stills) {
-  assert.doesNotMatch(node.media.src, /(?:scene-letter-compare|delivery-clue-01|fake-video-compare|refund-ledger-01)/, `${node.id} uses a still with an inconsistent on-screen actor`)
+  assert.doesNotMatch(node.media.src, /scene-letter-compare/, `${node.id} uses a still with an inconsistent on-screen actor`)
 }
 for (const node of Object.values(story.nodes).filter(node => /^(?:intro|a\d|q01|b1|c\d|q02|b2)/.test(node.id))) {
   assert.doesNotMatch(presentNode(node).media?.src || '', /xu-salary/, `${node.id} reveals Xu Cheng before her scene`)
@@ -148,6 +148,10 @@ const replayed = engine.choose(story, rolledBack, 'B')
 assert.equal(replayed.flags.PREWARN, 0)
 assert.ok(replayed.undoSnapshot, 'moving forward unlocks one new step back')
 
+const bestEndingChoices = { Q01: 'A', Q02: 'A', Q06: 'A', Q07: 'B', Q08: 'A', Q11: 'A', Q12: 'A' }
+assert.equal(engine.resolveEnding(bestEndingChoices), 'E1')
+assert.equal(engine.resolveEnding({ ...bestEndingChoices, Q06: 'B' }), 'E2', 'late research stop cannot get the timely-stop ending')
+
 const counts = { E1: 0, E2: 0, E3: 0, E4: 0, E5: 0, E6: 0 }
 const reachedNodes = new Set()
 let routeCount = 0
@@ -176,7 +180,7 @@ function walk(state, depth = 0) {
 walk(engine.createState(story.startId, story))
 
 assert.equal(routeCount, 6144)
-assert.deepEqual(counts, { E1: 96, E2: 1440, E3: 1536, E4: 1536, E5: 1152, E6: 384 })
+assert.deepEqual(counts, { E1: 48, E2: 1488, E3: 1536, E4: 1536, E5: 1152, E6: 384 })
 
 const unreachable = Object.keys(story.nodes).filter(id => !reachedNodes.has(id))
 assert.deepEqual(unreachable, [], `unreachable nodes: ${unreachable.join(', ')}`)

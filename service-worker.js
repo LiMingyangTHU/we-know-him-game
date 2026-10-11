@@ -1,4 +1,4 @@
-const CACHE = 'we-know-him-web-v30'
+const CACHE = 'we-know-him-web-v31'
 const APP_SHELL = [
   './', './index.html', './styles.css', './manifest.webmanifest',
   './trial-casefile/', './trial-casefile/index.html', './trial-casefile/styles.css', './trial-casefile/app.js', './trial-casefile/ui.js', './trial-casefile/storage.js',
@@ -21,7 +21,8 @@ const APP_SHELL = [
   './assets/images/archive-motion-01-v1.webp', './assets/images/archive-motion-02-v1.webp',
   './assets/images/delivery-clue-02-v1.webp', './assets/images/refund-ledger-02-v1.webp',
   './assets/images/scene-payment-hover-v7.webp', './assets/images/scene-courier-cctv-v7.webp',
-  './assets/images/official-replies-02-v1.webp',
+  './assets/images/official-replies-02-v1.webp', './assets/images/official-replies-01-v1.webp',
+  './assets/images/song-stop-handover-v1.webp', './assets/images/song-delay-handover-v1.webp', './assets/images/lin-old-new-compare-v1.webp',
   './assets/characters/01-lin.webp', './assets/characters/02-shen.webp', './assets/characters/03-zhou.webp',
   './assets/characters/04-tang.webp', './assets/characters/05-lu.webp', './assets/characters/06-xu.webp',
   './assets/characters/07-jiang.webp', './assets/characters/08-song.webp', './assets/characters/09-liang.webp'

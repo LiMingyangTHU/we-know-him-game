@@ -1,10 +1,10 @@
-import story from '../src/data/story.js?v=18'
-import * as engine from '../src/core/engine.js?v=16'
+import story from '../src/data/story.js?v=19'
+import * as engine from '../src/core/engine.js?v=17'
 import * as storage from './storage.js?v=1'
 import { takes, musicTracks, musicKeyForNode, enabledByDefault } from '../src/data/audio-manifest.js?v=24'
 import { unlockedCharacters, characterUpdatesAt } from '../src/data/characters.js?v=18'
-import { notesForNode, unlockedGlossary } from '../src/data/glossary.js?v=16'
-import { presentNode } from '../src/data/player-copy.js?v=22'
+import { notesForNode, unlockedGlossary } from '../src/data/glossary.js?v=17'
+import { presentNode } from '../src/data/player-copy.js?v=23'
 
 const $ = id => document.getElementById(id)
 const ui = {
@@ -40,19 +40,7 @@ let currentViewNode = null
 let textPages = []
 let textPageIndex = 0
 let archiveVoicePaused = false
-
-const flagLabels = {
-  PREWARN: value => value ? '我先发出了付款风险提醒' : '我先留证，公开提醒晚了一步',
-  EARLY: value => value ? '我尽早核验并咨询了止付' : '我等过补充材料，处置晚了几小时',
-  JOB: value => value ? '我及时找到了第1期实习授权期限' : '我等企业回信时，截图仍在传播',
-  TRUST: value => value ? '我只留下姜宁授权的打码片段' : '我只记匿名时间线，没有保留私聊',
-  RESEARCH: value => value ? '我和宋老师停下交接，封存样品' : '我多留了一段通话，正规安排晚了',
-  HIDDEN: value => value ? '我只标连接线索，把责任留待核查' : '我曾过早点名，删帖也收不回截图',
-  CLEAR: value => value ? '我把退款与报道分开处理' : '退款截图后来又成了项目背书',
-  FAKE: value => value ? '我保住了原片与伪片的来源链' : '我先发警报，来源记录随后补交',
-  VERIFY: value => value ? '我等三方答复齐后具名发布' : '我中午先预警，傍晚再补答复',
-  SAFE: value => value ? '我按授权公开，当事人继续合作' : '原件被公开后，我转入补救'
-}
+let activeVoiceRequest = 0
 
 const endingVerdicts = {
   E1: { label: '好结局 · 及时止损', review: '评价：你赶在下一批付款前发出了清楚的提醒，也保住了关键材料和当事人的选择权。' },
@@ -63,8 +51,12 @@ const endingVerdicts = {
   E6: { label: '隐藏坏结局 · 被借用的脸', review: '评价：止传和证据对照没有同时完成，林知夏自己的形象也进入了诈骗链条。' }
 }
 
-function statusCards() {
-  return Object.entries(state.flags).filter(([, value]) => value !== null).map(([key, value]) => ({ key, label: flagLabels[key]?.(value) || String(value) }))
+function choiceCards() {
+  return Object.entries(state.choices).map(([questionId, letter]) => {
+    const question = Object.values(story.nodes).find(node => node.questionId === questionId)
+    const option = question?.options?.find(item => item.letter === letter)
+    return { title: `第${Number(questionId.slice(1))}次选择 · ${letter}`, boundary: option?.text || '已作出选择' }
+  })
 }
 
 function showToast(text) {
@@ -94,6 +86,10 @@ function showGame(nextState) {
   ui.game.classList.remove('hidden')
   history.replaceState({ view: 'game' }, '', './trial-casefile/#game')
   commit(state)
+  if (!localStorage.getItem('casefileAudioHintShown')) {
+    showToast('点右上角“静”可开启声音。')
+    localStorage.setItem('casefileAudioHintShown', 'true')
+  }
 }
 
 function commit(nextState) {
@@ -161,7 +157,7 @@ function render(node) {
   textPageIndex = 0
   const presentation = resolvePresentation(node)
   const progress = state.progress || 0
-  ui.chapter.textContent = node.chapter ? `第${node.chapter}幕` : (node.kind === 'intro' ? '我手里的线索' : (node.kind === 'ending' ? '事后手记' : '正在核对'))
+  ui.chapter.textContent = node.chapter ? `第${node.chapter}幕` : (node.kind === 'intro' ? '我手里的线索' : (node.kind === 'ending' ? '结局手记 · 文字' : '正在核对'))
   ui.progressLabel.textContent = `${progress}%`
   ui.progressFill.style.width = `${progress}%`
   ui.progressFill.parentElement.setAttribute('aria-valuenow', String(progress))
@@ -174,7 +170,7 @@ function render(node) {
   renderTextPage(node)
   ui.evidenceCount.textContent = state.evidence.length
   ui.charactersCount.textContent = unlockedCharacters(state.visited).length
-  ui.statusCount.textContent = statusCards().length
+  ui.statusCount.textContent = choiceCards().length
   ui.glossaryCount.textContent = unlockedGlossary(state.visited).length
   const canStepBack = Boolean(state.undoSnapshot) && !state.undoLocked
   ui.stepBack.disabled = !canStepBack
@@ -193,7 +189,8 @@ function render(node) {
   const canSpeak = Boolean(takes[node.audioId]?.src)
   ui.audioButton.classList.toggle('disabled', !canSpeak && !musicTracks[musicKeyForNode(node)])
   ui.audioButton.textContent = audioEnabled ? '声' : '静'
-  ui.audioButton.title = audioEnabled ? '关闭声音' : '开启声音'
+  ui.audioButton.title = audioEnabled ? '声音已开，点击关闭' : '声音已关，点击开启'
+  ui.audioButton.setAttribute('aria-label', ui.audioButton.title)
   syncAudioForNode(node, viewNode)
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
@@ -363,7 +360,7 @@ function endingNotes(endingId) {
   ]
   if (endingId === 'E2') {
     const notes = []
-    if (!f.PREWARN) notes.push('我没有在最早时公开预警；梁一舟当晚交了费，看到最终提醒后才开始退款和报案登记。')
+    if (!f.PREWARN) notes.push('我先留好了报名页和收款信息，没有立刻公开提醒。梁一舟当晚没有付款；到9月25日的新一批关单前，他又差点转出2800元，独立回拨后才停下。')
     if (!f.JOB) notes.push('我没有及时拼回完整合作函；盖章截图先传开，又有一名学生付款。')
     if (!f.TRUST) notes.push('我只留下姜宁的匿名时间线；她暴露得更少，公开视频也少了文字对照。')
     if (!f.RESEARCH) notes.push('我陪宋老师多录了一段承诺；证据多了，正规检测和止损也晚了几个小时。')
@@ -373,9 +370,9 @@ function endingNotes(endingId) {
     if (!f.VERIFY) notes.push('我中午先预警，傍晚才补三方答复；同一批人需要再看见一次。')
     return notes.length ? notes : ['我已经发出最终预警，钱和账号的处置还要等银行、平台和警方。']
   }
-  if (endingId === 'E3') return [c.Q01 === 'A' ? '我此前的临时提醒让梁一舟停下了付款。' : '我没能在第一晚拦住梁一舟；他正在办理退款和报案登记。', '我让宋老师在三方答复到齐当晚停了尾款；真正迟到的是面向更多人的预警。']
+  if (endingId === 'E3') return [c.Q01 === 'A' ? '我此前的临时提醒让梁一舟停下了付款。' : '第一晚我先留证，梁一舟没有付款；两天后新一批关单前，他险些转账，独立回拨后才停下。', '我让宋老师在三方答复到齐当晚停了尾款；真正迟到的是面向更多人的预警。']
   if (endingId === 'E4') return [f.TRUST ? '即使我此前拿到过部分授权，未打码原件仍超出了约定。' : '姜宁没有交出聊天截图，我的可识别叙述仍把她推到了人前。', '我可以下架页面，却无法收回已经下载和转发的副本。']
-  if (endingId === 'E5') return [c.Q01 === 'A' ? '我最早的提醒保住了梁一舟本人。' : '我没有拦住梁一舟参加当晚批次。', c.Q10 === 'A' ? '我傍晚发过具名更正，午夜那句模糊补充却被单独截走。' : '我中午发过具体提醒，午夜仍没能留下清晰的最终对照。']
+  if (endingId === 'E5') return [c.Q01 === 'A' ? '我最早的提醒保住了梁一舟本人。' : '我第一晚先留证，梁一舟当晚没交费；9月25日新一批关单前，他才又被催着转账。', c.Q10 === 'A' ? '我傍晚发过具名更正，午夜那句模糊补充却被单独截走。' : '我中午发过具体提醒，午夜仍没能留下清晰的最终对照。']
   if (endingId === 'E6') return ['我用模糊口径换来了部分退款。', '我发出的冒名警报没及时带上原片对照。', '最后，别人用我的脸和真实素材拼出了一份新的“官方背书”。']
   return []
 }
@@ -491,12 +488,8 @@ function renderChat(media) {
   })
   const compose = document.createElement('div')
   compose.className = 'chat-compose'
-  const voice = document.createElement('span')
-  voice.textContent = '声'
-  const field = document.createElement('i')
-  const plus = document.createElement('span')
-  plus.textContent = '+'
-  compose.append(voice, field, plus)
+  compose.textContent = '聊天记录已归档 · 仅供查看'
+  compose.setAttribute('aria-label', '历史聊天记录，仅供查看')
   ui.chat.append(header, body, compose)
 }
 
@@ -546,13 +539,13 @@ function askRestart() {
 function openDrawer(type) {
   const isCharacters = type === 'characters'
   const isGlossary = type === 'glossary'
-  const items = type === 'evidence' ? state.evidence : (isCharacters ? unlockedCharacters(state.visited) : (isGlossary ? unlockedGlossary(state.visited) : statusCards()))
-  ui.drawerTitle.textContent = type === 'evidence' ? '证据册' : (isCharacters ? '人物档案' : (isGlossary ? '知夏的调查手记' : '调查状态'))
+  const items = type === 'evidence' ? state.evidence : (isCharacters ? unlockedCharacters(state.visited) : (isGlossary ? unlockedGlossary(state.visited) : choiceCards()))
+  ui.drawerTitle.textContent = type === 'evidence' ? '证据册' : (isCharacters ? '人物档案' : (isGlossary ? '知夏的调查手记' : '选择记录'))
   ui.drawerBody.replaceChildren()
   if (!items.length) {
     const empty = document.createElement('p')
     empty.className = 'empty'
-    empty.textContent = type === 'evidence' ? '还没有能放进证据册的材料。' : (isCharacters ? '等我真正见到或听说一个人，再把他写进来。' : (isGlossary ? '现在还是空白。遇到陌生名字时，我会记在这里。' : '做出选择后，我会把造成的变化记在这里。'))
+    empty.textContent = type === 'evidence' ? '还没有能放进证据册的材料。' : (isCharacters ? '等我真正见到或听说一个人，再把他写进来。' : (isGlossary ? '现在还是空白。遇到陌生名字时，我会记在这里。' : '做出选择后，这里会留下我的决定。'))
     ui.drawerBody.append(empty)
   } else if (isCharacters) {
     const list = document.createElement('div')
@@ -653,17 +646,22 @@ function playMusicForNode(node) {
   musicAudio.pause()
   musicAudio.src = track.src
   musicAudio.volume = 0
-  musicAudio.play().then(() => fadeMusicTo(track.volume, 700)).catch(() => {
-    showToast('浏览器拦住了声音，再点一次“静”即可开启。')
+  musicAudio.play().then(() => fadeMusicTo(node.kind === 'ending' ? 0.08 : track.volume, 700)).catch(error => {
+    if (audioEnabled && error?.name === 'NotAllowedError') showToast('声音未能自动播放，请点右上角“声”关闭，再点“静”开启。')
   })
 }
 
 function playRecordedVoice(src) {
+  const requestId = ++activeVoiceRequest
   voiceAudio.src = src
   voiceAudio.onplay = () => fadeMusicTo(0.07, 180)
   voiceAudio.onended = restoreMusic
   voiceAudio.onerror = restoreMusic
-  voiceAudio.play().catch(() => showToast('浏览器拦住了配音，再点一次“静”即可开启。'))
+  voiceAudio.play().catch(error => {
+    if (requestId === activeVoiceRequest && audioEnabled && error?.name === 'NotAllowedError') {
+      showToast('配音未能自动播放，请点右上角“声”关闭，再点“静”开启。')
+    }
+  })
 }
 
 function playVoiceForNode(node) {
@@ -679,6 +677,7 @@ function syncAudioForNode(node, viewNode) {
 }
 
 function stopVoice() {
+  activeVoiceRequest += 1
   voiceAudio.pause()
   voiceAudio.currentTime = 0
   restoreMusic()
@@ -713,7 +712,8 @@ ui.audioButton.addEventListener('click', () => {
   audioEnabled = !audioEnabled
   localStorage.setItem('audioEnabled', String(audioEnabled))
   ui.audioButton.textContent = audioEnabled ? '声' : '静'
-  ui.audioButton.title = audioEnabled ? '关闭声音' : '开启声音'
+  ui.audioButton.title = audioEnabled ? '声音已开，点击关闭' : '声音已关，点击开启'
+  ui.audioButton.setAttribute('aria-label', ui.audioButton.title)
   if (audioEnabled) {
     const node = story.nodes[state.currentId]
     syncAudioForNode(node, presentNode(node))
