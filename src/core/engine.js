@@ -14,6 +14,7 @@ export function createState(startId, story) {
     progress: story?.nodes?.[startId]?.progress || 0,
     completed: false,
     ending: null,
+    archiveAnnounced: [],
     undoSnapshot: null,
     undoLocked: false
   }
@@ -46,6 +47,7 @@ function snapshot(state) {
     progress: state.progress,
     completed: state.completed,
     ending: state.ending,
+    archiveAnnounced: (state.archiveAnnounced || []).slice(),
     undoSnapshot: null,
     undoLocked: true
   }
@@ -97,6 +99,7 @@ export function back(story, state) {
   if (!state.undoSnapshot || state.undoLocked) return state
   return {
     ...state.undoSnapshot,
+    archiveAnnounced: (state.archiveAnnounced || []).slice(),
     undoSnapshot: null,
     undoLocked: true
   }

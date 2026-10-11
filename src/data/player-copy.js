@@ -1,4 +1,4 @@
-import { pageVisuals } from './page-visuals.js?v=1'
+import { pageVisuals } from './page-visuals.js?v=2'
 
 const speakerAliases = {
   '调查选择': '林知夏（下一步）',
@@ -308,7 +308,6 @@ export function presentNode(node) {
     orientation: null,
     media: (pageVisuals[node.id] || override.media || node.media) ? {
       ...(pageVisuals[node.id] || override.media || node.media),
-      ...(pageVisuals[node.id] && override.media?.frames?.length > 1 ? { frames: [pageVisuals[node.id].src, override.media.frames[1]] } : {}),
       alt: stripInternalPrefix((pageVisuals[node.id] || override.media || node.media).alt || '')
     } : node.media,
     text: choiceText,

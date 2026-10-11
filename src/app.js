@@ -1,16 +1,16 @@
 import story from './data/story.js?v=18'
-import * as engine from './core/engine.js?v=15'
+import * as engine from './core/engine.js?v=16'
 import * as storage from './core/storage.js?v=15'
 import { takes, musicTracks, musicKeyForNode, enabledByDefault } from './data/audio-manifest.js?v=24'
-import { unlockedCharacters } from './data/characters.js?v=17'
+import { unlockedCharacters } from './data/characters.js?v=18'
 import { notesForNode, unlockedGlossary } from './data/glossary.js?v=16'
-import { presentNode } from './data/player-copy.js?v=19'
+import { presentNode } from './data/player-copy.js?v=20'
 
 const $ = id => document.getElementById(id)
 const ui = {
   home: $('homeView'), game: $('gameView'), continue: $('continueButton'), newGame: $('newButton'), homeButton: $('homeButton'),
   chapter: $('chapterLabel'), progressLabel: $('progressLabel'), progressFill: $('progressFill'), meta: $('meta'),
-  video: $('sceneVideo'), image: $('sceneImage'), imageAlt: $('sceneImageAlt'), chat: $('chatScene'), badge: $('mediaBadge'), heading: $('heading'), speaker: $('speaker'), dialogue: $('dialogue'), pageMarker: $('pageMarker'),
+  video: $('sceneVideo'), image: $('sceneImage'), chat: $('chatScene'), badge: $('mediaBadge'), heading: $('heading'), speaker: $('speaker'), dialogue: $('dialogue'), pageMarker: $('pageMarker'),
   orientation: $('orientationCard'), orientationKicker: $('orientationKicker'), orientationRoute: $('orientationRoute'), orientationGoal: $('orientationGoal'),
   modeStrip: $('modeStrip'), modeIcon: $('modeIcon'), modeLabel: $('modeLabel'), modeNote: $('modeNote'),
   contextNotes: $('contextNotes'), contextNotesBody: $('contextNotesBody'),
@@ -35,7 +35,6 @@ let musicFadeTimer = null
 let toastTimer = null
 let transitionTimer = null
 let lastPresentation = null
-let mediaFrameTimer = null
 let currentViewNode = null
 let textPages = []
 let textPageIndex = 0
@@ -328,13 +327,10 @@ function endingNotes(endingId) {
 }
 
 function renderMedia(media = {}, nodeId = '', presentation = {}) {
-  clearInterval(mediaFrameTimer)
   const isVideo = media.type === 'video'
   const isChat = media.type === 'chat'
   ui.video.classList.toggle('hidden', !isVideo)
   ui.image.classList.toggle('hidden', isVideo || isChat)
-  ui.imageAlt.classList.add('hidden')
-  ui.imageAlt.classList.remove('is-visible')
   ui.chat.classList.toggle('hidden', !isChat)
   ui.badge.classList.toggle('hidden', !isVideo)
   document.querySelector('.media-frame').dataset.presentation = presentation.type || 'narration'
@@ -348,8 +344,7 @@ function renderMedia(media = {}, nodeId = '', presentation = {}) {
     renderChat(media)
   } else {
     ui.video.pause()
-    const frames = media.frames?.length ? media.frames : [media.src || '']
-    ui.image.src = frames[0]
+    ui.image.src = media.src || ''
     ui.image.alt = media.alt || ''
     ui.image.classList.remove('motion-left', 'motion-right', 'motion-push')
     const modes = ['motion-left', 'motion-right', 'motion-push']
@@ -358,23 +353,6 @@ function renderMedia(media = {}, nodeId = '', presentation = {}) {
     ui.image.classList.remove('media-enter')
     void ui.image.offsetWidth
     ui.image.classList.add('media-enter')
-    if (frames.length > 1) {
-      let frameIndex = 0
-      ui.imageAlt.src = frames[1]
-      ui.imageAlt.alt = media.alt || ''
-      ui.imageAlt.classList.remove('hidden')
-      mediaFrameTimer = setInterval(() => {
-        frameIndex = (frameIndex + 1) % frames.length
-        const nextIndex = (frameIndex + 1) % frames.length
-        ui.imageAlt.src = frames[frameIndex]
-        ui.imageAlt.classList.add('is-visible')
-        setTimeout(() => {
-          ui.image.src = frames[frameIndex]
-          ui.imageAlt.classList.remove('is-visible')
-          ui.imageAlt.src = frames[nextIndex]
-        }, 1250)
-      }, 4600)
-    }
   }
 }
 

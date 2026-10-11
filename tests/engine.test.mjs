@@ -5,7 +5,7 @@ import * as engine from '../src/core/engine.js'
 import story from '../src/data/story.js'
 import { glossary, notesForNode } from '../src/data/glossary.js'
 import { presentNode } from '../src/data/player-copy.js'
-import { characters } from '../src/data/characters.js'
+import { characters, unlockedCharacters, characterUpdatesAt } from '../src/data/characters.js'
 
 assert.deepEqual(engine.validateStory(story), [])
 assert.equal(story.questionCount, 12)
@@ -79,14 +79,11 @@ assert.match(story.nodes.c11.text, /13\.8万元.*7\.56万元.*1\.86万元.*9\.42
 assert.equal(presentNode(story.nodes.q01).heading, '旧片的新名字')
 assert.equal(presentNode(story.nodes.b1a3).heading, '梁一舟暂停付款')
 assert.equal(presentNode(story.nodes.e1).heading, '看见隐形人')
-assert.equal(presentNode(story.nodes.q04intro).media.frames.length, 2)
-assert.equal(presentNode(story.nodes.q07intro).media.frames.length, 2)
-assert.equal(presentNode(story.nodes.q08intro).media.frames.length, 2)
-assert.equal(presentNode(story.nodes.q10intro).media.frames.length, 2)
 const stills = Object.values(story.nodes).map(presentNode).filter(node => node.media?.type === 'image')
-assert.equal(new Set(stills.map(node => node.media.src)).size, stills.length, 'illustrated pages must have distinct compositions')
+assert.equal(stills.length, 80)
 for (const node of stills) {
-  assert.match(node.media.src, /^\.\/assets\/page-visuals\/[\w-]+\.svg$/, `${node.id} has no page-specific visual`)
+  assert.match(node.media.src, /^\.\/assets\/images\/[\w-]+\.(?:jpg|webp|png)$/, `${node.id} has no relevant single still`)
+  assert.equal(node.media.frames, undefined, `${node.id} still has extra inset/slideshow frames`)
   assert.ok(fs.existsSync(path.resolve(node.media.src)), `${node.id} visual is missing`)
 }
 const mechanicalSummary = /把昨天有资格和今天有权限拆分开|过去是真的.*今天仍有权|交换速度|信息代价|核验路径|留在边界外/
@@ -99,7 +96,16 @@ characters.forEach(person => {
   assert.doesNotMatch(`${person.role}${person.known}`, obsoletePhaseShorthand, `${person.id} profile uses ambiguous phase shorthand`)
   assert.doesNotMatch(`${person.role}${person.known}`, colloquialMoney, `${person.id} profile uses a colloquial money amount`)
   assert.match(person.known, /我/, `${person.id} profile is not written from Lin Zhixia's perspective`)
+  for (const update of person.updates) {
+    assert.ok(story.nodes[update.at], `${update.id} has no story milestone`)
+    assert.doesNotMatch(`${update.summary}${update.known}`, /待核|有嫌疑|是否|还要查|继续调查|之后需要/, `${update.id} hints at a verdict or next step`)
+  }
 })
+assert.equal(characterUpdatesAt('q08intro', ['a03', 'q03intro', 'q08intro']).length, 2)
+assert.equal(characterUpdatesAt('q10intro', ['c01', 'c03', 'q10intro']).length, 2)
+assert.match(unlockedCharacters(['a03']).find(person => person.id === 'zhou').known, /公告/)
+assert.match(unlockedCharacters(['a03', 'q08intro']).find(person => person.id === 'zhou').known, /退款清单/)
+assert.match(unlockedCharacters(['c03', 'q10intro']).find(person => person.id === 'shen').known, /2024年离职/)
 glossary.forEach(item => {
   assert.doesNotMatch(`${item.category}${item.title}${item.text}`, obsoletePhaseShorthand, `${item.id} glossary entry uses ambiguous phase shorthand`)
   assert.doesNotMatch(`${item.category}${item.title}${item.text}`, colloquialMoney, `${item.id} glossary entry uses a colloquial money amount`)
@@ -118,6 +124,8 @@ assert.deepEqual(rolledBack.choices, beforeChoice.choices)
 assert.deepEqual(rolledBack.evidence, beforeChoice.evidence)
 assert.equal(rolledBack.undoLocked, true)
 assert.deepEqual(engine.back(story, rolledBack), rolledBack, 'cannot step back twice consecutively')
+const announcedState = { ...afterChoice, archiveAnnounced: ['lin-fake-video'] }
+assert.deepEqual(engine.back(story, announcedState).archiveAnnounced, ['lin-fake-video'], 'one-step back must not replay an already shown dossier reveal')
 const replayed = engine.choose(story, rolledBack, 'B')
 assert.equal(replayed.flags.PREWARN, 0)
 assert.ok(replayed.undoSnapshot, 'moving forward unlocks one new step back')

@@ -7,8 +7,8 @@
   <meta name="description" content="《我们都认识他》调查档案UI试行版">
   <base href="../">
   <link rel="icon" href="./icons/icon-192.png">
-  <link rel="stylesheet" href="./styles.css?v=17">
-  <link rel="stylesheet" href="./trial-casefile/styles.css?v=2">
+  <link rel="stylesheet" href="./styles.css?v=18">
+  <link rel="stylesheet" href="./trial-casefile/styles.css?v=3">
   <title>我们都认识他｜调查档案UI试行版</title>
 </head>
 <body class="casefile-trial">
@@ -71,7 +71,6 @@
         <figure class="media-frame glass-card">
           <video id="sceneVideo" class="scene-media hidden" muted loop autoplay playsinline></video>
           <img id="sceneImage" class="scene-media motion-image" alt="">
-          <img id="sceneImageAlt" class="scene-media scene-alt hidden" alt="">
           <div id="chatScene" class="chat-scene hidden" aria-label="聊天记录"></div>
           <figcaption id="mediaBadge" class="media-badge hidden">影像回放</figcaption>
         </figure>
@@ -137,6 +136,19 @@
     </div>
   </div>
 
+  <div id="archiveReveal" class="archive-reveal hidden" role="dialog" aria-modal="true" aria-labelledby="archiveRevealTitle" aria-hidden="true">
+    <div class="archive-reveal-light" aria-hidden="true"></div>
+    <section class="archive-reveal-panel">
+      <small>CASE FILE · 新的记录</small>
+      <h2 id="archiveRevealTitle">人物档案已更新</h2>
+      <div id="archiveRevealList" class="archive-reveal-list"></div>
+      <div class="archive-reveal-actions">
+        <button id="archiveRevealContinue" type="button">继续调查</button>
+        <button id="archiveRevealOpen" type="button">查看人物档案</button>
+      </div>
+    </section>
+  </div>
+
   <div id="drawerMask" class="drawer-mask hidden"></div>
   <aside id="drawer" class="drawer" aria-hidden="true">
     <header><div><span>CASE FILE 09-23</span><h2 id="drawerTitle">证据册</h2></div><button id="drawerClose" aria-label="关闭">×</button></header>
@@ -152,7 +164,7 @@
   </dialog>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script type="module" src="./trial-casefile/app.js?v=7"></script>
-  <script type="module" src="./trial-casefile/ui.js?v=5"></script>
+  <script type="module" src="./trial-casefile/app.js?v=8"></script>
+  <script type="module" src="./trial-casefile/ui.js?v=6"></script>
 </body>
 </html>

@@ -1,9 +1,9 @@
-const CACHE = 'we-know-him-web-v27'
+const CACHE = 'we-know-him-web-v28'
 const APP_SHELL = [
   './', './index.html', './styles.css', './manifest.webmanifest',
   './trial-casefile/', './trial-casefile/index.html', './trial-casefile/styles.css', './trial-casefile/app.js', './trial-casefile/ui.js', './trial-casefile/storage.js',
   './src/app.js', './src/core/engine.js', './src/core/storage.js',
-  './src/data/story.js', './src/data/full-story.js', './src/data/media-manifest.js', './src/data/audio-manifest.js', './src/data/generated-voice-takes.js', './src/data/characters.js', './src/data/glossary.js', './src/data/player-copy.js',
+  './src/data/story.js', './src/data/full-story.js', './src/data/media-manifest.js', './src/data/audio-manifest.js', './src/data/generated-voice-takes.js', './src/data/characters.js', './src/data/glossary.js', './src/data/player-copy.js', './src/data/page-visuals.js',
   './assets/audio/bgm-inquiry.mp3', './assets/audio/bgm-pressure.mp3', './assets/audio/bgm-truth.mp3', './assets/audio/bgm-aftermath.mp3',
   './icons/icon-192.png', './icons/icon-512.png',
   './assets/images/lin-message-v2.webp', './assets/images/lin-phone-natural-v4.webp', './assets/images/liang-deadline-v2.webp',
@@ -21,6 +21,7 @@ const APP_SHELL = [
   './assets/images/delivery-clue-01-v1.webp', './assets/images/delivery-clue-02-v1.webp',
   './assets/images/refund-ledger-01-v1.webp', './assets/images/refund-ledger-02-v1.webp',
   './assets/images/fake-video-compare-v1.webp',
+  './assets/images/scene-payment-hover-v7.webp', './assets/images/scene-letter-compare-v7.webp', './assets/images/scene-courier-cctv-v7.webp',
   './assets/images/official-replies-01-v1.webp', './assets/images/official-replies-02-v1.webp',
   './assets/characters/01-lin.webp', './assets/characters/02-shen.webp', './assets/characters/03-zhou.webp',
   './assets/characters/04-tang.webp', './assets/characters/05-lu.webp', './assets/characters/06-xu.webp',

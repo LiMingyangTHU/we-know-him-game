@@ -1,5 +1,5 @@
 import story from '../src/data/story.js?v=18'
-import { presentNode } from '../src/data/player-copy.js?v=19'
+import { presentNode } from '../src/data/player-copy.js?v=20'
 
 const SAVE_KEY = 'weKnowHim.casefileTrial.save.v1'
 const stageNames = ['陌生私信', '实验室来电', '活动室座谈', '屏幕里的脸', '咖啡馆之后', '最后剪辑']

@@ -1,16 +1,16 @@
 import story from '../src/data/story.js?v=18'
-import * as engine from '../src/core/engine.js?v=15'
+import * as engine from '../src/core/engine.js?v=16'
 import * as storage from './storage.js?v=1'
 import { takes, musicTracks, musicKeyForNode, enabledByDefault } from '../src/data/audio-manifest.js?v=24'
-import { unlockedCharacters } from '../src/data/characters.js?v=17'
+import { unlockedCharacters, characterUpdatesAt } from '../src/data/characters.js?v=18'
 import { notesForNode, unlockedGlossary } from '../src/data/glossary.js?v=16'
-import { presentNode } from '../src/data/player-copy.js?v=19'
+import { presentNode } from '../src/data/player-copy.js?v=20'
 
 const $ = id => document.getElementById(id)
 const ui = {
   home: $('homeView'), game: $('gameView'), continue: $('continueButton'), newGame: $('newButton'), homeButton: $('homeButton'),
   chapter: $('chapterLabel'), progressLabel: $('progressLabel'), progressFill: $('progressFill'), meta: $('meta'),
-  video: $('sceneVideo'), image: $('sceneImage'), imageAlt: $('sceneImageAlt'), chat: $('chatScene'), badge: $('mediaBadge'), heading: $('heading'), speaker: $('speaker'), dialogue: $('dialogue'), pageMarker: $('pageMarker'),
+  video: $('sceneVideo'), image: $('sceneImage'), chat: $('chatScene'), badge: $('mediaBadge'), heading: $('heading'), speaker: $('speaker'), dialogue: $('dialogue'), pageMarker: $('pageMarker'),
   orientation: $('orientationCard'), orientationKicker: $('orientationKicker'), orientationRoute: $('orientationRoute'), orientationGoal: $('orientationGoal'),
   modeStrip: $('modeStrip'), modeIcon: $('modeIcon'), modeLabel: $('modeLabel'), modeNote: $('modeNote'),
   contextNotes: $('contextNotes'), contextNotesBody: $('contextNotesBody'),
@@ -21,6 +21,7 @@ const ui = {
   evidenceButton: $('evidenceButton'), charactersButton: $('charactersButton'), statusButton: $('statusButton'), glossaryButton: $('glossaryButton'), restartButton: $('restartButton'),
   evidenceCount: $('evidenceCount'), charactersCount: $('charactersCount'), statusCount: $('statusCount'), glossaryCount: $('glossaryCount'), drawer: $('drawer'), drawerMask: $('drawerMask'),
   drawerTitle: $('drawerTitle'), drawerBody: $('drawerBody'), drawerClose: $('drawerClose'), audioButton: $('audioButton'),
+  archiveReveal: $('archiveReveal'), archiveRevealList: $('archiveRevealList'), archiveRevealContinue: $('archiveRevealContinue'), archiveRevealOpen: $('archiveRevealOpen'),
   confirm: $('confirmDialog'), toast: $('toast')
 }
 
@@ -35,10 +36,10 @@ let musicFadeTimer = null
 let toastTimer = null
 let transitionTimer = null
 let lastPresentation = null
-let mediaFrameTimer = null
 let currentViewNode = null
 let textPages = []
 let textPageIndex = 0
+let archiveVoicePaused = false
 
 const flagLabels = {
   PREWARN: value => value ? '我先发出了付款风险提醒' : '我先留证，公开提醒晚了一步',
@@ -74,6 +75,7 @@ function showToast(text) {
 }
 
 function showHome() {
+  hideArchiveReveal()
   stopAllAudio()
   ui.game.classList.add('hidden')
   ui.home.classList.remove('hidden')
@@ -95,10 +97,61 @@ function showGame(nextState) {
 }
 
 function commit(nextState) {
-  state = nextState
+  const enteredNode = Boolean(state?.currentId && state.currentId !== nextState.currentId)
+  const announced = new Set(nextState.archiveAnnounced || [])
+  const freshUpdates = enteredNode ? characterUpdatesAt(nextState.currentId, nextState.visited).filter(update => !announced.has(update.id)) : []
+  freshUpdates.forEach(update => announced.add(update.id))
+  state = { ...nextState, archiveAnnounced: [...announced] }
+  hideArchiveReveal()
   storage.save(state)
   stopVoice()
   render(story.nodes[state.currentId])
+  if (freshUpdates.length) showArchiveReveal(freshUpdates)
+}
+
+function showArchiveReveal(updates) {
+  stopVoice()
+  archiveVoicePaused = true
+  clearTimeout(transitionTimer)
+  ui.sceneTransition.classList.add('hidden')
+  ui.sceneTransition.classList.remove('active', 'leaving')
+  ui.sceneTransition.setAttribute('aria-hidden', 'true')
+  ui.archiveRevealList.replaceChildren()
+  updates.forEach(update => {
+    const row = document.createElement('div')
+    row.className = 'archive-reveal-person'
+    const portrait = document.createElement('img')
+    portrait.src = update.portrait
+    portrait.alt = `${update.name}人物照片`
+    const info = document.createElement('div')
+    const name = document.createElement('strong')
+    name.textContent = update.name
+    const summary = document.createElement('p')
+    summary.textContent = update.summary
+    info.append(name, summary)
+    row.append(portrait, info)
+    ui.archiveRevealList.append(row)
+  })
+  ui.archiveReveal.classList.remove('hidden')
+  ui.archiveReveal.setAttribute('aria-hidden', 'false')
+  requestAnimationFrame(() => ui.archiveReveal.classList.add('active'))
+  ui.archiveRevealContinue.focus()
+}
+
+function hideArchiveReveal({ resume = false, openArchive = false } = {}) {
+  if (ui.archiveReveal.classList.contains('hidden')) {
+    if (!resume) archiveVoicePaused = false
+    return
+  }
+  ui.archiveReveal.classList.remove('active')
+  ui.archiveReveal.classList.add('hidden')
+  ui.archiveReveal.setAttribute('aria-hidden', 'true')
+  if (openArchive) openDrawer('characters')
+  else if (resume) {
+    if (archiveVoicePaused && state && audioEnabled) playVoiceForNode(story.nodes[state.currentId])
+    archiveVoicePaused = false
+    ;(ui.choices.querySelector('button') || ui.next).focus()
+  } else archiveVoicePaused = false
 }
 
 function render(node) {
@@ -328,13 +381,10 @@ function endingNotes(endingId) {
 }
 
 function renderMedia(media = {}, nodeId = '', presentation = {}) {
-  clearInterval(mediaFrameTimer)
   const isVideo = media.type === 'video'
   const isChat = media.type === 'chat'
   ui.video.classList.toggle('hidden', !isVideo)
   ui.image.classList.toggle('hidden', isVideo || isChat)
-  ui.imageAlt.classList.add('hidden')
-  ui.imageAlt.classList.remove('is-visible')
   ui.chat.classList.toggle('hidden', !isChat)
   ui.badge.classList.toggle('hidden', !isVideo)
   document.querySelector('.media-frame').dataset.presentation = presentation.type || 'narration'
@@ -348,8 +398,7 @@ function renderMedia(media = {}, nodeId = '', presentation = {}) {
     renderChat(media)
   } else {
     ui.video.pause()
-    const frames = media.frames?.length ? media.frames : [media.src || '']
-    ui.image.src = frames[0]
+    ui.image.src = media.src || ''
     ui.image.alt = media.alt || ''
     ui.image.classList.remove('motion-left', 'motion-right', 'motion-push')
     const modes = ['motion-left', 'motion-right', 'motion-push']
@@ -358,23 +407,6 @@ function renderMedia(media = {}, nodeId = '', presentation = {}) {
     ui.image.classList.remove('media-enter')
     void ui.image.offsetWidth
     ui.image.classList.add('media-enter')
-    if (frames.length > 1) {
-      let frameIndex = 0
-      ui.imageAlt.src = frames[1]
-      ui.imageAlt.alt = media.alt || ''
-      ui.imageAlt.classList.remove('hidden')
-      mediaFrameTimer = setInterval(() => {
-        frameIndex = (frameIndex + 1) % frames.length
-        const nextIndex = (frameIndex + 1) % frames.length
-        ui.imageAlt.src = frames[frameIndex]
-        ui.imageAlt.classList.add('is-visible')
-        setTimeout(() => {
-          ui.image.src = frames[frameIndex]
-          ui.imageAlt.classList.remove('is-visible')
-          ui.imageAlt.src = frames[nextIndex]
-        }, 1250)
-      }, 4600)
-    }
   }
 }
 
@@ -536,6 +568,12 @@ function openDrawer(type) {
       info.className = 'character-info'
       const name = document.createElement('h3')
       name.textContent = person.name
+      if (person.updated) {
+        const badge = document.createElement('span')
+        badge.className = 'character-updated-badge'
+        badge.textContent = '新增记录'
+        name.append(badge)
+      }
       const role = document.createElement('p')
       role.className = 'character-role'
       role.textContent = person.role
@@ -582,6 +620,8 @@ function closeDrawer() {
   ui.drawerMask.classList.add('hidden')
   ui.drawer.classList.remove('open')
   ui.drawer.setAttribute('aria-hidden', 'true')
+  if (archiveVoicePaused && state && audioEnabled) playVoiceForNode(story.nodes[state.currentId])
+  archiveVoicePaused = false
 }
 
 function fadeMusicTo(target, duration = 260) {
@@ -666,6 +706,8 @@ ui.statusButton.addEventListener('click', () => openDrawer('status'))
 ui.glossaryButton.addEventListener('click', () => openDrawer('glossary'))
 ui.drawerClose.addEventListener('click', closeDrawer)
 ui.drawerMask.addEventListener('click', closeDrawer)
+ui.archiveRevealContinue.addEventListener('click', () => hideArchiveReveal({ resume: true }))
+ui.archiveRevealOpen.addEventListener('click', () => hideArchiveReveal({ openArchive: true }))
 ui.confirm.addEventListener('close', () => { if (ui.confirm.returnValue === 'confirm') restart() })
 ui.audioButton.addEventListener('click', () => {
   audioEnabled = !audioEnabled
@@ -682,8 +724,12 @@ ui.audioButton.addEventListener('click', () => {
   }
 })
 window.addEventListener('keydown', event => {
+  if (!ui.archiveReveal.classList.contains('hidden')) {
+    if (event.key === 'Escape') hideArchiveReveal({ resume: true })
+    return
+  }
   if (event.key === 'Escape') closeDrawer()
-  if ((event.key === 'Enter' || event.key === ' ') && !ui.game.classList.contains('hidden') && !ui.next.classList.contains('hidden')) next()
+  if ((event.key === 'Enter' || event.key === ' ') && event.target === document.body && !ui.game.classList.contains('hidden') && !ui.next.classList.contains('hidden')) next()
 })
 
 const errors = engine.validateStory(story)
