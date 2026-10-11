@@ -1,4 +1,4 @@
-const CACHE = 'we-know-him-web-v28'
+const CACHE = 'we-know-him-web-v29'
 const APP_SHELL = [
   './', './index.html', './styles.css', './manifest.webmanifest',
   './trial-casefile/', './trial-casefile/index.html', './trial-casefile/styles.css', './trial-casefile/app.js', './trial-casefile/ui.js', './trial-casefile/storage.js',

@@ -12,7 +12,7 @@ export const pageVisuals = {
   },
   "a06": {
     "type": "image",
-    "src": "./assets/images/xu-salary-v5.webp",
+    "src": "./assets/images/lin-day.jpg",
     "alt": "证据边界｜旧经历不能替新项目作保的剧情画面"
   },
   "q01": {
@@ -57,7 +57,7 @@ export const pageVisuals = {
   },
   "c06": {
     "type": "image",
-    "src": "./assets/images/sample-confirm.webp",
+    "src": "./assets/images/shen-call.jpg",
     "alt": "再次进入回忆｜9月22日傍晚的剧情画面"
   },
   "c07b": {
@@ -102,7 +102,7 @@ export const pageVisuals = {
   },
   "b2b": {
     "type": "image",
-    "src": "./assets/images/sample-confirm.webp",
+    "src": "./assets/images/song-receipts-v2.webp",
     "alt": "Q02 B｜要求补全材料的剧情画面"
   },
   "b2b2": {
@@ -187,7 +187,7 @@ export const pageVisuals = {
   },
   "q04b": {
     "type": "image",
-    "src": "./assets/images/official-replies-01-v1.webp",
+    "src": "./assets/images/lin-message-v2.webp",
     "alt": "Q04 B｜等待权威书面回复的剧情画面"
   },
   "q05b": {
@@ -227,7 +227,7 @@ export const pageVisuals = {
   },
   "q07name": {
     "type": "image",
-    "src": "./assets/images/runner-box-v2.webp",
+    "src": "./assets/images/lu-archive-v3.webp",
     "alt": "排班表给出一个名字的剧情画面"
   },
   "q07": {
@@ -332,7 +332,7 @@ export const pageVisuals = {
   },
   "m01d": {
     "type": "image",
-    "src": "./assets/images/verify-official-v2.webp",
+    "src": "./assets/images/lin-message-v2.webp",
     "alt": "第3步｜挂断后独立回拨的剧情画面"
   },
   "q11intro": {

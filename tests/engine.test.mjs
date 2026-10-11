@@ -81,6 +81,15 @@ assert.equal(presentNode(story.nodes.b1a3).heading, '梁一舟暂停付款')
 assert.equal(presentNode(story.nodes.e1).heading, '看见隐形人')
 const stills = Object.values(story.nodes).map(presentNode).filter(node => node.media?.type === 'image')
 assert.equal(stills.length, 80)
+for (const [id, image] of Object.entries({
+  a06: 'lin-day.jpg',
+  c06: 'shen-call.jpg',
+  q04b: 'lin-message-v2.webp',
+  q07name: 'lu-archive-v3.webp'
+})) {
+  assert.equal(path.basename(presentNode(story.nodes[id]).media.src), image, `${id} shows the wrong character or a future event`)
+}
+assert.doesNotMatch(fs.readFileSync(path.resolve('styles.css'), 'utf8'), /body\[data-presentation=/, 'dark presentation text can override the light trial theme')
 for (const node of stills) {
   assert.match(node.media.src, /^\.\/assets\/images\/[\w-]+\.(?:jpg|webp|png)$/, `${node.id} has no relevant single still`)
   assert.equal(node.media.frames, undefined, `${node.id} still has extra inset/slideshow frames`)

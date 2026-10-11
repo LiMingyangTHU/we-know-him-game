@@ -1,4 +1,4 @@
-import { pageVisuals } from './page-visuals.js?v=2'
+import { pageVisuals } from './page-visuals.js?v=3'
 
 const speakerAliases = {
   '调查选择': '林知夏（下一步）',

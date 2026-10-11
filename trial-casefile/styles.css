@@ -108,7 +108,7 @@ body.casefile-trial { color: var(--case-ink); background: var(--case-paper); }
 .case-story .mode-strip { margin-bottom: 17px; padding: 0; border: 0; border-radius: 0; color: #695f54; background: transparent; }
 .case-story .mode-icon { width: 27px; height: 27px; border-radius: 2px; color: #f5f0e8; background: var(--case-teal); font-size: .74rem; }
 .case-story .mode-strip strong { color: #71513b; font-size: .65rem; letter-spacing: .11em; }
-.case-story .mode-strip small { color: #8f857a; font-size: .65rem; }
+.case-story .mode-strip small { color: #625a50; font-size: .65rem; }
 .case-story .scene-heading { margin-bottom: 21px; padding-bottom: 13px; border-bottom: 1px solid #c6bcad; color: #342f2a; font-family: "Songti SC", serif; font-size: clamp(1.18rem,1.7vw,1.5rem); letter-spacing: .02em; }
 .case-story .orientation-card { margin: 0 0 22px; padding: 17px 18px; border: 1px solid #bdb19f; border-radius: 0; background: rgba(255,255,255,.38); box-shadow: inset 3px 0 0 var(--case-orange); }
 .case-story .orientation-card::after { color: rgba(115,93,68,.12); }
@@ -131,6 +131,14 @@ body.casefile-trial { color: var(--case-ink); background: var(--case-paper); }
 .casefile-trial[data-presentation="thought"] .case-story .dialogue { padding: 17px 19px; border: 0; border-left: 3px solid #bd7b49; color: #5f5145; background: rgba(210,194,173,.27); font-style: normal; }
 .casefile-trial[data-presentation="record"] .case-story .dialogue { padding: 17px 19px; border-color: #b8ad9e; border-radius: 0; color: #494139; background: rgba(255,255,255,.36); }
 .casefile-trial[data-presentation="decision"] .case-story .dialogue { color: #41362d; font-weight: 700; }
+.casefile-trial[data-presentation="flashback"] .case-story .mode-strip { padding: 6px 11px 6px 6px; border: 1px solid #ac875a; background: #e4d4bd; }
+.casefile-trial[data-presentation="flashback"] .case-story .mode-icon { color: #fff8e9; background: #806038; }
+.casefile-trial[data-presentation="flashback"] .case-story .speaker { color: #80542f; }
+.casefile-trial[data-presentation="flashback"] .case-story .dialogue { padding: 16px 19px; border-left: 3px solid #ac875a; color: #3f352c; background: #f3ecdf; }
+.casefile-trial[data-presentation="playback"] .case-story .mode-strip { padding: 6px 11px 6px 6px; border: 1px solid #78999a; background: #dce9e7; }
+.casefile-trial[data-presentation="playback"] .case-story .mode-icon { background: #3c6669; }
+.casefile-trial[data-presentation="chat"] .case-story .mode-strip { padding: 6px 11px 6px 6px; border: 1px solid #8b9c79; background: #e4eadc; }
+.casefile-trial[data-presentation="chat"] .case-story .mode-icon { color: #fff; background: #536c47; }
 .case-story .choices { margin-top: 24px; gap: 10px; }
 .case-story .choice { min-height: 78px; padding: 14px 16px; border: 1px solid #b8ad9f; border-radius: 0; color: #3d3731; background: rgba(255,255,255,.4); box-shadow: none; }
 .case-story .choice:hover { border-color: #a4673b; background: #f4e8d9; transform: translateX(3px); }
@@ -143,6 +151,7 @@ body.casefile-trial { color: var(--case-ink); background: var(--case-paper); }
 .case-story .text-button { color: #7c6d5e; }
 .case-story .chapter-end { border-color: #b9afa0; border-radius: 0; background: rgba(255,255,255,.42); box-shadow: 0 18px 44px rgba(79,67,50,.1); }
 .case-story .chapter-end > strong { color: #312c27; }
+.case-story .ending-code { color: #74401d; background: #e4d3c0; }
 .case-story .chapter-end p { color: #6d655b; }
 .case-story .ending-details { border-color: #c0b6a7; }
 .case-story .ending-details p { color: #655d54; }
@@ -169,6 +178,7 @@ body.casefile-trial { color: var(--case-ink); background: var(--case-paper); }
 .casefile-trial .drawer-item p, .casefile-trial .character-known { color: #675f56; }
 .casefile-trial .glossary-category, .casefile-trial .character-role { color: #587069; }
 .casefile-trial .character-info h3 { color: #38332e; }
+.casefile-trial .drawer .empty { color: #60584f; }
 .character-updated-badge { display: inline-block; margin-left: 9px; padding: 3px 6px; border: 1px solid #b78660; color: #9a5f39; font: 700 .64rem Inter,"PingFang SC",sans-serif; vertical-align: middle; }
 .casefile-trial .character-portrait { border-color: #9f968a; border-radius: 2px; }
 

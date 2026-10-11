@@ -4,7 +4,7 @@ import * as storage from './core/storage.js?v=15'
 import { takes, musicTracks, musicKeyForNode, enabledByDefault } from './data/audio-manifest.js?v=24'
 import { unlockedCharacters } from './data/characters.js?v=18'
 import { notesForNode, unlockedGlossary } from './data/glossary.js?v=16'
-import { presentNode } from './data/player-copy.js?v=20'
+import { presentNode } from './data/player-copy.js?v=21'
 
 const $ = id => document.getElementById(id)
 const ui = {
