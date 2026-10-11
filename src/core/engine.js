@@ -86,7 +86,9 @@ export function choose(story, state, letter) {
   if (!option) throw new Error(`Unknown choice ${letter} for ${node.id}`)
   let next = applyEffects(state, option.effects)
   next.choices = { ...state.choices, [node.questionId]: letter }
-  const target = option.next === '$ENDING' ? resolveEnding(next.choices)?.toLowerCase() : option.next
+  const branch = option.branchNext
+  const nextId = branch && state.choices[branch.questionId] === branch.equals ? branch.target : option.next
+  const target = nextId === '$ENDING' ? resolveEnding(next.choices)?.toLowerCase() : nextId
   if (!target) throw new Error(`No ending resolved after ${node.id}.${letter}`)
   return moveTo(story, next, target, state)
 }
@@ -125,6 +127,7 @@ export function validateStory(story) {
     if (node.next && !story.nodes[node.next]) errors.push(`${id}.next不存在: ${node.next}`)
     ;(node.options || []).forEach(option => {
       if (option.next !== '$ENDING' && !story.nodes[option.next]) errors.push(`${id}.${option.letter}目标不存在: ${option.next}`)
+      if (option.branchNext && !story.nodes[option.branchNext.target]) errors.push(`${id}.${option.letter}分支目标不存在: ${option.branchNext.target}`)
     })
   })
   return errors

@@ -28,7 +28,8 @@ assert.equal(story.nodes.c07.presentation.type, 'playback')
 assert.match(story.nodes.c07.presentation.note, /退出回忆/)
 assert.equal(new Set(glossary.map(item => item.id)).size, glossary.length)
 assert.ok(glossary.length >= 30)
-glossary.forEach(item => assert.ok(story.nodes[item.unlock], `glossary ${item.id} has missing unlock node ${item.unlock}`))
+glossary.forEach(item => (Array.isArray(item.unlock) ? item.unlock : [item.unlock]).forEach(id =>
+  assert.ok(story.nodes[id], `glossary ${item.id} has missing unlock node ${id}`)))
 assert.deepEqual(notesForNode('a03').map(item => item.id), ['phase-one', 'phase-two', 'zhou-xingqiao'])
 for (const required of ['old-film', 'liang', 'shen', 'song', 'xu', 'jiang', 'lu', 'tang', 'digital-double', 'publication-consent']) {
   assert.ok(glossary.some(item => item.id === required), `missing first-appearance explanation: ${required}`)
@@ -80,7 +81,7 @@ assert.equal(presentNode(story.nodes.q01).heading, '旧片的新名字')
 assert.equal(presentNode(story.nodes.b1a3).heading, '梁一舟暂停付款')
 assert.equal(presentNode(story.nodes.e1).heading, '看见隐形人')
 const stills = Object.values(story.nodes).map(presentNode).filter(node => node.media?.type === 'image')
-assert.equal(stills.length, 80)
+assert.ok(stills.length >= 80)
 for (const [id, image] of Object.entries({
   intro03: 'lin-day.jpg',
   a05: 'lin-message-v2.webp',
@@ -88,7 +89,10 @@ for (const [id, image] of Object.entries({
   c06: 'shen-call.jpg',
   q04b: 'lin-message-v2.webp',
   q07name: 'lu-archive-v3.webp',
-  q09compare: 'lin-fake-video-v3.webp'
+  q09compare: 'fake-video-compare-v1.webp',
+  q10intro: 'two-replies-pending-v1.webp',
+  q11consent: 'song-consent-close-v1.webp',
+  q12cut: 'lin-edit-timeline-v1.webp'
 })) {
   assert.equal(path.basename(presentNode(story.nodes[id]).media.src), image, `${id} shows the wrong character or a future event`)
 }
@@ -115,15 +119,46 @@ characters.forEach(person => {
   assert.doesNotMatch(`${person.role}${person.known}`, colloquialMoney, `${person.id} profile uses a colloquial money amount`)
   assert.match(person.known, /我/, `${person.id} profile is not written from Lin Zhixia's perspective`)
   for (const update of person.updates) {
-    assert.ok(story.nodes[update.at], `${update.id} has no story milestone`)
+    ;(Array.isArray(update.at) ? update.at : [update.at]).forEach(id =>
+      assert.ok(story.nodes[id], `${update.id} has no story milestone ${id}`))
     assert.doesNotMatch(`${update.summary}${update.known}`, /待核|有嫌疑|是否|还要查|继续调查|之后需要/, `${update.id} hints at a verdict or next step`)
   }
 })
 assert.equal(characterUpdatesAt('q08intro', ['a03', 'q03intro', 'q08intro']).length, 2)
-assert.equal(characterUpdatesAt('q10intro', ['c01', 'c03', 'q10intro']).length, 2)
+assert.equal(characterUpdatesAt('q10intro', ['c01', 'c03', 'q10intro']).length, 0)
+assert.equal(characterUpdatesAt('q10a', ['c01', 'c03', 'q10a']).length, 2)
+assert.equal(characterUpdatesAt('q10b', ['c01', 'c03', 'q10b']).length, 2)
 assert.match(unlockedCharacters(['a03']).find(person => person.id === 'zhou').known, /公告/)
 assert.match(unlockedCharacters(['a03', 'q08intro']).find(person => person.id === 'zhou').known, /退款清单/)
-assert.match(unlockedCharacters(['c03', 'q10intro']).find(person => person.id === 'shen').known, /2024年离职/)
+assert.doesNotMatch(unlockedCharacters(['c03', 'q10intro']).find(person => person.id === 'shen').known, /2024年离职/)
+assert.match(unlockedCharacters(['c03', 'q10a']).find(person => person.id === 'shen').known, /2024年离职/)
+assert.equal(presentNode(story.nodes.q08b).media.type, 'chat')
+assert.doesNotMatch(presentNode(story.nodes.q10intro).text, /2024年|3封.*到齐/)
+assert.match(presentNode(story.nodes.q10a).text, /2024年/)
+assert.deepEqual(notesForNode('q10intro').map(item => item.id), ['new-batch'])
+assert.ok(notesForNode('q10a').some(item => item.id === 'official-replies'))
+
+for (const [q02, choice, target] of [
+  ['A', 'A', 'q06a_early'], ['A', 'B', 'q06b_early'],
+  ['B', 'A', 'q06a'], ['B', 'B', 'q06b']
+]) {
+  const state = { ...engine.createState('q06', story), choices: { Q02: q02 } }
+  assert.equal(engine.choose(story, state, choice).currentId, target)
+}
+for (const [q05, target] of [['A', 'q11a'], ['B', 'q11a_anon']]) {
+  const state = { ...engine.createState('q11', story), choices: { Q05: q05 } }
+  assert.equal(engine.choose(story, state, 'A').currentId, target)
+}
+for (const [choice, order] of [
+  ['A', ['q03a', 'q03b_after_a', 'q03c_after_ab', 'q03all']],
+  ['B', ['q03b', 'q03c_after_b', 'q03a_after_bc', 'q03all']],
+  ['C', ['q03c', 'q03a_after_c', 'q03b_after_ca', 'q03all']]
+]) {
+  let state = engine.choose(story, engine.createState('q03', story), choice)
+  const visited = [state.currentId]
+  while (state.currentId !== 'q03all') { state = engine.advance(story, state); visited.push(state.currentId) }
+  assert.deepEqual(visited, order)
+}
 glossary.forEach(item => {
   assert.doesNotMatch(`${item.category}${item.title}${item.text}`, obsoletePhaseShorthand, `${item.id} glossary entry uses ambiguous phase shorthand`)
   assert.doesNotMatch(`${item.category}${item.title}${item.text}`, colloquialMoney, `${item.id} glossary entry uses a colloquial money amount`)

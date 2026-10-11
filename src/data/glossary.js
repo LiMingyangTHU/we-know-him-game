@@ -26,7 +26,7 @@ export const glossary = [
   { id: 'tang', unlock: 'q07name', category: '排班表上的名字', title: '唐遇', text: '5月论坛的物料跑腿员。名字先从纸上出现，至于后来那些画面里是不是他，我还缺一份能对上的记录。' },
   { id: 'two-channels', unlock: 'q08ledger', category: '钱去了哪里', title: '2条收款路径', text: '第2期实习名额费和宋老师的检测款都进了星桥相关账户；姜宁借出的1.2万元则进了“沈舟”的个人账户。周衡递来的退款清单，只覆盖了第1条路径。' },
   { id: 'shared-drive', unlock: 'q09intro', category: '不该出现的一帧', title: '共享盘 / 备用机位', text: '备用机位从没公开，只躺在社团共享盘。假视频里却闪过了这个角度。有人碰过内部素材——是谁，还不能靠这一帧猜。' },
-  { id: 'official-replies', unlock: 'q10intro', category: '3封回信', title: '各答各的问题', text: '恒微说只办过第1期实习；研究院说沈舟早已离职，也没有检测订单；学校说只批过论坛当天的场地。“官方合作”究竟指什么，现在有了可以逐项对照的回答。' },
+  { id: 'official-replies', unlock: ['q10a', 'q10b'], category: '3封回信', title: '各答各的问题', text: '恒微说只办过第1期实习；研究院说沈舟早已离职，也没有检测订单；学校说只批过论坛当天的场地。“官方合作”究竟指什么，现在有了可以逐项对照的回答。' },
   { id: 'new-batch', unlock: 'q10intro', category: '群公告', title: '又开了一批', text: '我翻回群里：9月23日零点锁的是上一批名额。周衡后来又发了公告，9月25日开放下一批，仍说当晚零点截止。' },
   { id: 'callback', unlock: 'm01', category: '先挂断', title: '换个号码回拨', text: '不点对方发来的号码。先挂断，再从自己的通讯录或官网找号码重拨。这样联系到的是不是同一个人，至少不再由对方安排。' },
   { id: 'publication-consent', unlock: 'q11intro', category: '发布前', title: '我看过，不等于我能发', text: '截图、录音和回执都在我手里。公开视频能用哪一段、要遮住什么、声音能不能留，得让材料的主人逐项点头。' },
@@ -34,10 +34,10 @@ export const glossary = [
 ]
 
 export function notesForNode(nodeId) {
-  return glossary.filter(item => item.unlock === nodeId)
+  return glossary.filter(item => (Array.isArray(item.unlock) ? item.unlock : [item.unlock]).includes(nodeId))
 }
 
 export function unlockedGlossary(visited = []) {
   const seen = new Set(visited)
-  return glossary.filter(item => seen.has(item.unlock))
+  return glossary.filter(item => (Array.isArray(item.unlock) ? item.unlock : [item.unlock]).some(id => seen.has(id)))
 }

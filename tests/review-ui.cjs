@@ -61,13 +61,25 @@ async function main() {
     assert.equal(await page.locator('#sceneImage').evaluate(image => image.complete && image.naturalWidth > 0), true)
   }
 
+  await openNode('q10intro')
+  assert.match(await page.locator('#pageMarker').innerText(), /1 \/ 2/)
+  await page.locator('#nextButton').click()
+  assert.match(await page.locator('#pageMarker').innerText(), /2 \/ 2/)
+  assert.equal(await page.locator('#stepBackButton').innerText(), '返回本段上一页')
+  await page.locator('#stepBackButton').click()
+  assert.match(await page.locator('#pageMarker').innerText(), /1 \/ 2/)
+  assert.equal(await page.locator('#stepBackButton').isDisabled(), true)
+  assert.equal(JSON.parse(await page.evaluate(() => localStorage.getItem('weKnowHim.casefileTrial.save.v1'))).currentId, 'q10intro')
+  await page.locator('#nextButton').click()
+  assert.match(await page.locator('#pageMarker').innerText(), /2 \/ 2/)
+
   await openNode('q06a', { choices: { Q01: 'B', Q06: 'A' } })
   assert.equal(await page.locator('#statusCount').textContent(), '2')
   await page.locator('#statusButton').click()
   const statusText = await page.locator('#drawerBody').innerText()
   assert.match(statusText, /第1次选择/)
   assert.match(statusText, /第6次选择/)
-  assert.match(statusText, /停止交接/)
+  assert.match(statusText, /订单核验和样品保全/)
 
   await openNode('e2', { choices: { Q01: 'B', Q11: 'A', Q12: 'A' }, flags: { ...engine.DEFAULT_FLAGS, PREWARN: 0 }, completed: true, ending: 'E2' })
   const ending = await page.locator('#chapterEnd').innerText()

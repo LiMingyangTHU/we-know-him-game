@@ -8,6 +8,7 @@ const evidence = {
   boxMatch: { id: 'box-match', title: '缺角反光条对照', boundary: '3处画面里出现了同一只箱子。排班表上虽然有唐遇的名字，可谁登录过账号、谁做了视频，还要查记录。' },
   refund: { id: 'refund-list', title: '退款清单与双账户', boundary: '公司账上的2笔写进了退款清单，沈舟个人账户里的借款没有。至少有2条钱路，不能只跟着一张表走。' },
   fakeVideo: { id: 'fake-video', title: '原片与冒名视频', boundary: '原片里我从没说过那句推荐。冒名视频却用了没公开的备用机位，说明有人动过社团素材；具体是谁，要看共享盘的登录记录。' },
+  twoReplies: { id: 'two-replies', title: '先到的2封回信', boundary: '恒微只承认第1期实习，学校只批过5月论坛当天的场地。研究院的书面回复还没到，宋老师的订单和沈舟的任职情况暂时不能引用正式回信。' },
   replies: { id: 'official-replies', title: '3封正式回信', boundary: '恒微只承认第1期实习，研究院说沈舟早已离职，学校只批过论坛当天的场地。星桥再说“官方合作”，我终于知道该拿哪封信去对。' },
   consent: { id: 'consent-matrix', title: '公开授权清单', boundary: '每段截图、录音和回执旁边都有当事人的选择：可公开、只交机构，或者不要使用。' }
 }
@@ -45,7 +46,7 @@ export const fullNodes = {
   intro04: card('intro04', '只是帮忙看一眼', '林知夏（内心）', '一，发生过的真事，不替今天的承诺作保。二，看见可疑之处，先记边界，再写名字。三，材料在我手里，也要问过当事人才能公开。每次决定都会留下后果，底部的人物、证据和状态会替我记着。', 'compare', 'a01', { kind: 'intro', source: '9月23日上午', progress: 3, nextLabel: '打开那条私信' }),
 
   q03intro: scene('q03intro', '第3幕｜3种证言', '林知夏（现场记录）', '我关掉摄像机，把授权清单放到桌上。许橙带来第1期实习工资记录，姜宁只展示愿意公开的聊天片段，宋岚带来2张付款回执。她们都说自己认识沈舟。', 'roundtablePlayer', 'q03voices', { chapter: 3, time: '9月24日上午', place: '校园活动室', source: '现场', progress: 20, orientation: { kicker: '转场｜第二天上午', route: '单独求证 → 经同意的3人座谈', goal: '比较3个人各自认识的“沈舟”，找出真经历如何共同支撑了一个假结论' }, nextLabel: '听3人的开场陈述' }),
-  q03voices: card('q03voices', '同一张脸，3种认识', '座谈摘录', '第1期实习生许橙：“我拿到过工资，也被移出过群。”　宋岚的研究生姜宁：“我见过他本人，也听过他说漏嘴。”　教师宋岚：“他的分析帮过我，也可能骗了我。”', 'victimMeeting', 'q03', { source: '当事人证言', progress: 22, onEnter: { evidence: [evidence.testimony] } }),
+  q03voices: card('q03voices', '同一张脸，3种认识', '座谈摘录', '第1期实习生许橙：“我拿到过工资，也被移出过群。”　宋岚的研究生姜宁：“我见过他本人，也听过他说漏嘴。”　教师宋岚：“他的分析帮过我，也可能骗了我。”', 'victimMeeting', 'q03', { source: '当事人开场', progress: 22 }),
   q03: question('q03', 'Q03', 'Q03｜你先听谁的？', '3位当事人各自讲出“我认识的沈舟”。第一段证言会影响你的初始印象，但其他2段不会消失。', 'victimMeeting', 23, [
     { letter: 'A', text: '先听许橙：真正领到工资的第1期实习', next: 'q03a' },
     { letter: 'B', text: '先听姜宁：真正见过本人的交往经历', next: 'q03b' },
@@ -54,7 +55,7 @@ export const fullNodes = {
   q03a: card('q03a', '先听许橙', '许橙', '“第1期实习的工资在5月17日真的到账了，所以第2期实习开始收名额费时，我没有立刻怀疑。我交费后等了4个月，一直没收到岗位安排，才开始意识到不对。我以前还把这个项目推荐给过学弟，所以越拖越不敢开口。”', 'xuSalary', 'q03all', { source: '第1份证言', progress: 24 }),
   q03b: card('q03b', '先听姜宁', '姜宁', '“5月以后我每月都见过他。他不是纯网络里的假人。9月20日吃饭，他突然提到宋老师的返修——我从没告诉过他我是谁的学生。”', 'jiangConsent', 'q03all', { source: '第1份证言', progress: 24 }),
   q03c: card('q03c', '先听宋岚', '宋岚', '“那张分析图确实帮我少走过弯路。也正因为这样，我没再追问：他现在到底有没有权限替研究院接单。”', 'song', 'q03all', { source: '第1份证言', progress: 24 }),
-  q03all: card('q03all', '3段证言放到同一张桌上', '林知夏（内心）', '许橙证明第1期实习真的发过工资；姜宁证明她确实在线下见过沈舟；宋老师证明沈舟确实懂材料检测。但这3段真话都不能证明，沈舟现在仍有权代表企业招募实习生，或代表研究院承接检测。我们决定先去档案室查完整合作函。', 'roundtablePlayer', 'q04intro', { source: '证言对照', progress: 26, nextLabel: '去档案室查授权期限' }),
+  q03all: card('q03all', '3段证言放到同一张桌上', '林知夏（内心）', '许橙证明第1期实习真的发过工资；姜宁证明她确实在线下见过沈舟；宋老师证明沈舟确实懂材料检测。但这3段真话都不能证明，沈舟现在仍有权代表企业招募实习生，或代表研究院承接检测。我们决定先去档案室查完整合作函。', 'roundtablePlayer', 'q04intro', { source: '证言对照', progress: 26, nextLabel: '去档案室查授权期限', onEnter: { evidence: [evidence.testimony] } }),
 
   q04intro: card('q04intro', '第4幕｜真文件也会骗人', '许橙', '“第1期实习工资来自恒微科技，第2期实习招募缴费却进了星桥。群里的合作函确实盖着章，可右下角像被裁掉了一行。”我带着截图离开活动室，陆鸣已在社团档案室等我。', 'compare', 'q04archive', { chapter: 4, time: '9月24日上午', place: '社团档案室', source: '物证', progress: 27, orientation: { kicker: '转场｜座谈之后', route: '3人证言 → 社团原始档案', goal: '确认合作函被裁掉的内容，并核验第2期实习招募收费是否仍获企业授权' }, nextLabel: '让陆鸣调出原件' }),
   q04archive: card('q04archive', '陆鸣调出完整存档', '陆鸣', '“场地是我核的，函我当时只见过这一页。完整页和未剪录像都在这里。你要拼，就拿去拼。”', 'luArchive', 'q04', { source: '原始存档', progress: 29 }),
@@ -98,12 +99,14 @@ export const fullNodes = {
 
   q06intro: scene('q06intro', '第6幕｜屏幕里那张脸', '取样确认回放', '聊天差异只能说明账号异常，不能说明技术如何实现。我们回到实验室重看门禁与视频：屏幕里的“沈舟”在回答问题，门外跑腿员却一边举着这张脸，一边操作另一台设备。', 'aiIdentityCheck', 'q06registry', { chapter: 6, time: '9月24日中午', place: '材料实验室', source: '游戏内演示', progress: 41, orientation: { kicker: '转场｜返回案发现场', route: '聊天文风异常 → 取样视频与门禁画面同步回放', goal: '不要只看“脸像不像”，而要核验订单、权限、设备和线下交接是否闭环' }, nextLabel: '核对公司与研究院记录' }),
   q06registry: card('q06registry', '公司存在，不等于有权检测', '公开信息核对', '星桥确实完成了公司登记，但公开范围只有技术咨询和会议服务，没有对应检测资质公示；研究院官网也查不到这笔订单。主体真实、账户真实，仍不能证明它有权承接这项检测。', 'verifyOfficial', 'q06', { source: '官方渠道', progress: 43, onEnter: { evidence: [evidence.registry] } }),
-  q06: question('q06', 'Q06', 'Q06｜继续交接还是继续核验', '视频里的脸对答如流，壳公司的合同却接不了检测。你如何继续？', 'aiIdentityCheck', 44, [
-    { letter: 'A', text: '停止交接，核验订单账户与资质，封存样品和空盒，并向期刊申请延期', next: 'q06a', effects: { flags: { RESEARCH: 1 } } },
-    { letter: 'B', text: '再接一次视频，把订单号、地址和取样授权逐项问清并录下承诺', next: 'q06b', effects: { flags: { RESEARCH: 0 } } }
+  q06: question('q06', 'Q06', 'Q06｜继续交接还是继续核验', '视频里的脸对答如流，研究院却查不到订单。接下来怎么处理这段新线索？', 'aiIdentityCheck', 44, [
+    { letter: 'A', text: '不再听口头保证，把视频、订单核验和样品保全记录交给科研办，推进正规检测', next: 'q06a', branchNext: { questionId: 'Q02', equals: 'A', target: 'q06a_early' }, effects: { flags: { RESEARCH: 1 } } },
+    { letter: 'B', text: '再接一次视频，逐项追问订单号、地址和取样授权并保存录屏', next: 'q06b', branchNext: { questionId: 'Q02', equals: 'A', target: 'q06b_early' }, effects: { flags: { RESEARCH: 0 } } }
   ]),
-  q06a: card('q06a', 'Q06 A｜先停交接', '宋岚', '“先停。样品封起来，尾款不付，延期邮件我现在就发。被骗经过和补救过程，也得如实写进说明。”', 'verifyOfficial', 'q07intro', { source: '选择结果', progress: 47 }),
+  q06a: card('q06a', 'Q06 A｜先停交接', '宋岚', '“昨天我只打了核验电话，还没把止付和延期手续办完。现在先把样品封好，尾款不付，银行和科研办都要收到材料。”', 'verifyOfficial', 'q07intro', { source: '选择结果', progress: 47 }),
+  q06a_early: card('q06a_early', '补齐新证据', '林知夏（现场记录）', '宋老师昨天已申请止付和延期，样品也没有出实验室。我把研究院查无订单的答复和门禁画面补进材料。她没再接催款电话，正规检测照原计划重新排。', 'verifyOfficial', 'q07intro', { source: '处置更新', progress: 47 }),
   q06b: card('q06b', 'Q06 B｜再录一段承诺', '第二次通话', '对方给出更明确的地址和授权承诺，却仍没有可独立核验的订单号。通话成为新证据；正规检测安排又晚了数小时。', 'shencall', 'q07intro', { source: '选择结果', progress: 47 }),
+  q06b_early: card('q06b_early', '又留下一段录屏', '林知夏（现场记录）', '止付和延期申请已经递出，样品还在实验室。我陪宋老师再接一次视频，对方依旧给不出研究院订单号。这段录屏能补进材料，却没有让那笔假订单变真。', 'shencall', 'q07intro', { source: '处置更新', progress: 47 }),
 
   q07intro: card('q07intro', '第7幕｜隐形人', '林知夏（剪辑台前）', '我把论坛、咖啡店和实验楼画面按时间并排。每段中央都是不同事件，边缘却3次出现同一只橙色反光条缺角的配送箱。我们一直在看“沈舟”的脸，漏掉了替画面移动的人。', 'evidenceWall', 'q07name', { chapter: 7, time: '9月24日下午', place: '媒体办公室', source: '找相同', progress: 48, orientation: { kicker: '转场｜3路素材合并', route: '实验室回放 → 媒体办公室证据墙', goal: '寻找不同事件中重复出现的背景物与行动者，同时避免把线索直接写成定罪' }, nextLabel: '查配送箱对应的排班' }),
   q07name: card('q07name', '排班表给出一个名字', '陆鸣', '“5月论坛物料栏签的是唐遇。5月是普通工单，6月以后社团又见过他。但共享文件和账号记录，还得由学校、平台和警方依法核。”', 'runnerBox', 'q07', { source: '排班记录', progress: 51, onEnter: { evidence: [evidence.boxMatch] } }),
@@ -121,7 +124,7 @@ export const fullNodes = {
     { letter: 'B', text: '先协助2位争取部分退款，暂发不点名的模糊更正', next: 'q08b', effects: { flags: { CLEAR: 0 } } }
   ]),
   q08a: card('q08a', 'Q08 A｜退款与报道分开', '林知夏', '“退款直接和当事人谈。我的文字必须对下一批人有用。”周衡当面确认两处数字，只承认处理公司账。', 'safe2', 'q09intro', { source: '选择结果', progress: 63 }),
-  q08b: card('q08b', 'Q08 B｜小额退款到账', '群聊截图', '许橙的2800元当晚原路退回；宋岚的7.56万元对公首款仍被告知需要5个工作日处理，1.86万元个人垫付款则还在“对账中”。周衡把退款截图发进新生群：“正规项目才会退款。”', 'group', 'q09intro', { source: '选择结果', progress: 63 }),
+  q08b: card('q08b', 'Q08 B｜小额退款到账', '群聊截图', '我暂时撤下旧片。许橙的2800元当晚原路退回；宋岚的7.56万元仍被告知需要5个工作日，1.86万元个人垫付款还在“对账中”。周衡把这笔小额退款发进新生群：“正规项目才会退款。”', 'group', 'q09intro', { source: '选择结果', progress: 63 }),
 
   q09intro: card('q09intro', '第9幕｜我的脸替他们澄清', '林知夏（内心）', '谈判结束后，新生群弹出一段6秒视频：我的脸正说“星桥和沈舟已经核实”。我从没说过这句话，画面里却有社团共享盘从未公开的备用机位。', 'linFakeVideo', 'q09compare', { chapter: 9, time: '9月24日晚', place: '新生群', source: '冒名视频', progress: 64, orientation: { kicker: '突发事件｜谈判之后', route: '退款谈判 → 冒用我面孔的澄清视频', goal: '先确认视频被怎样拼接，再决定优先保全来源链还是阻止扩散' }, nextLabel: '把伪片与原片并排' }),
   q09compare: card('q09compare', '真素材，被剪成假结论', '原片对照', '原试片只说：“第1期实习工资属实；第2期实习招募和科研合作仍待分别核实。”伪片掐掉后半句，又拼入未公开角度。', 'compare', 'q09', { source: '游戏内演示', progress: 67, onEnter: { evidence: [evidence.fakeVideo] } }),
@@ -132,26 +135,27 @@ export const fullNodes = {
   q09a: card('q09a', 'Q09 A｜保住来源链', '提交记录', '原文件、伪片、未公开机位和发布时间已封存并提交。公开对照晚了数小时，但没有凭内部帧直接点名制作者。', 'preserve', 'q10intro', { source: '选择结果', progress: 71 }),
   q09b: card('q09b', 'Q09 B｜先发冒名警报', '平台回执', '下架申请和简短警报更早发出，一部分转发停止。原始文件与访问链稍后补交，当前还不能说明谁接触过内部素材。', 'warn', 'q10intro', { source: '选择结果', progress: 71 }),
 
-  q10intro: card('q10intro', '第10幕｜3份答复，3种边界', '官方答复汇总', '第2天，3封具名回复先后到达：恒微只承认第1期实习，不承认后续收费招募；研究院确认沈舟已于2024年离职，院内也没有宋老师的检测订单；学校只批准过5月论坛当天的场地。这3份答复终于把“过去真实发生过”和“现在仍获授权”拆成了两件事。', 'luReplies', 'q10', { chapter: 10, time: '9月25日', place: '媒体办公室', source: '具名书面回复', progress: 73, orientation: { kicker: '转场｜次日官方回复到齐', route: '民间线索 → 企业、研究院、学校三方核验', goal: '选择发布时间，并在新一批关单前给后来的人留下可执行的核验路径' }, nextLabel: '决定发布节奏', onEnter: { evidence: [evidence.replies] } }),
-  q10: question('q10', 'Q10', 'Q10｜完整发布还是分阶段预警', '3份答复今天到齐，今晚又有新一批关单。你怎样发布？', 'verifyOfficial', 75, [
+  q10intro: card('q10intro', '第10幕｜先到的2封回信', '林知夏（收件箱前）', '9月25日中午，恒微和学校的书面回复先到了：恒微只承认免费的第1期实习，学校只批过5月论坛当天的场地。研究院此前电话说查不到宋老师的订单，但盖章的书面回复还没到；沈舟离职的具体时间也未写进可引用的回信。', 'luReplies', 'q10', { chapter: 10, time: '9月25日中午', place: '媒体办公室', source: '2封具名书面回复', progress: 73, orientation: { kicker: '转场｜次日先到2封回信', route: '民间线索 → 企业与学校先行书面核验', goal: '选择是否在研究院书面回复到来前先提醒停付' }, nextLabel: '决定发布节奏', onEnter: { evidence: [evidence.twoReplies] } }),
+  q10: question('q10', 'Q10', 'Q10｜完整发布还是分阶段预警', '现在是中午，2封回信已到，研究院还没书面回复。今晚新一批报名又要关单。怎么发？', 'verifyOfficial', 75, [
     { letter: 'A', text: '等三方答复到齐，傍晚标出各自权限后发布具名更正', next: 'q10a', effects: { flags: { VERIFY: 1 } } },
     { letter: 'B', text: '中午先发具体风险与核验路径，傍晚追加三方答复', next: 'q10b', effects: { flags: { VERIFY: 0 } } }
   ]),
-  q10a: card('q10a', 'Q10 A｜傍晚具名更正', '发布记录', '三方权限边界逐条引用，未查清的资金终点和个人责任仍标作线索；发布赶在当晚关单前。', 'safe2', 'm01', { source: '选择结果', progress: 78 }),
-  q10b: card('q10b', 'Q10 B｜两阶段发布', '发布记录', '中午先发暂停付款和官方核验路径；傍晚再补三方具名答复。更早覆盖一批人，也承担二次传播成本。', 'warn', 'm01', { source: '选择结果', progress: 78 }),
+  q10a: card('q10a', 'Q10 A｜傍晚具名更正', '发布记录', '我等到傍晚，研究院的书面回复终于到了：沈舟2024年已离职，院里没有宋老师的检测订单。我把3家机构的答复写成一则文字更正，赶在关单前发出；私人聊天和采访片段都没放进去。', 'safe2', 'm01', { source: '选择结果', progress: 78, onEnter: { evidence: [evidence.replies] } }),
+  q10b: card('q10b', 'Q10 B｜两阶段发布', '发布记录', '我中午先发文字提醒：暂缓付款，并附上企业、学校和研究院的公开核验方式。傍晚研究院书面回复到了，我再补发3家机构的答复；两次公告都没使用私人聊天和采访片段。', 'warn', 'm01', { source: '选择结果', progress: 78, onEnter: { evidence: [evidence.replies] } }),
 
-  m01: scene('m01', '幕间｜学长的视频电话', '梁一舟（来电）', '发布准备到一半，梁一舟突然来电：“学姐，沈舟刚和我视频。他会挥手、会转头，群里那次宣讲真是本人吧？”录屏中的动作没有明显破绽。', 'shencall', 'm01b', { time: '9月25日傍晚', place: '视频来电', source: '游戏内演示', progress: 80, orientation: { kicker: '临时插曲｜发布前', route: '书面核验已完成 → 新生又收到“真人”视频', goal: '用可复现的独立回拨方法核验身份，不把动作测试当作真人证明' }, nextLabel: '指导梁一舟核验' }),
+  m01: scene('m01', '幕间｜学长的视频电话', '梁一舟（来电）', '文字更正发出后，我开始整理重剪视频。梁一舟突然来电：“学姐，沈舟刚和我视频。他会挥手、会转头，群里那次宣讲真是本人吧？”录屏中的动作没有明显破绽。', 'shencall', 'm01b', { time: '9月25日傍晚', place: '视频来电', source: '录屏回放', progress: 80, orientation: { kicker: '临时插曲｜重剪视频前', route: '文字更正已发 → 新生又收到“真人”视频', goal: '用独立回拨方法核验身份，不把动作测试当作真人证明' }, nextLabel: '指导梁一舟核验' }),
   m01b: card('m01b', '第1步｜动作测试也可能被通过', '林知夏', '“挥手和转头只能检查画面是否卡顿，不能证明屏幕后是谁。再问一件只有本人知道的事。”', 'shencall', 'm01c', { source: '固定演出', progress: 81 }),
   m01c: card('m01c', '第2步｜私人问题也可能被绕开', '视频里的沈舟', '“那天人多，我穿深色外套吧？改天请你吃饭。”答案模糊，却足以让人继续相信。', 'shencall', 'm01d', { source: '固定演出', progress: 82 }),
   m01d: card('m01d', '第3步｜挂断后独立回拨', '核验结果', '梁挂断，从姜宁留存的旧号码独立回拨。无人接听；刷新后，刚才的视频账号已把他拉黑。回拨无应答只是可疑信号，但转账必须停止。', 'verifyOfficial', 'q11intro', { source: '固定演出', progress: 84 }),
 
-  q11intro: card('q11intro', '第11幕｜证词的所有权', '姜宁', '身份核验结束后，我逐一回访当事人确认公开视频范围。姜宁说：“我想让后来的人知道风险，但我不想把自己交给围观的人。如果我不授权，请连声音都不要放。”', 'consentInterview', 'q11consent', { chapter: 11, time: '9月25日晚', place: '授权确认', source: '当事人意愿', progress: 85, orientation: { kicker: '转场｜发布前授权确认', route: '证据已经够用 → 逐项确认哪些材料可以公开', goal: '在反诈教育效果与当事人隐私之间划出明确边界' }, nextLabel: '核对宋岚的授权范围' }),
+  q11intro: card('q11intro', '第11幕｜证词的所有权', '姜宁', '前面的文字提醒只用了机构回信。重剪视频要放进个人经历，我得重新问当事人哪些能公开。姜宁说：“我想让后来的人知道风险，但我不想把自己交给围观的人。如果我不授权，请连声音都别放。”', 'consentInterview', 'q11consent', { chapter: 11, time: '9月25日晚', place: '授权确认', source: '当事人意愿', progress: 85, orientation: { kicker: '转场｜重剪视频前确认授权', route: '机构回信已经公开 → 个人材料逐项征求许可', goal: '让当事人自行决定哪些内容可以进入公开视频' }, nextLabel: '核对宋岚的授权范围' }),
   q11consent: card('q11consent', '持有材料，不等于获得公开权', '宋岚', '“完整材料可以给银行和警方。公开视频里，只放我确认过、打过码的部分。”', 'songReceipts', 'q11', { source: '公开边界', progress: 87, onEnter: { evidence: [evidence.consent] } }),
   q11: question('q11', 'Q11', 'Q11｜公开多少原件', '有人建议上传未打码的借款截图、合同回执和采访录音，供网友“破案”。你选择？', 'consentInterview', 88, [
-    { letter: 'A', text: '只公开本人逐项同意的必要打码材料，其余交给有权限的机关', next: 'q11a', effects: { flags: { SAFE: 1 } } },
+    { letter: 'A', text: '只公开本人逐项同意的必要打码材料，其余交给有权限的机关', next: 'q11a', branchNext: { questionId: 'Q05', equals: 'B', target: 'q11a_anon' }, effects: { flags: { SAFE: 1 } } },
     { letter: 'B', text: '未经同意上传原件换取关注', next: 'e4', effects: { flags: { SAFE: 0 } } }
   ]),
-  q11a: card('q11a', 'Q11 A｜证人继续合作', '授权清单', '姜宁的材料按Q05选择决定使用范围；合同、回执和录音逐项确认。完整原件由当事人决定交银行、学校或警方。', 'consentInterview', 'q12intro', { source: '选择结果', progress: 90 }),
+  q11a: card('q11a', 'Q11 A｜证人继续合作', '林知夏（授权记录）', '姜宁逐句确认后，只同意我使用几句打码聊天。我按她说的范围放进重剪视频；合同和录音也分别问过本人。没有公开的原件，仍由当事人决定交给谁。', 'consentInterview', 'q12intro', { source: '选择结果', progress: 90 }),
+  q11a_anon: card('q11a_anon', '只留下匿名证言', '林知夏（授权记录）', '我之前没保存姜宁的聊天对照，现在就只用她同意的匿名时间线，不放任何聊天原文或声音。宋老师的合同和录音也逐项问过。完整材料由她们自己决定是否交给银行或警方。', 'consentInterview', 'q12intro', { source: '选择结果', progress: 90 }),
 
   q12intro: scene('q12intro', '终幕｜双倒计时', '宋岚', '23:00，第2期实习招募距离关单只剩1小时，科研检测尾款也在被连续催缴。宋岚关掉来电：“教授职称可以下次再申报，论文可以延期；来路不明的数据一旦写进去，我解释不清。”', 'song', 'q12cut', { chapter: 12, time: '9月25日深夜', place: '校园媒体办公室', source: '现场', progress: 92, orientation: { kicker: '终幕｜2个倒计时同时逼近', route: '材料、答复与授权均已核对 → 剪出最终公开版本', goal: '在午夜前给出清楚、可核验、不过度指认的风险提示' }, nextLabel: '进入最终剪辑台' }),
   q12cut: card('q12cut', '重新剪开同一批真素材', '林知夏（操作记录）', '工资画面被放回“已核实：第1期实习”；收费页标成“待核实：第2期实习招募”；履历拆成“曾在研究院任职”和“目前没有授权”；屏幕里的脸与跑腿员之间，只保留一条“待核连接”。', 'linFinalEdit', 'q12', { source: '发布台', progress: 94 }),
@@ -168,6 +172,23 @@ export const fullNodes = {
   e5: ending('e5', 'E5｜借来的脸', '模糊更正没有解释第1期实习与第2期实习招募、真实技术与虚假授权的边界。星桥把“信息不完整”截成“媒体已澄清”，冒名视频继续在小群流转。', '更正需要指出具体风险和核验路径。含糊提醒容易被截取成新的信用背书。'),
   e6: ending('e6', 'E6｜被借用的脸（隐藏结局）', '你接受了模糊处理，又先发了缺少原片对照的冒名警报。一个月后，那段借林知夏的脸说“已核实”的视频脱离上下文，成了新生群里的宣传片。', 'AI冒名内容要及时止扩散，也要尽快补上原始文件、来源记录和清晰对照。')
 }
+
+// 座谈只改变听取顺序：其余两人的证言仍由玩家亲自看完。
+const followupTestimony = (id, originalId, next, order) => ({
+  ...fullNodes[originalId], id, copyId: originalId, audioId: originalId,
+  next, source: `第${order}份证言`, progress: order === 2 ? 25 : 26
+})
+fullNodes.q03a.next = 'q03b_after_a'
+fullNodes.q03b.next = 'q03c_after_b'
+fullNodes.q03c.next = 'q03a_after_c'
+Object.assign(fullNodes, {
+  q03b_after_a: followupTestimony('q03b_after_a', 'q03b', 'q03c_after_ab', 2),
+  q03c_after_ab: followupTestimony('q03c_after_ab', 'q03c', 'q03all', 3),
+  q03c_after_b: followupTestimony('q03c_after_b', 'q03c', 'q03a_after_bc', 2),
+  q03a_after_bc: followupTestimony('q03a_after_bc', 'q03a', 'q03all', 3),
+  q03a_after_c: followupTestimony('q03a_after_c', 'q03a', 'q03b_after_ca', 2),
+  q03b_after_ca: followupTestimony('q03b_after_ca', 'q03b', 'q03all', 3)
+})
 
 export const earlyProgress = {
   a01: 4, a01b: 5, a02: 6, a02b: 7, a03: 8, a04: 8, a05: 9, a06: 9, q01: 10,

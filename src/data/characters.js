@@ -32,7 +32,7 @@ export const characters = [
     known: '她来电说通过“沈舟”办了一笔加急检测，正式订单和取样单还没到，问我能否带来5月讲座的原片。',
     updates: [
       { id: 'song-receipts', at: 'c02b', summary: '宋老师给我看了合同与付款回执。', known: '她赶着论文返修，也在准备教授职称申报。我看了她的合同和2张回执：学校付了7.56万元，她本人又垫了1.86万元。样品仍在实验室。' },
-      { id: 'song-official-reply', at: 'q10intro', summary: '研究院回信提到了宋老师的检测订单。', known: '她赶着论文返修和教授职称申报。我见过合同与付款回执：学校付了7.56万元，她个人垫了1.86万元，样品仍在实验室。研究院的具名回复写明，院内没有这笔检测订单。' }
+      { id: 'song-official-reply', at: ['q10a', 'q10b'], summary: '研究院回信提到了宋老师的检测订单。', known: '她赶着论文返修和教授职称申报。我见过合同与付款回执：学校付了7.56万元，她个人垫了1.86万元，样品仍在实验室。研究院的具名回复写明，院内没有这笔检测订单。' }
     ]
   },
   {
@@ -40,7 +40,7 @@ export const characters = [
     portrait: './assets/characters/02-shen.webp', unlock: ['c03'],
     known: '我5月拍到他本人在论坛上回答材料检测问题。宋老师记得他当时讲过的分析方法。',
     updates: [
-      { id: 'shen-official-reply', at: 'q10intro', summary: '研究院确认了沈舟的任职时间。', role: '校友｜研究院前工程师', known: '研究院的具名回复写明：沈舟曾在院里工作，已于2024年离职。我保存的5月讲座原片拍到了他本人。' }
+      { id: 'shen-official-reply', at: ['q10a', 'q10b'], summary: '研究院确认了沈舟的任职时间。', role: '校友｜研究院前工程师', known: '研究院的具名回复写明：沈舟曾在院里工作，已于2024年离职。我保存的5月讲座原片拍到了他本人。' }
     ]
   },
   {
@@ -80,7 +80,7 @@ export const characters = [
 export function unlockedCharacters(visited = []) {
   const seen = new Set(visited)
   return characters.filter(person => person.unlock.some(nodeId => seen.has(nodeId))).map(person => {
-    const active = person.updates.filter(update => seen.has(update.at))
+    const active = person.updates.filter(update => (Array.isArray(update.at) ? update.at : [update.at]).some(id => seen.has(id)))
     const profile = active.reduce((current, update) => ({ ...current, role: update.role || current.role, known: update.known, updated: true, lastUpdateId: update.id }), { ...person, updated: false })
     if (person.id === 'xu' && seen.has('q03a') && seen.has('q08intro')) profile.known += ' 她还告诉我，交费后等了4个月，始终没有收到岗位安排。'
     return profile
@@ -90,6 +90,6 @@ export function unlockedCharacters(visited = []) {
 export function characterUpdatesAt(nodeId, visited = []) {
   const seen = new Set(visited)
   return characters.filter(person => person.unlock.some(id => seen.has(id))).flatMap(person =>
-    person.updates.filter(update => update.at === nodeId).map(update => ({ ...update, personId: person.id, name: person.name, portrait: person.portrait }))
+    person.updates.filter(update => (Array.isArray(update.at) ? update.at : [update.at]).includes(nodeId)).map(update => ({ ...update, personId: person.id, name: person.name, portrait: person.portrait }))
   )
 }

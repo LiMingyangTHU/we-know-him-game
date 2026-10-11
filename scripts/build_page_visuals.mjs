@@ -14,29 +14,32 @@ const selected = {
   b1a: 'lin-day.jpg', b1a2: 'lin-message-v2.webp',
   b1a3: 'liang-deadline-v2.webp', b1b: 'liang-dorm.jpg',
   c05: 'song-receipts-v2.webp', c06: 'shen-call.jpg',
-  c08: 'song-lab.jpg', c09: 'song-lab.jpg', c10: 'sample-confirm.webp',
+  c08: 'song-lab.jpg', c09: 'song-receipts-v2.webp', c10: 'sample-confirm.webp',
   c11: 'song-receipts-v2.webp', q02: 'song-receipts-v2.webp',
-  b2a3: 'song-lab.jpg', b2b: 'song-receipts-v2.webp',
+  b2a3: 'song-stop-handover-v1.webp', b2b: 'song-receipts-v2.webp',
   b2b2: 'verify-official-v2.webp',
-  q03c: 'song-lab.jpg', q04intro: 'lu-archive-v3.webp',
+  q03: 'roundtable-player-v6.webp', q03c: 'song-lab.jpg', q04intro: 'xu-salary-v5.webp',
   q04: 'archive-motion-02-v1.webp', q04a: 'archive-motion-01-v1.webp',
   q04b: 'lin-message-v2.webp', q05b: 'jiang-consent-v3.webp',
   q06a: 'song-stop-handover-v1.webp', q06b: 'song-delay-handover-v1.webp', q07intro: 'evidence-wall-v5.webp',
   q07name: 'lu-archive-v3.webp', q07: 'delivery-clue-02-v1.webp', q07a: 'delivery-clue-01-v1.webp',
   q08ledger: 'refund-ledger-02-v1.webp', q08: 'zhou-refund-v3.webp',
-  q08a: 'refund-ledger-01-v1.webp', q08b: 'refund-ledger-02-v1.webp',
-  q09compare: 'lin-fake-video-v3.webp',
-  q09a: 'fake-video-compare-v1.webp', q09b: 'lin-fake-video-v3.webp',
-  q10intro: 'official-replies-02-v1.webp', q10: 'official-replies-02-v1.webp',
+  q08a: 'refund-ledger-01-v1.webp',
+  q09compare: 'fake-video-compare-v1.webp',
+  q09a: 'fake-video-compare-v1.webp', q09b: 'lin-report-platform-v1.webp',
+  q10intro: 'two-replies-pending-v1.webp', q10: 'two-replies-pending-v1.webp',
   q10a: 'official-replies-01-v1.webp', q10b: 'lin-final-edit-v3.webp',
   m01: 'shen-call.jpg', m01b: 'ai-identity-check-v5.webp',
   m01c: 'shen-call.jpg', m01d: 'liang-deadline-v2.webp',
-  q11consent: 'consent-interview-v5.webp', q12intro: 'lin-final-edit-v3.webp',
+  q11consent: 'song-consent-close-v1.webp', q11a: 'jiang-consent-v3.webp',
+  q11a_anon: 'song-consent-close-v1.webp', q12intro: 'song-night-call-v1.webp',
+  q12cut: 'lin-edit-timeline-v1.webp',
   e2: 'official-replies-02-v1.webp', e3: 'lin-final-edit-v3.webp',
   e6: 'lin-fake-video-v3.webp'
 }
 
 const replacementVideos = new Set(['a05', 'c06', 'c08', 'c09', 'c10', 'm01', 'q12intro'])
+const uiChatScenes = new Set(['q08b'])
 const oldTextCards = new Set(['compare.jpg', 'end.jpg', 'fee.jpg', 'group.jpg', 'money.jpg', 'money2.jpg', 'preserve.jpg', 'q1.jpg', 'q2.jpg', 'safe1.jpg', 'safe2.jpg', 'wait1.jpg', 'wait2.jpg', 'warn.jpg'])
 // Alt text describes what is visible. Reused stills keep the same description.
 const visualAlts = {
@@ -75,6 +78,11 @@ const visualAlts = {
   'fake-video-compare-v1.webp': '林知夏在剪辑台比对两段视频素材',
   'official-replies-02-v1.webp': '电脑上显示来自3个机构的回复',
   'official-replies-01-v1.webp': '傍晚的剪辑桌上打开3封正式回复',
+  'two-replies-pending-v1.webp': '桌上只有企业和学校两封书面回复，第三封仍待到达',
+  'song-consent-close-v1.webp': '宋岚在授权清单上指出可公开的材料',
+  'song-night-call-v1.webp': '深夜实验室里宋岚按住催缴电话，样品盒还在桌上',
+  'lin-report-platform-v1.webp': '林知夏在平台举报页面提交冒名视频',
+  'lin-edit-timeline-v1.webp': '林知夏在23点重新整理旧片与收费项目的剪辑时间线',
   'consent-interview-v5.webp': '林知夏向当事人确认公开材料的范围',
   'ending-clear-v5.webp': '调查结束后桌上留着整理好的材料',
   'ending-witness-exit-v5.webp': '当事人离开后空下的采访座位'
@@ -82,7 +90,7 @@ const visualAlts = {
 const plan = {}
 for (const node of Object.values(story.nodes)) {
   const media = node.media || {}
-  if (media.type === 'chat' || (media.type === 'video' && !replacementVideos.has(node.id))) continue
+  if (media.type === 'chat' || uiChatScenes.has(node.id) || (media.type === 'video' && !replacementVideos.has(node.id))) continue
   const src = selected[node.id] ? photo(selected[node.id]) : media.src
   if (!src || oldTextCards.has(path.basename(src))) throw new Error(`Unreviewed visual: ${node.id} -> ${src}`)
   if (!fs.existsSync(path.join(root, src.replace(/^\.\//, '')))) throw new Error(`Missing visual: ${node.id} -> ${src}`)

@@ -1,10 +1,10 @@
-import story from './data/story.js?v=18'
-import * as engine from './core/engine.js?v=16'
+import story from './data/story.js?v=20'
+import * as engine from './core/engine.js?v=18'
 import * as storage from './core/storage.js?v=15'
-import { takes, musicTracks, musicKeyForNode, enabledByDefault } from './data/audio-manifest.js?v=24'
-import { unlockedCharacters } from './data/characters.js?v=18'
-import { notesForNode, unlockedGlossary } from './data/glossary.js?v=16'
-import { presentNode } from './data/player-copy.js?v=22'
+import { takes, musicTracks, musicKeyForNode, enabledByDefault } from './data/audio-manifest.js?v=25'
+import { unlockedCharacters } from './data/characters.js?v=19'
+import { notesForNode, unlockedGlossary } from './data/glossary.js?v=18'
+import { presentNode } from './data/player-copy.js?v=24'
 
 const $ = id => document.getElementById(id)
 const ui = {
@@ -309,19 +309,24 @@ function endingNotes(endingId) {
   ]
   if (endingId === 'E2') {
     const notes = []
-    if (!f.PREWARN) notes.push('我没有在最早时公开预警；梁一舟当晚交了费，看到最终提醒后才开始退款和报案登记。')
+    if (!f.PREWARN) notes.push('我先留好了报名页和收款信息，没有立刻公开提醒。梁一舟当晚没有付款；到9月25日的新一批关单前，他又差点转出2800元，独立回拨后才停下。')
     if (!f.JOB) notes.push('我没有及时拼回完整合作函；盖章截图先传开，又有一名学生付款。')
     if (!f.TRUST) notes.push('我只留下姜宁的匿名时间线；她暴露得更少，公开视频也少了文字对照。')
-    if (!f.RESEARCH) notes.push('我陪宋老师多录了一段承诺；证据多了，正规检测和止损也晚了几个小时。')
+    if (!f.RESEARCH) notes.push(f.EARLY
+      ? '我陪宋老师多录了一段承诺；她前一天已启动止付和延期，录屏没有改变那笔订单查不到的事实。'
+      : '我陪宋老师多录了一段承诺；证据多了，正规检测和止损也晚了几个小时。')
     if (!f.HIDDEN) notes.push('我发出过对唐遇的指认，后来虽然删除，截图仍在传播。')
     if (!f.CLEAR) notes.push('我先接受了小额退款；周衡把截图变成“正规项目”的新背书。')
     if (!f.FAKE) notes.push('我更早发出冒名警报，却没有及时补上原片对照，片段仍在小群流转。')
     if (!f.VERIFY) notes.push('我中午先预警，傍晚才补三方答复；同一批人需要再看见一次。')
     return notes.length ? notes : ['我已经发出最终预警，钱和账号的处置还要等银行、平台和警方。']
   }
-  if (endingId === 'E3') return [c.Q01 === 'A' ? '我此前的临时提醒让梁一舟停下了付款。' : '我没能在第一晚拦住梁一舟；他正在办理退款和报案登记。', '我让宋老师在三方答复到齐当晚停了尾款；真正迟到的是面向更多人的预警。']
+  if (endingId === 'E3') return [
+    c.Q01 === 'A' ? '我此前的临时提醒让梁一舟停下了付款。' : '第一晚我先留证，梁一舟没有付款；两天后新一批关单前，他险些转账，独立回拨后才停下。',
+    f.EARLY ? '宋老师9月23日就启动止付、延期并留下样品；迟到的是面向更多人的预警。' : f.RESEARCH ? '宋老师9月24日才补办止付和延期；面向更多人的预警也迟到了。' : '宋老师9月24日仍在追问对方，正规检测多耽搁了几小时；面向更多人的预警也迟到了。'
+  ]
   if (endingId === 'E4') return [f.TRUST ? '即使我此前拿到过部分授权，未打码原件仍超出了约定。' : '姜宁没有交出聊天截图，我的可识别叙述仍把她推到了人前。', '我可以下架页面，却无法收回已经下载和转发的副本。']
-  if (endingId === 'E5') return [c.Q01 === 'A' ? '我最早的提醒保住了梁一舟本人。' : '我没有拦住梁一舟参加当晚批次。', c.Q10 === 'A' ? '我傍晚发过具名更正，午夜那句模糊补充却被单独截走。' : '我中午发过具体提醒，午夜仍没能留下清晰的最终对照。']
+  if (endingId === 'E5') return [c.Q01 === 'A' ? '我最早的提醒保住了梁一舟本人。' : '我第一晚先留证，梁一舟当晚没交费；9月25日新一批关单前，他才又被催着转账。', c.Q10 === 'A' ? '我傍晚发过具名更正，午夜那句模糊补充却被单独截走。' : '我中午发过具体提醒，午夜仍没能留下清晰的最终对照。']
   if (endingId === 'E6') return ['我用模糊口径换来了部分退款。', '我发出的冒名警报没及时带上原片对照。', '最后，别人用我的脸和真实素材拼出了一份新的“官方背书”。']
   return []
 }

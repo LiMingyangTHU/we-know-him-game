@@ -72,8 +72,8 @@ export const pageVisuals = {
   },
   "c09": {
     "type": "image",
-    "src": "./assets/images/song-lab.jpg",
-    "alt": "宋岚在实验室核对材料"
+    "src": "./assets/images/song-receipts-v2.webp",
+    "alt": "宋岚的检测合同和付款回执铺在桌上"
   },
   "c10": {
     "type": "image",
@@ -97,8 +97,8 @@ export const pageVisuals = {
   },
   "b2a3": {
     "type": "image",
-    "src": "./assets/images/song-lab.jpg",
-    "alt": "宋岚在实验室核对材料"
+    "src": "./assets/images/song-stop-handover-v1.webp",
+    "alt": "宋岚在实验室封存样品并停止交接"
   },
   "b2b": {
     "type": "image",
@@ -142,8 +142,8 @@ export const pageVisuals = {
   },
   "q03": {
     "type": "image",
-    "src": "./assets/images/victim-meeting.webp",
-    "alt": "3位当事人在活动室围桌交谈"
+    "src": "./assets/images/roundtable-player-v6.webp",
+    "alt": "林知夏在活动室听取当事人的讲述"
   },
   "q03a": {
     "type": "image",
@@ -167,8 +167,8 @@ export const pageVisuals = {
   },
   "q04intro": {
     "type": "image",
-    "src": "./assets/images/lu-archive-v3.webp",
-    "alt": "陆鸣在档案室整理活动资料"
+    "src": "./assets/images/xu-salary-v5.webp",
+    "alt": "许橙展示第1期实习的工资记录"
   },
   "q04archive": {
     "type": "image",
@@ -215,10 +215,20 @@ export const pageVisuals = {
     "src": "./assets/images/song-stop-handover-v1.webp",
     "alt": "宋岚在实验室封存样品并停止交接"
   },
+  "q06a_early": {
+    "type": "image",
+    "src": "./assets/images/verify-official-v2.webp",
+    "alt": "实验台旁的官网核验页面和电话"
+  },
   "q06b": {
     "type": "image",
     "src": "./assets/images/song-delay-handover-v1.webp",
     "alt": "宋岚继续核对承诺，样品盒仍未封存"
+  },
+  "q06b_early": {
+    "type": "image",
+    "src": "./assets/images/shen-call.jpg",
+    "alt": "手机屏幕上的沈舟视频通话"
   },
   "q07intro": {
     "type": "image",
@@ -265,11 +275,6 @@ export const pageVisuals = {
     "src": "./assets/images/refund-ledger-01-v1.webp",
     "alt": "咖啡馆里一份退款清单被推到桌前"
   },
-  "q08b": {
-    "type": "image",
-    "src": "./assets/images/refund-ledger-02-v1.webp",
-    "alt": "退款清单上标出的两条资金路径"
-  },
   "q09intro": {
     "type": "image",
     "src": "./assets/images/lin-fake-video-v3.webp",
@@ -277,8 +282,8 @@ export const pageVisuals = {
   },
   "q09compare": {
     "type": "image",
-    "src": "./assets/images/lin-fake-video-v3.webp",
-    "alt": "林知夏查看一段借用她面孔的假视频"
+    "src": "./assets/images/fake-video-compare-v1.webp",
+    "alt": "林知夏在剪辑台比对两段视频素材"
   },
   "q09": {
     "type": "image",
@@ -292,18 +297,18 @@ export const pageVisuals = {
   },
   "q09b": {
     "type": "image",
-    "src": "./assets/images/lin-fake-video-v3.webp",
-    "alt": "林知夏查看一段借用她面孔的假视频"
+    "src": "./assets/images/lin-report-platform-v1.webp",
+    "alt": "林知夏在平台举报页面提交冒名视频"
   },
   "q10intro": {
     "type": "image",
-    "src": "./assets/images/official-replies-02-v1.webp",
-    "alt": "电脑上显示来自3个机构的回复"
+    "src": "./assets/images/two-replies-pending-v1.webp",
+    "alt": "桌上只有企业和学校两封书面回复，第三封仍待到达"
   },
   "q10": {
     "type": "image",
-    "src": "./assets/images/official-replies-02-v1.webp",
-    "alt": "电脑上显示来自3个机构的回复"
+    "src": "./assets/images/two-replies-pending-v1.webp",
+    "alt": "桌上只有企业和学校两封书面回复，第三封仍待到达"
   },
   "q10a": {
     "type": "image",
@@ -342,8 +347,8 @@ export const pageVisuals = {
   },
   "q11consent": {
     "type": "image",
-    "src": "./assets/images/consent-interview-v5.webp",
-    "alt": "林知夏向当事人确认公开材料的范围"
+    "src": "./assets/images/song-consent-close-v1.webp",
+    "alt": "宋岚在授权清单上指出可公开的材料"
   },
   "q11": {
     "type": "image",
@@ -352,18 +357,23 @@ export const pageVisuals = {
   },
   "q11a": {
     "type": "image",
-    "src": "./assets/images/consent-interview-v5.webp",
-    "alt": "林知夏向当事人确认公开材料的范围"
+    "src": "./assets/images/jiang-consent-v3.webp",
+    "alt": "姜宁把打码聊天记录交给林知夏查看"
+  },
+  "q11a_anon": {
+    "type": "image",
+    "src": "./assets/images/song-consent-close-v1.webp",
+    "alt": "宋岚在授权清单上指出可公开的材料"
   },
   "q12intro": {
     "type": "image",
-    "src": "./assets/images/lin-final-edit-v3.webp",
-    "alt": "林知夏在媒体办公室的剪辑台前工作"
+    "src": "./assets/images/song-night-call-v1.webp",
+    "alt": "深夜实验室里宋岚按住催缴电话，样品盒还在桌上"
   },
   "q12cut": {
     "type": "image",
-    "src": "./assets/images/lin-final-edit-v3.webp",
-    "alt": "林知夏在媒体办公室的剪辑台前工作"
+    "src": "./assets/images/lin-edit-timeline-v1.webp",
+    "alt": "林知夏在23点重新整理旧片与收费项目的剪辑时间线"
   },
   "q12": {
     "type": "image",
@@ -399,5 +409,35 @@ export const pageVisuals = {
     "type": "image",
     "src": "./assets/images/lin-fake-video-v3.webp",
     "alt": "林知夏查看一段借用她面孔的假视频"
+  },
+  "q03b_after_a": {
+    "type": "image",
+    "src": "./assets/images/jiang-consent-v3.webp",
+    "alt": "姜宁把打码聊天记录交给林知夏查看"
+  },
+  "q03c_after_ab": {
+    "type": "image",
+    "src": "./assets/images/song-lab.jpg",
+    "alt": "宋岚在实验室核对材料"
+  },
+  "q03c_after_b": {
+    "type": "image",
+    "src": "./assets/images/song-lab.jpg",
+    "alt": "宋岚在实验室核对材料"
+  },
+  "q03a_after_bc": {
+    "type": "image",
+    "src": "./assets/images/xu-salary-v5.webp",
+    "alt": "许橙展示第1期实习的工资记录"
+  },
+  "q03a_after_c": {
+    "type": "image",
+    "src": "./assets/images/xu-salary-v5.webp",
+    "alt": "许橙展示第1期实习的工资记录"
+  },
+  "q03b_after_ca": {
+    "type": "image",
+    "src": "./assets/images/jiang-consent-v3.webp",
+    "alt": "姜宁把打码聊天记录交给林知夏查看"
   }
 }

@@ -1,10 +1,10 @@
-import story from '../src/data/story.js?v=19'
-import * as engine from '../src/core/engine.js?v=17'
+import story from '../src/data/story.js?v=20'
+import * as engine from '../src/core/engine.js?v=18'
 import * as storage from './storage.js?v=1'
-import { takes, musicTracks, musicKeyForNode, enabledByDefault } from '../src/data/audio-manifest.js?v=24'
-import { unlockedCharacters, characterUpdatesAt } from '../src/data/characters.js?v=18'
-import { notesForNode, unlockedGlossary } from '../src/data/glossary.js?v=17'
-import { presentNode } from '../src/data/player-copy.js?v=23'
+import { takes, musicTracks, musicKeyForNode, enabledByDefault } from '../src/data/audio-manifest.js?v=25'
+import { unlockedCharacters, characterUpdatesAt } from '../src/data/characters.js?v=19'
+import { notesForNode, unlockedGlossary } from '../src/data/glossary.js?v=18'
+import { presentNode } from '../src/data/player-copy.js?v=24'
 
 const $ = id => document.getElementById(id)
 const ui = {
@@ -39,6 +39,7 @@ let lastPresentation = null
 let currentViewNode = null
 let textPages = []
 let textPageIndex = 0
+let pageUndoLocked = false
 let archiveVoicePaused = false
 let activeVoiceRequest = 0
 
@@ -155,6 +156,7 @@ function render(node) {
   currentViewNode = viewNode
   textPages = buildTextPages(viewNode, node)
   textPageIndex = 0
+  pageUndoLocked = false
   const presentation = resolvePresentation(node)
   const progress = state.progress || 0
   ui.chapter.textContent = node.chapter ? `第${node.chapter}幕` : (node.kind === 'intro' ? '我手里的线索' : (node.kind === 'ending' ? '结局手记 · 文字' : '正在核对'))
@@ -172,9 +174,7 @@ function render(node) {
   ui.charactersCount.textContent = unlockedCharacters(state.visited).length
   ui.statusCount.textContent = choiceCards().length
   ui.glossaryCount.textContent = unlockedGlossary(state.visited).length
-  const canStepBack = Boolean(state.undoSnapshot) && !state.undoLocked
-  ui.stepBack.disabled = !canStepBack
-  ui.stepBack.title = canStepBack ? '退回前一个界面；退回后必须先继续推进' : '继续推进后可再次使用'
+  updateStepBackButton()
 
   renderMedia(viewNode.media, node.id, presentation)
   renderChoices(node)
@@ -237,6 +237,15 @@ function renderTextPage(node) {
   void ui.dialogue.offsetWidth
   ui.dialogue.classList.add('page-enter')
   updateNextLabel(node)
+  updateStepBackButton()
+}
+
+function updateStepBackButton() {
+  const pageBack = textPageIndex > 0 && !pageUndoLocked
+  const nodeBack = textPageIndex === 0 && Boolean(state?.undoSnapshot) && !state.undoLocked && !pageUndoLocked
+  ui.stepBack.disabled = !(pageBack || nodeBack)
+  ui.stepBack.title = pageBack ? '退回本段上一页' : nodeBack ? '退回上一剧情界面；不能连续撤回' : '继续推进后可再次撤回'
+  ui.stepBack.textContent = pageBack ? '返回本段上一页' : '撤回上一步'
 }
 
 function updateNextLabel(node) {
@@ -363,14 +372,19 @@ function endingNotes(endingId) {
     if (!f.PREWARN) notes.push('我先留好了报名页和收款信息，没有立刻公开提醒。梁一舟当晚没有付款；到9月25日的新一批关单前，他又差点转出2800元，独立回拨后才停下。')
     if (!f.JOB) notes.push('我没有及时拼回完整合作函；盖章截图先传开，又有一名学生付款。')
     if (!f.TRUST) notes.push('我只留下姜宁的匿名时间线；她暴露得更少，公开视频也少了文字对照。')
-    if (!f.RESEARCH) notes.push('我陪宋老师多录了一段承诺；证据多了，正规检测和止损也晚了几个小时。')
+    if (!f.RESEARCH) notes.push(f.EARLY
+      ? '我陪宋老师多录了一段承诺；她前一天已启动止付和延期，录屏没有改变那笔订单查不到的事实。'
+      : '我陪宋老师多录了一段承诺；证据多了，正规检测和止损也晚了几个小时。')
     if (!f.HIDDEN) notes.push('我发出过对唐遇的指认，后来虽然删除，截图仍在传播。')
     if (!f.CLEAR) notes.push('我先接受了小额退款；周衡把截图变成“正规项目”的新背书。')
     if (!f.FAKE) notes.push('我更早发出冒名警报，却没有及时补上原片对照，片段仍在小群流转。')
     if (!f.VERIFY) notes.push('我中午先预警，傍晚才补三方答复；同一批人需要再看见一次。')
     return notes.length ? notes : ['我已经发出最终预警，钱和账号的处置还要等银行、平台和警方。']
   }
-  if (endingId === 'E3') return [c.Q01 === 'A' ? '我此前的临时提醒让梁一舟停下了付款。' : '第一晚我先留证，梁一舟没有付款；两天后新一批关单前，他险些转账，独立回拨后才停下。', '我让宋老师在三方答复到齐当晚停了尾款；真正迟到的是面向更多人的预警。']
+  if (endingId === 'E3') return [
+    c.Q01 === 'A' ? '我此前的临时提醒让梁一舟停下了付款。' : '第一晚我先留证，梁一舟没有付款；两天后新一批关单前，他险些转账，独立回拨后才停下。',
+    f.EARLY ? '宋老师9月23日就启动止付、延期并留下样品；迟到的是面向更多人的预警。' : f.RESEARCH ? '宋老师9月24日才补办止付和延期；面向更多人的预警也迟到了。' : '宋老师9月24日仍在追问对方，正规检测多耽搁了几小时；面向更多人的预警也迟到了。'
+  ]
   if (endingId === 'E4') return [f.TRUST ? '即使我此前拿到过部分授权，未打码原件仍超出了约定。' : '姜宁没有交出聊天截图，我的可识别叙述仍把她推到了人前。', '我可以下架页面，却无法收回已经下载和转发的副本。']
   if (endingId === 'E5') return [c.Q01 === 'A' ? '我最早的提醒保住了梁一舟本人。' : '我第一晚先留证，梁一舟当晚没交费；9月25日新一批关单前，他才又被催着转账。', c.Q10 === 'A' ? '我傍晚发过具名更正，午夜那句模糊补充却被单独截走。' : '我中午发过具体提醒，午夜仍没能留下清晰的最终对照。']
   if (endingId === 'E6') return ['我用模糊口径换来了部分退款。', '我发出的冒名警报没及时带上原片对照。', '最后，别人用我的脸和真实素材拼出了一份新的“官方背书”。']
@@ -513,6 +527,8 @@ function next() {
   const node = story.nodes[state.currentId]
   if (textPageIndex < textPages.length - 1) {
     textPageIndex += 1
+    pageUndoLocked = false
+    seekVoiceToPage(textPageIndex)
     renderTextPage(node)
     return
   }
@@ -520,6 +536,15 @@ function next() {
 }
 
 function stepBack() {
+  if (textPageIndex > 0 && !pageUndoLocked) {
+    textPageIndex -= 1
+    pageUndoLocked = true
+    stopVoice()
+    renderTextPage(story.nodes[state.currentId])
+    showToast('已返回本段上一页；继续阅读后才能再次撤回。')
+    return
+  }
+  if (pageUndoLocked) return showToast('刚退过一页，先继续阅读。')
   if (!state.undoSnapshot || state.undoLocked) return showToast('我刚退过一步，先继续查，再回来。')
   commit(engine.back(story, state))
   showToast('我退回了上一步；继续之后才能再退一次。')
@@ -651,11 +676,38 @@ function playMusicForNode(node) {
   })
 }
 
+function audioPageBoundary(index) {
+  const total = textPages.reduce((sum, page) => sum + page.length, 0)
+  return total ? textPages.slice(0, index).reduce((sum, page) => sum + page.length, 0) / total : 0
+}
+
+function seekVoiceToPage(index) {
+  if (!audioEnabled || voiceAudio.paused || !Number.isFinite(voiceAudio.duration) || !voiceAudio.duration) return
+  voiceAudio.currentTime = Math.min(voiceAudio.duration - 0.1, voiceAudio.duration * audioPageBoundary(index))
+}
+
+function syncTextPageToVoice() {
+  if (!state || textPages.length < 2 || voiceAudio.paused || !Number.isFinite(voiceAudio.duration) || !voiceAudio.duration) return
+  const progress = voiceAudio.currentTime / voiceAudio.duration
+  while (textPageIndex < textPages.length - 1 && progress >= audioPageBoundary(textPageIndex + 1)) {
+    textPageIndex += 1
+    pageUndoLocked = false
+    renderTextPage(story.nodes[state.currentId])
+  }
+}
+
 function playRecordedVoice(src) {
   const requestId = ++activeVoiceRequest
   voiceAudio.src = src
   voiceAudio.onplay = () => fadeMusicTo(0.07, 180)
-  voiceAudio.onended = restoreMusic
+  voiceAudio.ontimeupdate = syncTextPageToVoice
+  voiceAudio.onended = () => {
+    if (textPages.length > 1 && textPageIndex < textPages.length - 1) {
+      textPageIndex = textPages.length - 1
+      renderTextPage(story.nodes[state.currentId])
+    }
+    restoreMusic()
+  }
   voiceAudio.onerror = restoreMusic
   voiceAudio.play().catch(error => {
     if (requestId === activeVoiceRequest && audioEnabled && error?.name === 'NotAllowedError') {
