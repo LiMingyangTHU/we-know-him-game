@@ -82,12 +82,21 @@ assert.equal(presentNode(story.nodes.e1).heading, '看见隐形人')
 const stills = Object.values(story.nodes).map(presentNode).filter(node => node.media?.type === 'image')
 assert.equal(stills.length, 80)
 for (const [id, image] of Object.entries({
-  a06: 'lin-day.jpg',
+  intro03: 'lin-day.jpg',
+  a05: 'lin-message-v2.webp',
+  a06: 'lin-phone-natural-v4.webp',
   c06: 'shen-call.jpg',
   q04b: 'lin-message-v2.webp',
-  q07name: 'lu-archive-v3.webp'
+  q07name: 'lu-archive-v3.webp',
+  q09compare: 'lin-fake-video-v3.webp'
 })) {
   assert.equal(path.basename(presentNode(story.nodes[id]).media.src), image, `${id} shows the wrong character or a future event`)
+}
+for (const node of stills) {
+  assert.doesNotMatch(node.media.src, /(?:scene-letter-compare|delivery-clue-01|fake-video-compare|refund-ledger-01)/, `${node.id} uses a still with an inconsistent on-screen actor`)
+}
+for (const node of Object.values(story.nodes).filter(node => /^(?:intro|a\d|q01|b1|c\d|q02|b2)/.test(node.id))) {
+  assert.doesNotMatch(presentNode(node).media?.src || '', /xu-salary/, `${node.id} reveals Xu Cheng before her scene`)
 }
 assert.doesNotMatch(fs.readFileSync(path.resolve('styles.css'), 'utf8'), /body\[data-presentation=/, 'dark presentation text can override the light trial theme')
 for (const node of stills) {

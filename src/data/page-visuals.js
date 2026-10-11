@@ -7,12 +7,12 @@ export const pageVisuals = {
   },
   "a05": {
     "type": "image",
-    "src": "./assets/images/liang-deadline-v2.webp",
+    "src": "./assets/images/lin-message-v2.webp",
     "alt": "暂缓付款的剧情画面"
   },
   "a06": {
     "type": "image",
-    "src": "./assets/images/lin-day.jpg",
+    "src": "./assets/images/lin-phone-natural-v4.webp",
     "alt": "证据边界｜旧经历不能替新项目作保的剧情画面"
   },
   "q01": {
@@ -22,7 +22,7 @@ export const pageVisuals = {
   },
   "b1a": {
     "type": "image",
-    "src": "./assets/images/lin-final-edit-v3.webp",
+    "src": "./assets/images/lin-day.jpg",
     "alt": "Q01 A｜先预警，再核实的剧情画面"
   },
   "b1a2": {
@@ -32,12 +32,12 @@ export const pageVisuals = {
   },
   "b1a3": {
     "type": "image",
-    "src": "./assets/images/liang-deadline-v2.webp",
+    "src": "./assets/images/liang-dorm.jpg",
     "alt": "选择结果｜梁一舟暂停付款的剧情画面"
   },
   "b1b": {
     "type": "image",
-    "src": "./assets/images/scene-payment-hover-v7.webp",
+    "src": "./assets/images/liang-dorm.jpg",
     "alt": "选择结果｜证据已保存，倒计时仍在走的剧情画面"
   },
   "c01": {
@@ -122,7 +122,7 @@ export const pageVisuals = {
   },
   "intro03": {
     "type": "image",
-    "src": "./assets/images/evidence-wall-v5.webp",
+    "src": "./assets/images/lin-day.jpg",
     "alt": "临时建的几页记录的剧情画面"
   },
   "intro04": {
@@ -167,7 +167,7 @@ export const pageVisuals = {
   },
   "q04intro": {
     "type": "image",
-    "src": "./assets/images/scene-letter-compare-v7.webp",
+    "src": "./assets/images/lu-archive-v3.webp",
     "alt": "第4幕｜真文件也会骗人的剧情画面"
   },
   "q04archive": {
@@ -177,7 +177,7 @@ export const pageVisuals = {
   },
   "q04": {
     "type": "image",
-    "src": "./assets/images/scene-letter-compare-v7.webp",
+    "src": "./assets/images/archive-motion-02-v1.webp",
     "alt": "Q04｜核验第2期实习招募授权的剧情画面"
   },
   "q04a": {
@@ -222,7 +222,7 @@ export const pageVisuals = {
   },
   "q07intro": {
     "type": "image",
-    "src": "./assets/images/delivery-clue-01-v1.webp",
+    "src": "./assets/images/evidence-wall-v5.webp",
     "alt": "第7幕｜隐形人的剧情画面"
   },
   "q07name": {
@@ -257,7 +257,7 @@ export const pageVisuals = {
   },
   "q08": {
     "type": "image",
-    "src": "./assets/images/refund-ledger-01-v1.webp",
+    "src": "./assets/images/zhou-refund-v3.webp",
     "alt": "Q08｜退款能否交换沉默的剧情画面"
   },
   "q08a": {
@@ -277,7 +277,7 @@ export const pageVisuals = {
   },
   "q09compare": {
     "type": "image",
-    "src": "./assets/images/fake-video-compare-v1.webp",
+    "src": "./assets/images/lin-fake-video-v3.webp",
     "alt": "真素材，被剪成假结论的剧情画面"
   },
   "q09": {
@@ -287,7 +287,7 @@ export const pageVisuals = {
   },
   "q09a": {
     "type": "image",
-    "src": "./assets/images/fake-video-compare-v1.webp",
+    "src": "./assets/images/lin-final-edit-v3.webp",
     "alt": "Q09 A｜保住来源链的剧情画面"
   },
   "q09b": {
@@ -297,12 +297,12 @@ export const pageVisuals = {
   },
   "q10intro": {
     "type": "image",
-    "src": "./assets/images/lu-replies-v3.webp",
+    "src": "./assets/images/official-replies-02-v1.webp",
     "alt": "第10幕｜3份答复，3种边界的剧情画面"
   },
   "q10": {
     "type": "image",
-    "src": "./assets/images/verify-official-v2.webp",
+    "src": "./assets/images/official-replies-02-v1.webp",
     "alt": "Q10｜完整发布还是分阶段预警的剧情画面"
   },
   "q10a": {
@@ -397,7 +397,7 @@ export const pageVisuals = {
   },
   "e6": {
     "type": "image",
-    "src": "./assets/images/fake-video-compare-v1.webp",
+    "src": "./assets/images/lin-fake-video-v3.webp",
     "alt": "E6｜被借用的脸（隐藏结局）的剧情画面"
   }
 }
