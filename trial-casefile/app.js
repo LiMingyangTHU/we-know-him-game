@@ -398,7 +398,10 @@ function renderMedia(media = {}, nodeId = '', presentation = {}) {
   ui.image.classList.toggle('hidden', isVideo || isChat)
   ui.chat.classList.toggle('hidden', !isChat)
   ui.badge.classList.toggle('hidden', !isVideo)
-  document.querySelector('.media-frame').dataset.presentation = presentation.type || 'narration'
+  const mediaFrame = document.querySelector('.media-frame')
+  mediaFrame.dataset.presentation = presentation.type || 'narration'
+  mediaFrame.dataset.mediaType = media.type || 'image'
+  mediaFrame.dataset.mediaFit = isVideo || isChat || story.nodes[nodeId]?.kind === 'scene' ? 'cover' : 'contain'
   if (isVideo) {
     ui.video.poster = media.poster || ''
     if (ui.video.getAttribute('src') !== media.src) ui.video.src = media.src || ''

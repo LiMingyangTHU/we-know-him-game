@@ -94,6 +94,8 @@ async function main() {
   }
   await page.setViewportSize({ width: 375, height: 812 })
   await openNode('q06a')
+  await page.locator('#nextButton').scrollIntoViewIfNeeded()
+  await page.evaluate(() => window.scrollBy(0, document.querySelector('.case-tools').getBoundingClientRect().height + 16))
   const mobile = await page.evaluate(() => ({ viewport: window.innerWidth, content: document.documentElement.scrollWidth, button: document.querySelector('#nextButton').getBoundingClientRect().toJSON(), tools: document.querySelector('.case-tools').getBoundingClientRect().toJSON() }))
   assert.ok(mobile.content <= mobile.viewport + 1, `mobile horizontal overflow: ${JSON.stringify(mobile)}`)
   assert.ok(mobile.button.bottom < mobile.tools.top, `mobile next button covered: ${JSON.stringify(mobile)}`)
